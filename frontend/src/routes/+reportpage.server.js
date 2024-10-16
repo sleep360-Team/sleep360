@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
-import * as db from '$lib/server/database.js';
-
+import * as db from '$lib/database.js';
+console.log(db);
 export function load({ cookies }) {
 	let id = cookies.get('userid');
 

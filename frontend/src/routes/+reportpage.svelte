@@ -57,6 +57,10 @@
 						};
 					}}
 				>
+				{#if deleting.includes(todo.id)}
+				<span class="deleting">deleting...</span>
+				{/if}
+
 					<input type="hidden" name="id" value={todo.id} />
 					<span>{todo.description}</span>
 					<button aria-label="Mark as complete"></button>
@@ -106,4 +110,7 @@
 	.saving {
 		opacity: 0.5;
 	}
+	.deleting {
+				opacity: 0.5;
+			}
 </style>
