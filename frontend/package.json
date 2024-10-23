@@ -40,6 +40,7 @@
 		"d3": "^7.9.0",
 		"fusioncharts": "^4.0.2",
 		"svelte-chartjs": "^3.1.5",
-		"svelte-fusioncharts": "^1.1.0"
+		"svelte-fusioncharts": "^1.1.0",
+		"sleep360": "file:"
 	}
 }
