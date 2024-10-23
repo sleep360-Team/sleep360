@@ -1,3 +1,11 @@
+<nav>
+	<a href="/">home</a>
+	<a href="/about">Report Sleep</a>
+</nav>
+
+<h1>Welcome</h1>
+<p>this is the Dashboard page</p>
+
 <script>
 	import { fly, slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
