@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-dark">
 	<a href="/">Home </a>
 	<a href="/report">Report Sleep</a>
@@ -7,7 +8,8 @@
 <p>this is the Main page</p>
 
 <style>
-    body {
+    :global(body)  {
+        font-family: 'DM Serif Display', serif;
         background: #DDDDDD;
     }
 
