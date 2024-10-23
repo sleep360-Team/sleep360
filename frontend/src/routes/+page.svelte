@@ -1,10 +1,23 @@
-<nav>
-	<a href="/">home</a>
+<nav class="navbar navbar-dark">
+	<a href="/">Home </a>
 	<a href="/report">Report Sleep</a>
 </nav>
 
 <h1>Welcome</h1>
 <p>this is the Main page</p>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<style>
+    body {
+        background: #DDDDDD;
+    }
+
+    .navbar {
+        background-color: #800000;
+        color: white;
+    }
+    .navbar a {
+            color: white; /* Change link color to white */
+            text-decoration: none; /* Remove underline */
+        }
+
+</style>
