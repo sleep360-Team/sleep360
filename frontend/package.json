@@ -16,11 +16,9 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
-		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-node": "^5.2.8",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
-		"@types/d3": "^7.4.3",
 		"@types/eslint": "^9.6.0",
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -37,11 +35,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"chart.js": "^4.4.4",
-		"d3": "^7.9.0",
-		"fusioncharts": "^4.0.2",
-		"svelte-chartjs": "^3.1.5",
-		"svelte-fusioncharts": "^1.1.0",
+		"mysql2": "^3.11.3",
 		"sleep360": "file:"
 	}
 }
