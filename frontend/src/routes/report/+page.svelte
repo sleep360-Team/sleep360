@@ -5,7 +5,7 @@
 
 <h1>Welcome</h1>
 <p>this is the Report page</p>
-
+<button>Submit</button>
 <script>
 	import { fly, slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
