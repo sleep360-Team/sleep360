@@ -6,7 +6,8 @@
 </svelte:head>
 <nav class="navbar navbar-dark">
 	<a href="/">Home </a>
-	<a href="/report">Report Sleep</a>
+	<a href="/report">Report</a>
+    <a href="/report">Account</a>
 </nav>
 
 <h1>Welcome</h1>
