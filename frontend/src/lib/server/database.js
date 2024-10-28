@@ -45,10 +45,10 @@ import mysql from 'mysql2';
 
 // Create a connection
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'your_username',
-    password: 'your_password',
-    database: 'your_database'
+    host: 'sleep360.csse.rose-hulman.edu',
+    user: 'USERNAME',
+    password: 'PASSWORD',
+    database: 'sleep360'
 });
 
 // Connect to the database
@@ -61,7 +61,7 @@ connection.connect(err => {
 });
 
 // Example query
-connection.query('SELECT * FROM your_table', (err, results) => {
+connection.query('SELECT * from Reports', (err, results) => {
     if (err) throw err;
     console.log(results);
 });

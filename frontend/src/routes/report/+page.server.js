@@ -27,7 +27,7 @@ export const actions = {
 		const data = await request.formData();
 
 		try {
-			await db.createTodo(cookies.get('userid'), data.get('description'));
+			db.createTodo(cookies.get('userid'), data.get('description'));
 		} catch (error) {
 			// Safe type checking
             const errorMessage = (error instanceof Error) ? error.message : 'An unknown error occurred';
@@ -40,6 +40,16 @@ export const actions = {
 
 	delete: async ({ cookies, request }) => {
 		const data = await request.formData();
-		await db.deleteTodo(cookies.get('userid'), data.get('id'));
+		try{
+			db.deleteTodo(cookies.get('userid'), data.get('id'));
+		} catch (error) {
+			// Safe type checking
+            const errorMessage = (error instanceof Error) ? error.message : 'An unknown error occurred';
+			return fail(422, {
+				description: data.get('description'),
+				error: errorMessage
+			});
+		}
+		
 	}
 };
