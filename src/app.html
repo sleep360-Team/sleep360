@@ -5,12 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
-		
+		<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 		<title>%sveltekit.head%</title>
-		
 	</head>
+	<header>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<h1>Sleep360</h1>
+	</header>
+	<style>
+		body {
+			text-align: center; 
+			font-family: 'Nunito', sans-serif;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			font-family: 'Nunito', sans-serif;
+			font-weight: 700; /* Use bold for headings */
+		}
+
+		p {
+			font-family: 'Nunito', sans-serif;
+			font-weight: 400; /* Use normal weight for paragraphs */
+		}
+		header {
+        background-color: #800000; /* Example background color */
+        color: white;              /* Example text color */
+        padding: 0.2rem;            /* Padding around the header */
+        text-align: center;        /* Center the text */
+		}
+
+		main {
+			text-align: center; 
+			padding: 1rem;
+		}
+		button {
+		border: none;
+		background: url(./remove.svg) no-repeat 50% 50%;
+		cursor: pointer;
+		height: 100%;
+		padding: 0.2%;
+		transition: box-shadow 0.3s ease;
+		}
+	
+		button:hover {
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+		}
+	</style>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
+
 </html>

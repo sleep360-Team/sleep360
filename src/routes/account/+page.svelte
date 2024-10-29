@@ -6,6 +6,7 @@
 
 <h1>Welcome</h1>
 <p>this is the Account page</p>
+
 <script>
 	import { fly, slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
@@ -18,21 +19,20 @@
 	 * @type {any[]}
 	 */
 	let deleting = [];
-	
-</script>
-<div class="centered">
-	<h1>todos</h1>
+	let email = '';
+	let name = '';
+	let major = '';
 
-	{#if form?.error}
-		<p class="error">{form.error}</p>
-	{/if}
+</script>
+
+<div class="centered">
+	<h1>User Information</h1>
 
 	<form
 		method="POST"
-		action="?/create"
+		action="?/create"  
 		use:enhance={() => {
 			creating = true;
-
 			return async ({ update }) => {
 				await update();
 				creating = false;
@@ -40,44 +40,64 @@
 		}}
 	>
 		<label>
-			add a todo:
-			<input
-				disabled={creating}
-				name="description"
-				value={form?.description ?? ''}
-				autocomplete="off"
-				required
-			/>
+			Email:
 		</label>
+		<input
+			type="email"
+			bind:value={email}
+			autocomplete="off"
+			required
+		/>
+
+		<label>
+			Name:
+		</label>
+		<input
+			type="text"
+			bind:value={name}
+			autocomplete="off"
+			required
+		/>
+
+		<label>
+			Major:
+		</label>
+		<input
+			type="text"
+			bind:value={major}
+			autocomplete="off"
+			required
+		/>
+
+		<button type="submit" disabled={creating}>Submit</button>
+		{#if creating}
+			<span class="saving">saving...</span>
+		{/if}
 	</form>
 
-	<ul class="todos">
-		{#each data.todos.filter((/** @type {{ id: any; }} */ todo) => !deleting.includes(todo.id)) as todo (todo.id)}
-			<li in:fly={{ y: 20 }} out:slide>
-				<form
-					method="POST"
-					action="?/delete"
-					use:enhance={() => {
-						deleting = [...deleting, todo.id];
-						return async ({ update }) => {
-							await update();
-							deleting = deleting.filter((id) => id !== todo.id);
-						};
-					}}
-				>
-				{#if deleting.includes(todo.id)}
-				<span class="deleting">deleting...</span>
-				{/if}
-
-					<input type="hidden" name="id" value={todo.id} />
-					<span>{todo.description}</span>
-					<button aria-label="Mark as complete"></button>
-				</form>
-			</li>
-		{/each}
-	</ul>
+	{#if form?.error}
+		<p class="error">{form.error}</p>
+	{/if}
 
 	{#if creating}
 		<span class="saving">saving...</span>
 	{/if}
 </div>
+
+<style>
+	.centered {
+		max-width: 20em;
+		margin: 0 auto;
+	}
+
+	label {
+		display: block; /* Makes label take full line */
+		margin-top: 1rem; /* Adds space above labels */
+	}
+
+	input {
+		width: 100%; /* Makes input fields full width */
+		padding: 0.5rem; /* Adds padding for better appearance */
+		margin-top: 0.5rem; /* Adds space between input and label */
+	}
+</style>
