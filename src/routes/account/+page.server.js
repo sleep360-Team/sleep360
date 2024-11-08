@@ -1,55 +1,24 @@
-import { fail } from '@sveltejs/kit';
-import * as db from '$lib/server/database.js';
+import { fail, redirect } from '@sveltejs/kit';
+import { createAccount } from '$lib/server/database.js';
 
-/**
- * @param {{ cookies: import('@sveltejs/kit').Cookies }} context
- */
-export async function load({ cookies }) {
-	let id = cookies.get('userid');
-
-	if (!id) {
-		id = crypto.randomUUID();
-		cookies.set('userid', id, { path: '/' });
-	}
-
-	const todos = await db.getTodos(id);
-	return {
-		todos
-	};
-}
-
-/**
- * @type {import('@sveltejs/kit').Actions}
- */
 export const actions = {
-	
-	create: async ({ cookies, request }) => {
-		const data = await request.formData();
+	create: async ({ request }) => {
+		const formData = await request.formData();
+		const email = formData.get('email') as string;
+		const name = formData.get('name') as string;
+		const major = formData.get('major') as string;
+
+		// Validate required fields
+		if (!email || !name || !major) {
+			return fail(400, { error: 'All fields are required.' });
+		}
 
 		try {
-			db.createTodo(cookies.get('userid'), data.get('description'));
+			await createAccount(email, name, major);
+			return { success: true, message: 'Account created successfully' };
 		} catch (error) {
-			// Safe type checking
-            const errorMessage = (error instanceof Error) ? error.message : 'An unknown error occurred';
-			return fail(422, {
-				description: data.get('description'),
-				error: errorMessage
-			});
+			console.error('Database error:', error);
+			return fail(500, { error: 'Failed to create account.' });
 		}
-	},
-
-	delete: async ({ cookies, request }) => {
-		const data = await request.formData();
-		try{
-			db.deleteTodo(cookies.get('userid'), data.get('id'));
-		} catch (error) {
-			// Safe type checking
-            const errorMessage = (error instanceof Error) ? error.message : 'An unknown error occurred';
-			return fail(422, {
-				description: data.get('description'),
-				error: errorMessage
-			});
-		}
-		
 	}
 };

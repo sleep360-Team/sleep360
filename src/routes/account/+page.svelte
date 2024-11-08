@@ -8,7 +8,6 @@
 <p>this is the Account page</p>
 
 <script>
-	import { fly, slide } from 'svelte/transition';
 	import { enhance } from '$app/forms';
 
 	export let data;
@@ -39,35 +38,36 @@
 			};
 		}}
 	>
-		<label>
-			Email:
-		</label>
+	<label>
+		Email:
 		<input
-			type="email"
-			bind:value={email}
-			autocomplete="off"
-			required
+		   type="email"
+		   bind:value={email}
+		   autocomplete="off"
+		   required
 		/>
-
-		<label>
-			Name:
-		</label>
+	 </label>
+	 
+	 <label>
+		Name:
 		<input
-			type="text"
-			bind:value={name}
-			autocomplete="off"
-			required
+		   type="text"
+		   bind:value={name}
+		   autocomplete="off"
+		   required
 		/>
-
-		<label>
-			Major:
-		</label>
+	 </label>
+	 
+	 <label>
+		Major:
 		<input
-			type="text"
-			bind:value={major}
-			autocomplete="off"
-			required
+		   type="text"
+		   bind:value={major}
+		   autocomplete="off"
+		   required
 		/>
+	 </label>
+	 
 
 		<button type="submit" disabled={creating}>Submit</button>
 		{#if creating}
