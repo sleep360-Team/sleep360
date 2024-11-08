@@ -21,19 +21,19 @@ function getESTTime() {
 
 export const actions = {
   create: async ({ request }) => {
-    // Parse the JSON body
-    const data = await request.json();
-    const timeReported = getESTTime();
-    const { numHours, numInterrupts, qualitySleep } = data;
+    const formData = new URLSearchParams(await request.text());
+		const numHours = formData.get('numHours');
+		const numInterrupts = formData.get('numInterrupts');
+		const qualitySleep = formData.get('qualitySleep');
 
-    // Validate required fields
+    const timeReported = getESTTime();
+
     if (!timeReported || !numHours || !numInterrupts || !qualitySleep) {
       return fail(400, { error: 'All fields are required and valid.' });
     }
 
     try {
-      // Call the function to insert the report into the database
-      await createReport(timeReported, numHours, numInterrupts, qualitySleep);
+      await createReport(timeReported, +numHours, +numInterrupts, qualitySleep);
       return { success: true, message: 'Report created successfully' };
     } catch (error) {
       console.error('Database error:', error);

@@ -23,7 +23,6 @@
             case 3: return 'Average';
             case 4: return 'Good';
             case 5: return 'Best';
-            default: return 'Unknown';
         }
     };
 
@@ -160,6 +159,6 @@
         display: inline-block;
         margin-top: 0.5rem;
         font-weight: bold;
-        color: #007bff;
+        color: #800000;
     }
 </style>

@@ -1,4 +1,4 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 
 let pool;
 
@@ -21,11 +21,17 @@ export async function getDatabase() {
 // Function to create a new account
 export async function createAccount(email, name, major) {
 	const db = await getDatabase();
-	const [result] = await db.query(
-		'INSERT INTO accounts (Email, Name, Major) VALUES (?, ?, ?)',
-		[email, name, major]
-	);
-	return result;
+	try{
+		const [result] = await db.query(
+			'INSERT INTO Accounts (Email, Name, Major) VALUES (?, ?, ?)',
+			[email, name, major]
+		);
+		return result;
+	} catch(error){
+		console.error('Error occurred while creating the report:', error);
+		console.error('Error details:', error.message, error.stack);
+	}
+	
 }
 
 // Function to create a new report
@@ -34,16 +40,13 @@ export async function createReport(timeReported, numHours, numInterrupts, qualit
 	try{
 		const db = await getDatabase();
 		const [result] = await db.query(
-			'INSERT INTO reports (`Time Reported`, `Number Hours`, `Number Interruptions`, `Quality of Sleep`) VALUES (?, ?, ?, ?)',
+			'INSERT INTO Reports (`Time Reported`, `Number Hours`, `Number Interruptions`, `Quality of Sleep`) VALUES (?, ?, ?, ?)',
 			[timeReported, numHours, numInterrupts, qualitySleep]
 		);
 		return result;
 	}catch (error) {
-        // If an error occurs, log the error details
         console.error('Error occurred while creating the report:', error);
-
-        // Throw the error to be caught by higher-level error handling
-        throw new Error('Failed to create the report. Please try again later.');
+		console.error('Error details:', error.message, error.stack);
     }
 	
 }
