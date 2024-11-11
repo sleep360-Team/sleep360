@@ -1,4 +1,13 @@
-# 6.4.4 Design Definition process
+# 6.4.4 Architecture Definition process
+## 1. Prepare for architecture definition
+### a. Review pertinent information and identify key drivers of the architecture
+a. c, f
+b. The Extreme Programming implementation of this task is planning. To implement this section of the standard, you must do an anaylsis of the architecture and look at the factors which make up the system. Implementing this task is looking at the architecture and gathering all the revelant informantion about it. This is very similar to the planning process in the XP book. According to the XP book, "planning in XP starts with putting the current goals, assumptions, and facts on the table". 
+### b. Identify stakeholder concerns
+a. a
+b. The Extreme Programming implementation of this task is planning. In order to complete user stories you have to get the stakeholder's concerns, which is apart of the planning process. The XP book states when planing that one of the steps is to "estimate the items". To estimate the items in the planning process, you need to identify the concerns of the stakeholder.
+###
+# 6.4.5 Design Definition process
 ## Prepare for software system design definition
 ### Define design definition strategy, consistent with the selected life cycle model and anticipated design artifacts
 - Can include initial or incremental decomposition into system elements; various views of automated procedures, data structures and control systems; selection of design patterns; or progressively more detailed definition of objects and their relationships
