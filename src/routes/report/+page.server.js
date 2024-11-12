@@ -1,55 +1,43 @@
 import { fail } from '@sveltejs/kit';
-import * as db from '$lib/server/database.js';
+import { createReport } from '$lib/server/database.js';
 
-/**
- * @param {{ cookies: import('@sveltejs/kit').Cookies }} context
- */
-export async function load({ cookies }) {
-	let id = cookies.get('userid');
+function getESTTime() {
+  const now = new Date();
 
-	if (!id) {
-		id = crypto.randomUUID();
-		cookies.set('userid', id, { path: '/' });
-	}
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
 
-	const todos = await db.getTodos(id);
-	return {
-		todos
-	};
+  const timeReportedEST = formatter.format(now).replace(',', ''); 
+  return timeReportedEST;
 }
 
-/**
- * @type {import('@sveltejs/kit').Actions}
- */
 export const actions = {
-	
-	create: async ({ cookies, request }) => {
-		const data = await request.formData();
+  create: async ({ request }) => {
+    const formData = new URLSearchParams(await request.text());
+		const numHours = formData.get('numHours');
+		const numInterrupts = formData.get('numInterrupts');
+		const qualitySleep = formData.get('qualitySleep');
 
-		try {
-			db.createTodo(cookies.get('userid'), data.get('description'));
-		} catch (error) {
-			// Safe type checking
-            const errorMessage = (error instanceof Error) ? error.message : 'An unknown error occurred';
-			return fail(422, {
-				description: data.get('description'),
-				error: errorMessage
-			});
-		}
-	},
+    const timeReported = getESTTime();
 
-	delete: async ({ cookies, request }) => {
-		const data = await request.formData();
-		try{
-			db.deleteTodo(cookies.get('userid'), data.get('id'));
-		} catch (error) {
-			// Safe type checking
-            const errorMessage = (error instanceof Error) ? error.message : 'An unknown error occurred';
-			return fail(422, {
-				description: data.get('description'),
-				error: errorMessage
-			});
-		}
-		
-	}
+    if (!timeReported || !numHours || !numInterrupts || !qualitySleep) {
+      return fail(400, { error: 'All fields are required and valid.' });
+    }
+
+    try {
+      await createReport(timeReported, +numHours, +numInterrupts, qualitySleep);
+      return { success: true, message: 'Report created successfully' };
+    } catch (error) {
+      console.error('Database error:', error);
+      return fail(500, { error: 'Failed to create report.' });
+    }
+  }
 };
