@@ -7,8 +7,8 @@ export async function getDatabase() {
 	if (!pool) {
 		pool = mysql.createPool({
 			host: 'sleep360.csse.rose-hulman.edu',
-			user: 'USERNAME',
-			password: 'PASSWORD',
+			user: 'USER',
+			password: 'PW',
 			database: 'sleep360',
 			waitForConnections: true,
 			connectionLimit: 50,

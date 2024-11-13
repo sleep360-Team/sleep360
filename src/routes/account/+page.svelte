@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark fixed-top">
-	<a href="/">home</a>
+	<a href="/">Home</a>
 	<a href="/report">Report</a>
 	<a href="/account">Account</a>
 </nav>
