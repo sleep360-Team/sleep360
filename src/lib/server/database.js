@@ -10,6 +10,7 @@ export async function getDatabase() {
 			user: 'USER',
 			password: 'PW',
 			database: 'sleep360',
+			port: 1433,
 			waitForConnections: true,
 			connectionLimit: 50,
 			queueLimit: 0
