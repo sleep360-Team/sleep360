@@ -1,3 +1,72 @@
+# Outcomes -- to be deleted when done
+6.4.2 Outcomes
+
+a) Stakeholders of the system are identified
+b) Required characteristics and context of use of capabilities and concepts in the life cycle stages, including operational concepts, are defined.
+c) Constraints on a system are identified.
+d) Stakeholder needs are defined.
+e) Stakeholder needs are prioritized and transformed into clearly defined stakeholder requirements.
+f) Critical performance measures are defined.
+g) Stakeholder agreement that their needs and expectations are reflected adequately in the requirements is achieved
+h) Any enabling systems or services needed for stakeholder needs and requirements are available.
+i) Traceability of stakeholder requirements to stakeholders and their needs is established.
+
+6.4.4 Outcomes
+
+a) Identified stakeholder concerns are addressed by the architecture
+b) Architecture viewpoints are devloped.
+c) Context, boundaries, and external interfaces of the system are defined.
+d) Architecture views and models of the system are developed
+e) Concepts, properties, characteristics, behaviors, functions, or constraints that are significant to architecture decisions of the system are allocated to architectural entities.
+f) System elements and their interfaces are identified.
+g) Architecture candidates are assesssed.
+h) An architectural basis for processes throughout the life cycle is achieved.
+i) Alignment of the architecture with requirements and design characteristics is achieved.
+j) Any enabling systems or services needed for architecture definition are available.
+k) Traceability of architecture elements to stakeholder and system/software requirements is developed.
+
+6.4.5 Outcomes
+
+a) Design characteristics of each system element are defined.
+b) System/software requirements are allocated to system elements.
+c) Design enablers necessary for design definition are selected or defined.
+d) Interfaces between system elements compsing the system are defined or refined
+e) Design alternatives for system elements are assessed.
+f) Design artifacts are developed.
+g) Any enabling systems or services needed for design definition are available
+h) Traceability of the design characteristics to the architectural entities of the system architecture is established. 
+
+# 6.4.2 Stakeholder Needs and Requirements Definition process
+## 1. Prepare for Stakeholder Needs and Requirements Definition
+### a. Identify the stakeholders who have an interest in the software system throughout its lifecycle
+### b. Define the stakeholderneeds and requirements definition strategy.
+### c. Identify and plan for the necessary enabling systems or services needed to support stakeholder needs and requiremetns definition.
+### d. Obtain or aquire access to the enabling systems or services to be used.
+## 2. Define stakeholder needs
+### a. Define context of use within the concept of operations and the preiminary life cycle concepts.
+### b. Identify stakeholder needs.
+### c. Prioritize and down-select needs
+### d. Define the stakeholder needs and rationale.
+## 3. Develop the operation concept and other life cycle concepts
+### a. Define a representative set of scenarios to identify the required capabilities that correspond to anticipated operation and other life cycle concepts.
+### b. Identify the factors affecting interactions between users and the system.
+    i) Anticipated physical, mental, and learned capabilities of the users;
+    ii) Workplace, environment and facilities, indlucing other equipment in the clontext of use;
+    iii) Normal, unusual, and emergency conditions; and
+    iv) Operator and user recruitment, training, and culture.
+## 4. Transform stakeholder needs into stakeholder requirements.
+### a. Identify the constraints on a system solution.
+### b. Identify the stakeholder requirements and functions that relate to critical quality characetistics, such as assurance, sfaety, security, environment, or health.
+### c. Define stakeholder requirements consistent with life cycle concepts, scenarios, interactions, constraints, and critical quality characteristics.
+## 5. Analyze stakeholder requirements. 
+### a. Analyze the complete set of stakeholder requirements.
+### b. Define critical performance measures that enable the assessment of technical achievement.
+### c. Feed back the analyzed requirements to applicable stakeholders to validate that their needs and expectations have been adequately captured and expressed
+### d. Resolve stakeholder requirements issues.
+## 6. Manage the stakeholder needs and requirements definition.
+### a. Obtain explicit agreement with designated stakeholder needs and requirements.
+### b. Maintain traceability of stakeholder needs and requirements.
+### c. Provide key artifacts and information itmes that have been selected for baselines.
 # 6.4.4 Architecture Definition process
 ## 1. Prepare for architecture definition.
 ### a. Review pertinent information and identify key drivers of the architecture.
