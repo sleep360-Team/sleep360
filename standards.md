@@ -65,14 +65,17 @@
 # 6.4.5 Design Definition process
 ## Prepare for software system design definition
 ### Define design definition strategy, consistent with the selected life cycle model and anticipated design artifacts
-- Can include initial or incremental decomposition into system elements; various views of automated procedures, data structures and control systems; selection of design patterns; or progressively more detailed definition of objects and their relationships
-### Select and prioritize design principles and design characteristics** 
-- Design principles include controlling ideas such as abstraction, modularization and encapsulation; separation of interface and implementation, concurrency, and persistence of data. Security considerations include the principle of least privilege, layered defenses, restricted access to system services, and other considerations to minimize and defend the system attack surface. Examples of design characteristics include availability, fault tolerance and resilience, scalability, usability, capacity and performance, testability, portability, and affordability
+- Outcome: a. Design characteristics of each system element are defined.
+- Weekly meetings help break down overall design into individual user stories 
+### Select and prioritize design principles and design characteristicss
+- Outcome: e. Design alternatives for system elements are assessed.
+- By analyzing various options for design principle and characteristics, developers consider alternatives for their design. They best do this through a single shared codebase which forces developers to work cohesively so the design pattern makes sense for other parts of the system
 ### Identify and plan for the necessary enabling systems or services needed to support design definition**
--Includes identification of requirements and interfaces; selection of software and system platforms, programming languages, design notations and tools for collaboration and design development, design reuse repositories and design standards
-### Obtain or require access to the enabling systems or services to be used**
--Validation process confirms system achieves intended use
-
+- Outcome: c. Design enablers necessary for design definition are selected or defined. 
+- Monthly meetings discuss identification of requirements and interfaces; selection of software and system platforms, programming languages, design notations and tools for collaboration and design development, design reuse repositories and design standards
+### Obtain or require access to the enabling systems or services to be used
+- Outcome: g. Any enabling systems or services needed for design definition are available
+- Using a single shared codebase ensures proper branch protection and permissions which contirbutes to ensuring proper access controls
 ## Establish designs related to each software system element
 ### Transform architectural and design characteristics into design of elements
 - Databases, data structures, provisions for memory and storage
@@ -97,7 +100,11 @@
 ### Capture design and rationale
 - Commonly captured information includes software elements and affiliated requirements and design data e.g. internal and external interfaces, data structures, implementation and test requirements, unit aggregation data for integration and test cases. Rationale typically includes information about major implementation options and enablers. Resultant design is controlled in accordance with the strategy
 ### Establish traceability between the detailed design elements, the requirements, and the architectural entities
+- Outcome: h. Traceability of the design characteristics to the architectural entities of the system architecture is established.
+- User stories should be connected to requirements and implementation allowing forward and backward traceability
 ### Determine status of the software system and element design
 - Measures for completeness and quality of the design as it progresses
 - Includes periodic assessment of design characteristics in case of evolution of the software system and predicting potential obsolescence of components and technologies like Svelte and those consequences. Risk evaluation in this context
 ### Provide key artifacts and information items that have been selected for baselines
+- Outcome: f. Design artifacts are developed.
+- Continuous integration ensures all necessary items are continuously added 
