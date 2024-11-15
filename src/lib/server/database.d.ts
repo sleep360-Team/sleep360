@@ -1,44 +1,32 @@
+import type { Pool, ResultSetHeader } from 'mysql2/promise';
+
+// Define types for your data models
+export interface Account {
+	email: string;
+	name: string;
+	major: string;
+}
+
+export interface Report {
+	timeReported: string;  
+	numHours: number;      
+	numInterrupts: number; 
+	qualitySleep: string;  
+}
+
 declare module '$lib/server/database.js' {
-    //this is a fake database to be used for now REPLACE LATER
-    const db = new Map();
+	export function getDatabase(): Promise<Pool>;
 
-    export function getTodos(userid) {
-        if (!db.get(userid)) {
-            db.set(userid, [{
-                id: crypto.randomUUID(),
-                description: 'Learn SvelteKit',
-                done: false
-            }]);
-        }
+	export function createAccount(
+		email: string,
+		name: string,
+		major: string
+	): Promise<ResultSetHeader>;
 
-        return db.get(userid);
-    }
-
-    export function createTodo(userid, description) {
-        if (description === '') {
-            throw new Error('todo must have a description');
-        }
-
-        const todos = db.get(userid);
-
-        if (todos.find((todo) => todo.description === description)) {
-            throw new Error('todos must be unique');
-        }
-
-        todos.push({
-            id: crypto.randomUUID(),
-            description,
-            done: false
-        });
-    }
-
-    export function deleteTodo(userid, todoid) {
-        const todos = db.get(userid);
-        const index = todos.findIndex((todo) => todo.id === todoid);
-
-        if (index !== -1) {
-            todos.splice(index, 1);
-        }
-    }
-
-  }
+	export function createReport(
+		timeReported: string,   
+		numHours: number,      
+		numInterrupts: number, 
+		qualitySleep: string  
+	): Promise<ResultSetHeader>;
+}

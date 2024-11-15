@@ -1,70 +1,52 @@
-//FAKE DB STARTS HERE
-const db = new Map();
+import mysql from 'mysql2/promise';
 
-export function getTodos(userid) {
-	if (!db.get(userid)) {
-		db.set(userid, [{
-			id: crypto.randomUUID(),
-			description: 'Learn SvelteKit',
-			done: false
-		}]);
+let pool;
+
+// Initialize the database connection pool
+export async function getDatabase() {
+	if (!pool) {
+		pool = mysql.createPool({
+			host: 'sleep360.csse.rose-hulman.edu',
+			user: 'USERNAME',
+			password: 'PASSWORD',
+			database: 'sleep360',
+			waitForConnections: true,
+			connectionLimit: 50,
+			queueLimit: 0
+		});
 	}
-
-	return db.get(userid);
+	return pool;
 }
 
-export function createTodo(userid, description) {
-	if (description === '') {
-		throw new Error('todo must have a description');
+// Function to create a new account
+export async function createAccount(email, name, major) {
+	const db = await getDatabase();
+	try{
+		const [result] = await db.query(
+			'INSERT INTO Accounts (Email, Name, Major) VALUES (?, ?, ?)',
+			[email, name, major]
+		);
+		return result;
+	} catch(error){
+		console.error('Error occurred while creating the report:', error);
+		console.error('Error details:', error.message, error.stack);
 	}
-
-	const todos = db.get(userid);
-
-	if (todos.find((todo) => todo.description === description)) {
-		throw new Error('todos must be unique');
-	}
-
-	todos.push({
-		id: crypto.randomUUID(),
-		description,
-		done: false
-	});
+	
 }
 
-export function deleteTodo(userid, todoid) {
-	const todos = db.get(userid);
-	const index = todos.findIndex((todo) => todo.id === todoid);
-
-	if (index !== -1) {
-		todos.splice(index, 1);
-	}
-}
-//FAKE DB ENDS HERE
-
-import mysql from 'mysql2';
-
-// Create a connection
-const connection = mysql.createConnection({
-    host: 'sleep360.csse.rose-hulman.edu',
-    user: 'USERNAME',
-    password: 'PASSWORD',
-    database: 'sleep360'
-});
-
-// Connect to the database
-connection.connect(err => {
-    if (err) {
-        console.error('Error connecting to the database:', err);
-        return;
+// Function to create a new report
+export async function createReport(timeReported, numHours, numInterrupts, qualitySleep) {
+	console.log('This is a message to the console');
+	try{
+		const db = await getDatabase();
+		const [result] = await db.query(
+			'INSERT INTO Reports (`Time Reported`, `Number Hours`, `Number Interruptions`, `Quality of Sleep`) VALUES (?, ?, ?, ?)',
+			[timeReported, numHours, numInterrupts, qualitySleep]
+		);
+		return result;
+	}catch (error) {
+        console.error('Error occurred while creating the report:', error);
+		console.error('Error details:', error.message, error.stack);
     }
-    console.log('Connected to the database');
-});
-
-// Example query
-connection.query('SELECT * from Reports', (err, results) => {
-    if (err) throw err;
-    console.log(results);
-});
-
-// Close the connection
-connection.end();
+	
+}
