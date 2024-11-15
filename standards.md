@@ -78,33 +78,44 @@
 - Using a single shared codebase ensures proper branch protection and permissions which contirbutes to ensuring proper access controls
 ## Establish designs related to each software system element
 ### Transform architectural and design characteristics into design of elements
-- Databases, data structures, provisions for memory and storage
+- Outcome: a. Design characteristics of each system element are defined.
+- User stories define implementations of databases, data structures, provisions for memory and storage. Continuous integration should also include notations or messages that detail these 
 ### Define and prepare or obtain necessary design enablers
-- Include algorithms for dashboard view analytics
+- Outcome: c. Design enablers necessary for design definition are selected or defined
+- Continuous integration includes algorithms for components like dashboard view analytics 
 ### Examine design alternatives and feasibility of implementation
-- Reuse, adaptation, and outsourced service are examined
+- Outcome: e. Design alternatives for system elements are assessed. 
+- Continuous integration into a shared single codebase includes reviewing code and considering design alternatives 
 ### Refine or define interfaces among the software system elements and with external entities
-- Interfaces are identified and defined in the architecture definition process to the extent needed
+- Outcome: d. Interfaces between system elements compsing the system are defined or refined 
+- Continuous integration includes defining and refining interfaces to the extent needed
 ### Establish design artifacts
-- Formalized artifacts include data models, entity relationship diagrams, use cases, user role and privilege matrices, procedures. These are developed, obtained, or modified for selected alternatives.
+- Outcome: f. Design artifacts are developed 
+- User stories include developing artifacts. Formalized artifacts include data models, entity relationship diagrams, use cases, user role and privilege matrices, procedures. These are developed, obtained, or modified for selected alternatives.
 
 ## Assess alternatives for obtaining software system elements
 ### Determine technologies required for each element composing software system
-- E.g. internet presence, embedded systems, adaptations of open source software, human operator roles
+- Outcome: b. System/software requirements are allocated to system elements.
+- Monthly/weekly meetings ensure identification and verification of each necessary component is made and confirmed clearly
 ### Identify candidate alternatives for software system elements
-- Include free and open source software packages or elements, reuse of a previous design, adaptations of existing components, objects, or services
+- Outcomes:  c. Design enablers necessary for design definition are selected or defined. d. Interfaces between system elements compsing the system are defined or refined 
+- Monthly/weekly meetings ensure alternatives are discussed and appropriately developed
 ### Assess each candidate alternative against criteria developed from expected design characteristics and element requirements to determine suitability for intended application
-- A make-or-buy decision and resulting implementation and integration approach typically involve trade-offs of design criteria including cost. Design choices commonly consider enabling systems required to test the candidate alternative (test-driven design and development) and sustainability over system life including maintenance costs (or lack thereof). Basically used to determine suitability of design for long-term maintenance and sustainability
+- Outcome: e. Design alternatives for system elements are assessed.
+- Weekly meetings allow discussion amongst developers to evaluate specific design solutions
 ### Choose preferred alternatives among candidate design solutions for software system elements
+- Outcome: e. Design alternatives for system elements are assessed.
+- Weekly meetings allow discussion amongst developers to select specific design solutions
 ## Manage the design
 ### Capture design and rationale
-- Commonly captured information includes software elements and affiliated requirements and design data e.g. internal and external interfaces, data structures, implementation and test requirements, unit aggregation data for integration and test cases. Rationale typically includes information about major implementation options and enablers. Resultant design is controlled in accordance with the strategy
+- Outcome: b. System/software requirements are allocated to system elements
+- User stories associate implementation to requirement and can include details of how it will be implemented with rationale
 ### Establish traceability between the detailed design elements, the requirements, and the architectural entities
 - Outcome: h. Traceability of the design characteristics to the architectural entities of the system architecture is established.
 - User stories should be connected to requirements and implementation allowing forward and backward traceability
 ### Determine status of the software system and element design
-- Measures for completeness and quality of the design as it progresses
-- Includes periodic assessment of design characteristics in case of evolution of the software system and predicting potential obsolescence of components and technologies like Svelte and those consequences. Risk evaluation in this context
+- Outcome: e. Design alternatives for system elements are assessed.
+- Weekly meetings measures for completeness and quality of the design as it progresses through continuous integration
 ### Provide key artifacts and information items that have been selected for baselines
 - Outcome: f. Design artifacts are developed.
 - Continuous integration ensures all necessary items are continuously added 
