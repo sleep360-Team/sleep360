@@ -25,17 +25,6 @@ i) Alignment of the architecture with requirements and design characteristics is
 j) Any enabling systems or services needed for architecture definition are available.
 k) Traceability of architecture elements to stakeholder and system/software requirements is developed.
 
-6.4.5 Outcomes
-
-a) Design characteristics of each system element are defined.
-b) System/software requirements are allocated to system elements.
-c) Design enablers necessary for design definition are selected or defined.
-d) Interfaces between system elements compsing the system are defined or refined
-e) Design alternatives for system elements are assessed.
-f) Design artifacts are developed.
-g) Any enabling systems or services needed for design definition are available
-h) Traceability of the design characteristics to the architectural entities of the system architecture is established. 
-
 # 6.4.2 Stakeholder Needs and Requirements Definition process
 ## 1. Prepare for Stakeholder Needs and Requirements Definition
 ### a. Identify the stakeholders who have an interest in the software system throughout its lifecycle
@@ -134,39 +123,68 @@ h) Traceability of the design characteristics to the architectural entities of t
 # 6.4.5 Design Definition process
 ## Prepare for software system design definition
 ### Define design definition strategy, consistent with the selected life cycle model and anticipated design artifacts
-- Can include initial or incremental decomposition into system elements; various views of automated procedures, data structures and control systems; selection of design patterns; or progressively more detailed definition of objects and their relationships
-### Select and prioritize design principles and design characteristics** 
-- Design principles include controlling ideas such as abstraction, modularization and encapsulation; separation of interface and implementation, concurrency, and persistence of data. Security considerations include the principle of least privilege, layered defenses, restricted access to system services, and other considerations to minimize and defend the system attack surface. Examples of design characteristics include availability, fault tolerance and resilience, scalability, usability, capacity and performance, testability, portability, and affordability
+- Outcome: a. Design characteristics of each system element are defined.
+- Weekly meetings help break down overall design into individual user stories 
+### Select and prioritize design principles and design characteristicss
+- Outcome: e. Design alternatives for system elements are assessed.
+- By analyzing various options for design principle and characteristics, developers consider alternatives for their design. They best do this through a single shared codebase which forces developers to work cohesively so the design pattern makes sense for other parts of the system
 ### Identify and plan for the necessary enabling systems or services needed to support design definition**
--Includes identification of requirements and interfaces; selection of software and system platforms, programming languages, design notations and tools for collaboration and design development, design reuse repositories and design standards
-### Obtain or require access to the enabling systems or services to be used**
--Validation process confirms system achieves intended use
-
+- Outcome: c. Design enablers necessary for design definition are selected or defined. 
+- Monthly meetings discuss identification of requirements and interfaces; selection of software and system platforms, programming languages, design notations and tools for collaboration and design development, design reuse repositories and design standards
+### Obtain or require access to the enabling systems or services to be used
+- Outcome: g. Any enabling systems or services needed for design definition are available
+- Using a single shared codebase ensures proper branch protection and permissions which contirbutes to ensuring proper access controls
 ## Establish designs related to each software system element
 ### Transform architectural and design characteristics into design of elements
 - Databases, data structures, provisions for memory and storage
+- Outcome: a. Design characteristics of each system element are defined.
+- User stories define implementations of databases, data structures, provisions for memory and storage. Continuous integration should also include notations or messages that detail these 
 ### Define and prepare or obtain necessary design enablers
 - Include algorithms for dashboard view analytics
+- Outcome: c. Design enablers necessary for design definition are selected or defined
+- Continuous integration includes algorithms for components like dashboard view analytics 
 ### Examine design alternatives and feasibility of implementation
 - Reuse, adaptation, and outsourced service are examined
+- Outcome: e. Design alternatives for system elements are assessed. 
+- Continuous integration into a shared single codebase includes reviewing code and considering design alternatives 
 ### Refine or define interfaces among the software system elements and with external entities
 - Interfaces are identified and defined in the architecture definition process to the extent needed
+- Outcome: d. Interfaces between system elements compsing the system are defined or refined 
+- Continuous integration includes defining and refining interfaces to the extent needed
 ### Establish design artifacts
 - Formalized artifacts include data models, entity relationship diagrams, use cases, user role and privilege matrices, procedures. These are developed, obtained, or modified for selected alternatives.
+- Outcome: f. Design artifacts are developed 
+- User stories include developing artifacts. Formalized artifacts include data models, entity relationship diagrams, use cases, user role and privilege matrices, procedures. These are developed, obtained, or modified for selected alternatives.
 
 ## Assess alternatives for obtaining software system elements
 ### Determine technologies required for each element composing software system
 - E.g. internet presence, embedded systems, adaptations of open source software, human operator roles
+- Outcome: b. System/software requirements are allocated to system elements.
+- Monthly/weekly meetings ensure identification and verification of each necessary component is made and confirmed clearly
 ### Identify candidate alternatives for software system elements
 - Include free and open source software packages or elements, reuse of a previous design, adaptations of existing components, objects, or services
+- Outcomes:  c. Design enablers necessary for design definition are selected or defined. d. Interfaces between system elements compsing the system are defined or refined 
+- Monthly/weekly meetings ensure alternatives are discussed and appropriately developed
 ### Assess each candidate alternative against criteria developed from expected design characteristics and element requirements to determine suitability for intended application
 - A make-or-buy decision and resulting implementation and integration approach typically involve trade-offs of design criteria including cost. Design choices commonly consider enabling systems required to test the candidate alternative (test-driven design and development) and sustainability over system life including maintenance costs (or lack thereof). Basically used to determine suitability of design for long-term maintenance and sustainability
+- Outcome: e. Design alternatives for system elements are assessed.
+- Weekly meetings allow discussion amongst developers to evaluate specific design solutions
 ### Choose preferred alternatives among candidate design solutions for software system elements
+- Outcome: e. Design alternatives for system elements are assessed.
+- Weekly meetings allow discussion amongst developers to select specific design solutions
 ## Manage the design
 ### Capture design and rationale
 - Commonly captured information includes software elements and affiliated requirements and design data e.g. internal and external interfaces, data structures, implementation and test requirements, unit aggregation data for integration and test cases. Rationale typically includes information about major implementation options and enablers. Resultant design is controlled in accordance with the strategy
+- Outcome: b. System/software requirements are allocated to system elements
+- User stories associate implementation to requirement and can include details of how it will be implemented with rationale
 ### Establish traceability between the detailed design elements, the requirements, and the architectural entities
+- Outcome: h. Traceability of the design characteristics to the architectural entities of the system architecture is established.
+- User stories should be connected to requirements and implementation allowing forward and backward traceability
 ### Determine status of the software system and element design
 - Measures for completeness and quality of the design as it progresses
 - Includes periodic assessment of design characteristics in case of evolution of the software system and predicting potential obsolescence of components and technologies like Svelte and those consequences. Risk evaluation in this context
+- Outcome: e. Design alternatives for system elements are assessed.
+- Weekly meetings measures for completeness and quality of the design as it progresses through continuous integration
 ### Provide key artifacts and information items that have been selected for baselines
+- Outcome: f. Design artifacts are developed.
+- Continuous integration ensures all necessary items are continuously added 
