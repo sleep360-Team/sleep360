@@ -261,4 +261,4 @@ This task is met again via Communication and Feedback, as well as during meeting
 - Weekly meetings measures for completeness and quality of the design as it progresses through continuous integration
 ### Provide key artifacts and information items that have been selected for baselines
 - Outcome: f. Design artifacts are developed.
-- Continuous integration ensures all necessary items are continuously added 
+- Continuous integration ensures all necessary items are continuously added
