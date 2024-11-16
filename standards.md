@@ -1,18 +1,3 @@
-# Outcomes -- to be deleted when done
-6.4.4 Outcomes
-
-a) Identified stakeholder concerns are addressed by the architecture
-b) Architecture viewpoints are developed.
-c) Context, boundaries, and external interfaces of the system are defined.
-d) Architecture views and models of the system are developed
-e) Concepts, properties, characteristics, behaviors, functions, or constraints that are significant to architecture decisions of the system are allocated to architectural entities.
-f) System elements and their interfaces are identified.
-g) Architecture candidates are assesssed.
-h) An architectural basis for processes throughout the life cycle is achieved.
-i) Alignment of the architecture with requirements and design characteristics is achieved.
-j) Any enabling systems or services needed for architecture definition are available.
-k) Traceability of architecture elements to stakeholder and system/software requirements is developed.
-
 # 6.4.2 Stakeholder Needs and Requirements Definition process
 ## 1. Prepare for Stakeholder Needs and Requirements Definition
 ### a. Identify the stakeholders who have an interest in the software system throughout its lifecycle
