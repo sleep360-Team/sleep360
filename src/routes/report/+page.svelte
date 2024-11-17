@@ -2,6 +2,7 @@
     <a href="/">Home</a>
     <a href="/report">Report</a>
     <a href="/account">Account</a>
+    <a href="/Reports">Reports</a>
 </nav>
 
 <script>
@@ -22,42 +23,6 @@
             case 5: return 'Best';
         }
     };
-
-//     /**
-//      * Handle form submission
-//      */
-//     const handleSubmit = async () => {
-//         event.preventDefault(); 
-//         creating = true;
-//         const qualityOfSleep = getSleepQualityString(qualitySleep);
-//         try {
-//             const response = await fetch('/report', {
-//                 method: 'POST',
-//                 body: JSON.stringify({
-//                     numberHours,
-//                     numberInterrupts,
-//                     qualityOfSleep
-//                 }),
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'x-sveltekit-action': 'true'
-//                 }
-//             });
-//             console.log("Hang in there!");
-//             const result = await response.json();
-//             console.log("How mysterious!");
-//             if (result.success) {
-//                 alert('Report created successfully!');
-//             } else {
-//                 alert('Error creating report.');
-//             }
-//         } catch (error) {
-//             console.error('Error submitting form:', error);
-//             alert('Error submitting the report.');
-//         } finally {
-//             creating = false;
-//         }
-//     };
 </script>
 
 <div class="centered">

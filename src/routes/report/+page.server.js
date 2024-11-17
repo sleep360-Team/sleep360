@@ -33,6 +33,10 @@ const getSleepQualityString = (/** @type {number} */ value) => {
       case 5: return 'Best';
   }
 };
+// Generate a custom report ID (timestamp + random number)
+function generateReportId() {
+  return `report-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+}
 export const actions = {
   create: async ({ request }) => {
     const data = await request.formData();
