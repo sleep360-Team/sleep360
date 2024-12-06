@@ -37,6 +37,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"chart.js": "^4.4.7",
+		"chartjs-adapter-date-fns": "^3.0.0",
+		"date-fns": "^4.1.0",
 		"luxon": "^3.5.0",
 		"mssql": "^11.0.1",
 		"mysql2": "^3.11.3",
