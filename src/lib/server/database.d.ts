@@ -18,9 +18,14 @@ declare module '$lib/server/database.js' {
 	export function getDatabase(): Promise<Pool>;
 
 	export function createAccount(
+		username: string
+	): Promise<ResultSetHeader>;
+
+	export function updateAccount(
 		email: string,
 		name: string,
-		major: string
+		major: string,
+		username: string
 	): Promise<ResultSetHeader>;
 
 	export function createReport(

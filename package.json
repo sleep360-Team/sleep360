@@ -38,6 +38,7 @@
 	"type": "module",
 	"dependencies": {
 		"luxon": "^3.5.0",
+		"mssql": "^11.0.1",
 		"mysql2": "^3.11.3",
 		"sleep360": "file:"
 	}

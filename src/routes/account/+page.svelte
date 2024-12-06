@@ -1,7 +1,8 @@
 <nav class="navbar navbar-dark fixed-top">
-	<a href="/">home</a>
+	<a href="/">Home</a>
 	<a href="/report">Report</a>
 	<a href="/account">Account</a>
+	<a href="/Reports">Reports</a>
 </nav>
 
 <script>
@@ -20,7 +21,7 @@
 	<h1>User Information</h1>
 
 	<form
-		method="POST" action="?/create"
+		method="POST" action="?/update"
 	>
 	<label>
 		Email:
