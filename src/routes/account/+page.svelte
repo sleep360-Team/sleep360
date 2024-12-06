@@ -3,6 +3,7 @@
 	<a href="/report">Report</a>
 	<a href="/account">Account</a>
 	<a href="/Reports">Reports</a>
+    <a href="/dashboard">Dashboard</a>
 </nav>
 
 <script>
