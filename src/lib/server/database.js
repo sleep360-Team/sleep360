@@ -26,7 +26,7 @@ export async function createAccount(username) {
     try {
         const result = await db.request()
 			.input('Username', sql.NVarChar, username)
-            .query('INSERT INTO Reports (Username) VALUES (@Username)');
+            .execute('CreateAccount');
         return result;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
@@ -43,7 +43,7 @@ export async function updateAccount(email, name, major, username) {
             .input('Name', sql.NVarChar, name)
             .input('Major', sql.NVarChar, major)
 			.input('Username', sql.NVarChar, username)
-            .query('UPDATE Accounts SET Name = @Name, Major = @Major, Email = @Email WHERE Username = @Username');
+            .execute('UpdateAccount');
         return result;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
@@ -61,8 +61,7 @@ export async function createReport(timeReported, numHours, numInterrupts, qualit
             .input('NumberHours', sql.Int, numHours)
             .input('NumberInterrupts', sql.Int, numInterrupts)
             .input('QualitySleep', sql.NVarChar, qualitySleep)
-            .query('INSERT INTO Reports ([Time Reported], [Number Hours], [Number Interruptions], [Quality of Sleep]) VALUES (@TimeReported, @NumberHours, @NumberInterrupts, @QualitySleep)');
-
+            .execute('CreateReport')
         return result;
     } catch (error) {
         console.error('Error occurred while creating the report:', error);
