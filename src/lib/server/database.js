@@ -21,12 +21,27 @@ export async function getDatabase() {
     }
     return pool;
 }
-export async function createAccount(username) {
+
+export async function readReports(userId) {
+    const db = await getDatabase();
+    try {
+      const result = await db.request()
+        .input('UserID', sql.Int, userId) 
+        .execute('ReadReports');  
+      return result.recordset; 
+    } catch (error) {
+      console.error('Database error:', error);
+      throw new Error('Failed to fetch reports.');
+    }
+}
+
+export async function createAccount(username, hash) {
     const db = await getDatabase();
     try {
         const result = await db.request()
-			.input('Username', sql.NVarChar, username)
-            .execute('CreateAccount');
+			.input('incomingUsername', sql.NVarChar(50), username)
+            .input('incomingHash', sql.NVarChar(64), hash)
+            .execute('Register');
         return result;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
