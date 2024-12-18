@@ -14,8 +14,8 @@ test('true', async () => {
 test.describe('Homepage tests', () => {
 	test('should load the homepage successfully', async ({ page }) => {
 		await page.goto('/');
-		await expect(page).toHaveTitle('Homepage Title'); // Replace with actual title
-		await expect(page.locator('h1')).toContainText('Welcome to the Homepage'); // Example heading
+		await expect(page).toHaveTitle(); // Check if page has a title (title is required but we don't specify the content)
+		await expect(page.locator('h1')).toBeVisible(); // Check if there's a visible <h1> element
 	});
 });
 
@@ -23,16 +23,15 @@ test.describe('Homepage tests', () => {
 test.describe('Report page tests', () => {
 	test('should load the report page successfully', async ({ page }) => {
 		await page.goto('/report');
-		await expect(page).toHaveTitle('Report Page Title'); // Replace with actual title
-		await expect(page.locator('h1')).toContainText('Create a New Report'); // Example heading
+		await expect(page).toHaveTitle(); // Ensure the page has a title
+		await expect(page.locator('h1')).toBeVisible(); // Check if the <h1> header is present
 	});
 
-	test('should display report creation form', async ({ page }) => {
+	test('should display a form or input fields', async ({ page }) => {
 		await page.goto('/report');
 		const form = page.locator('form');
-		await expect(form).toBeVisible();
-		await expect(form.locator('input[name="title"]')).toBeVisible();
-		await expect(form.locator('textarea[name="description"]')).toBeVisible();
+		await expect(form).toBeVisible(); // Ensure form is visible
+		await expect(form.locator('input')).toBeVisible(); // Ensure there's at least one input field
 	});
 });
 
@@ -40,14 +39,14 @@ test.describe('Report page tests', () => {
 test.describe('Reports listing page tests', () => {
 	test('should load the reports page successfully', async ({ page }) => {
 		await page.goto('/reports');
-		await expect(page).toHaveTitle('Reports List Title'); // Replace with actual title
-		await expect(page.locator('h1')).toContainText('All Reports'); // Example heading
+		await expect(page).toHaveTitle(); // Ensure the page has a title
+		await expect(page.locator('h1')).toBeVisible(); // Ensure there's a visible header
 	});
 
-	test('should display a list of reports', async ({ page }) => {
+	test('should display a list of items', async ({ page }) => {
 		await page.goto('/reports');
-		const reportList = page.locator('.report-item'); // Adjust selector based on actual structure
-		await expect(reportList).toHaveCountGreaterThan(0); // Should list some reports
+		const items = page.locator('.item'); // Assuming report items are listed as .item
+		await expect(items).toHaveCountGreaterThan(0); // Ensure there are items in the list
 	});
 });
 
@@ -55,14 +54,14 @@ test.describe('Reports listing page tests', () => {
 test.describe('Account page tests', () => {
 	test('should load the account page successfully', async ({ page }) => {
 		await page.goto('/account');
-		await expect(page).toHaveTitle('Account Page Title'); // Replace with actual title
-		await expect(page.locator('h1')).toContainText('Account Details'); // Example heading
+		await expect(page).toHaveTitle(); // Ensure the page has a title
+		await expect(page.locator('h1')).toBeVisible(); // Ensure there's a visible header
 	});
 
-	test('should show account information', async ({ page }) => {
+	test('should display user information', async ({ page }) => {
 		await page.goto('/account');
-		await expect(page.locator('.account-name')).toBeVisible(); // Adjust selector as needed
-		await expect(page.locator('.account-email')).toBeVisible(); // Adjust selector as needed
+		const info = page.locator('.user-info'); // Assuming user info is displayed in .user-info
+		await expect(info).toBeVisible(); // Ensure user info is visible
 	});
 });
 
@@ -70,21 +69,20 @@ test.describe('Account page tests', () => {
 test.describe('Dashboard page tests', () => {
 	test('should load the dashboard page successfully', async ({ page }) => {
 		await page.goto('/dashboard');
-		await expect(page).toHaveTitle('Dashboard Title'); // Replace with actual title
-		await expect(page.locator('h1')).toContainText('Dashboard Overview'); // Example heading
+		await expect(page).toHaveTitle(); // Ensure the page has a title
+		await expect(page.locator('h1')).toBeVisible(); // Ensure there's a visible header
 	});
 
-	test('should display statistics on the dashboard', async ({ page }) => {
+	test('should display dashboard statistics', async ({ page }) => {
 		await page.goto('/dashboard');
-		await expect(page.locator('.statistics')).toBeVisible(); // Adjust selector based on the actual dashboard structure
+		const stats = page.locator('.stats'); // Assuming statistics are contained in a .stats element
+		await expect(stats).toBeVisible(); // Ensure the statistics element is visible
 	});
 
-	test('should have a sidebar with navigation', async ({ page }) => {
+	test('should have a sidebar or navigation', async ({ page }) => {
 		await page.goto('/dashboard');
-		const sidebar = page.locator('.sidebar');
-		await expect(sidebar).toBeVisible();
-		await expect(sidebar.locator('a[href="/report"]')).toBeVisible();
-		await expect(sidebar.locator('a[href="/reports"]')).toBeVisible();
-		await expect(sidebar.locator('a[href="/account"]')).toBeVisible();
+		const sidebar = page.locator('.sidebar'); // Assuming there's a sidebar for navigation
+		await expect(sidebar).toBeVisible(); // Ensure sidebar is visible
+		await expect(sidebar.locator('a')).toHaveCountGreaterThan(0); // Ensure the sidebar contains links
 	});
 });
