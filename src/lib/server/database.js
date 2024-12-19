@@ -35,6 +35,37 @@ export async function readReports(userId) {
     }
 }
 
+export async function getUserID(username) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+			.input('Username', sql.NVarChar(50), String (username).trim())
+            .execute('GetUserIDByUsername');
+        const userID = result.recordset[0]?.UserID;
+        return userID;
+    } catch (error) {
+        console.error('Error occurred while retrieving user ID:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    
+    return result.recordset[0]?.UserID;
+}
+
+export async function getUserHashedPassword(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+			.input('UserID', sql.Int, userid)
+            .execute('GetUserHashedPassword');
+        const hashedpassword =  result.recordset[0]?.HashedPassword;
+        return hashedpassword;
+    } catch (error) {
+        console.error('Error occurred while retrieving user hashed password:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return null;
+}
+
 export async function createAccount(username, hash) {
     const db = await getDatabase();
     try {

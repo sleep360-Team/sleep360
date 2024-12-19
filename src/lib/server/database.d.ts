@@ -17,6 +17,14 @@ export interface Report {
 declare module '$lib/server/database.js' {
 	export function getDatabase(): Promise<Pool>;
 
+	export function getUserID(
+		username: string
+	): Promise<ResultSetHeader>;
+
+	export function getUserHashedPassword(
+		userid: int
+	): Promise<ResultSetHeader>;
+
 	export function createAccount(
 		username: string,
 		hash: string
