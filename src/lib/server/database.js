@@ -35,6 +35,20 @@ export async function readReports(userId) {
     }
 }
 
+export async function readReportsDashboard(userId) {
+    const db = await getDatabase();
+    try {
+      const result = await db.request()
+        .input('UserID', sql.Int, userId) 
+        .execute('ReadReportsDashboard');  
+      return result.recordset; 
+    } catch (error) {
+      console.error('Database error:', error);
+      throw new Error('Failed to fetch reports.');
+    }
+}
+
+
 export async function createAccount(username, hash) {
     const db = await getDatabase();
     try {

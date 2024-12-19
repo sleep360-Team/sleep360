@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { createAccount } from '$lib/server/database.js'; // Ensure this function exists and works as expected
 import bcrypt from 'bcrypt'; // Hashing library
+import { dev } from '$app/environment';
 
 async function hashPassword(password) {
   // Generate the salt
@@ -12,11 +13,13 @@ async function hashPassword(password) {
   return { hashedPassword, salt };
 }
 
+
 export const actions = {
-  create: async ({ request }) => {
+  create: async ({ request, cookies }) => {
     const formData = new URLSearchParams(await request.text());
     const username = formData.get('username');
     const password = formData.get('password');
+    const id = 0;
 
     // Validate required fields
     if (!username || !password) {
@@ -28,7 +31,14 @@ export const actions = {
       const { hashedPassword } = await hashPassword(password);
 
       // Save the username and hashed password to the database
-      await createAccount(username, hashedPassword);
+      const userID  = await createAccount(username, hashedPassword, id);
+      cookies.set('session_id', userID.toString(), {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: !dev,
+      
+      });
 
       return { success: true, message: 'Account created successfully' };
     } catch (error) {
