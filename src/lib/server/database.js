@@ -51,6 +51,23 @@ export async function getUserID(username) {
     return result.recordset[0]?.UserID;
 }
 
+export async function checkIfReportExistsToday(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+            .input('UserID', sql.Int, userid)           
+            .output('ReportExists', sql.Bit)           
+            .execute('CheckIfReportExistsToday'); 
+        const reportExists = result.output.ReportExists;
+        return reportExists;
+    } catch (error) {
+        console.error('Error occurred while retrieving user ID:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    
+    return -1;
+}
+
 export async function getUserHashedPassword(userid) {
     const db = await getDatabase();
     try {

@@ -96,7 +96,7 @@
 
 
 <a href="/report">
-    <button>Add Report</button>
+    <button id='make-report'>Add Report</button>
 </a>
 
 <style>
