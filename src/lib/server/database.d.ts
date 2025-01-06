@@ -37,6 +37,10 @@ declare module '$lib/server/database.js' {
 		username: string
 	): Promise<ResultSetHeader>;
 
+	export function deleteAccount(
+		userid: int
+	): Promise<ResultSetHeader>;
+
 	export function createReport(
 		timeReported: string,   
 		numHours: number,      
