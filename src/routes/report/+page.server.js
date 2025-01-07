@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { fail } from '@sveltejs/kit';
-import { createReport } from '$lib/server/database.js';
+import { createReport, getUserID } from '$lib/server/database.js';
 
 function getESTTime() {
   const now = new Date();
@@ -43,17 +43,20 @@ export const actions = {
 		const numHours = data.get('numberHours');
 		const numInterrupts = data.get('numberInterrupts');
 		const qualitySleep = data.get('qualitySleep');
+    const comments = data.get('comments');
 
     const timeReported = getESTTime();
     console.log("timeReported", timeReported);
     const qualitySleepString = getSleepQualityString(+qualitySleep);
 
     if (!timeReported || !numHours || !numInterrupts || !qualitySleep) {
-      return fail(400, { error: 'All fields are required and valid.' });
+      return fail(400, { error: 'First 3 fields are required.' });
     }
+    
 
     try {
-      await createReport(timeReported, +numHours, +numInterrupts, qualitySleepString);
+      const userid = await getUserID('eab');
+      await createReport(timeReported, +numHours, +numInterrupts, qualitySleepString, comments, userid);
       return { success: true, message: 'Report created successfully' };
     } catch (error) {
       console.error('Database error:', error);

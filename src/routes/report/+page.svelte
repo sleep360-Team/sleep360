@@ -13,7 +13,7 @@
     let numberHours = 0;  // Default value for numHours
     let numberInterrupts = 0;  // Default value for numInterrupts
     let qualitySleep = 3;  // Default value for qualitySleep
-
+    let comments = '';
     // Map sleep quality number to a string
     const getSleepQualityString = (/** @type {number} */ value) => {
         switch (value) {
@@ -69,7 +69,7 @@
                 max="4"
             />
         </label>
-
+        
         <!-- Quality of Sleep (1-5) -->
         <label>
             Quality of Sleep (1-5):
@@ -90,6 +90,16 @@
             />
             <span>{getSleepQualityString(qualitySleep)}</span> <!-- Display corresponding sleep quality string -->
         </label>
+       
+          <textarea
+            id="commentBox"
+            class="textarea"
+            bind:value={comments}
+            placeholder="Write any details you'd like to record here..."
+            rows="4"
+            cols="50"
+          ></textarea>
+
 
         <button formaction="?/create" type="submit" disabled={creating}>
             {creating ? 'Saving...' : 'Submit Report'}
@@ -102,6 +112,7 @@
         max-width: 20em;
         margin: 0 auto;
     }
+    
 
     label {
         display: block;
@@ -112,19 +123,6 @@
         width: 100%;
         padding: 0.5rem;
         margin-top: 0.5rem;
-    }
-
-    button {
-        margin-top: 1rem;
-        padding: 0.5rem;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-
-    button[disabled] {
-        background-color: #ccc;
     }
 
     span {
