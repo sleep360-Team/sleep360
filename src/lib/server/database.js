@@ -79,14 +79,16 @@ export async function getUserHashedPassword(userid) {
     return null;
 }
 
-export async function createAccount(username, hash) {
+export async function createAccount(username, hash, id) {
     const db = await getDatabase();
     try {
         const result = await db.request()
 			.input('incomingUsername', sql.NVarChar(50), username)
             .input('incomingHash', sql.NVarChar(64), hash)
+            .output('id', sql.Int)
             .execute('Register');
-        return result;
+        const newID = result.output.id;
+        return newID;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
         console.error('Error details:', error.message, error.stack);
