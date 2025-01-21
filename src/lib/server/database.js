@@ -64,6 +64,22 @@ export async function getUserID(username) {
     return result.recordset[0]?.UserID;
 }
 
+export async function checkIfReportExistsToday(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+            .input('UserID', sql.Int, userid)           
+            .output('ReportExists', sql.Bit)           
+            .execute('CheckIfReportExistsToday'); 
+        const reportExists = result.output.ReportExists;
+        return reportExists;
+    } catch (error) {
+        console.error('Error occurred while retrieving user ID:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return -1;
+}
+
 export async function getUserHashedPassword(userid) {
     const db = await getDatabase();
     try {
@@ -107,13 +123,26 @@ export async function updateAccount(email, name, major, username) {
             .execute('UpdateAccount');
         return result;
     } catch (error) {
-        console.error('Error occurred while creating the account:', error);
+        console.error('Error occurred while updating the account:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+}
+
+export async function deleteAccount(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+            .input('UserID', sql.Int, userid)
+            .execute('DeleteAccountByUserID');
+        return result;
+    } catch (error) {
+        console.error('Error occurred while deleting the account:', error);
         console.error('Error details:', error.message, error.stack);
     }
 }
 
 // Function to create a new report
-export async function createReport(timeReported, numHours, numInterrupts, qualitySleep) {
+export async function createReport(timeReported, numHours, numInterrupts, qualitySleep, comments, userid) {
     console.log('This is a message to the console');
     const db = await getDatabase();
     try {
@@ -122,6 +151,8 @@ export async function createReport(timeReported, numHours, numInterrupts, qualit
             .input('NumberHours', sql.Int, numHours)
             .input('NumberInterrupts', sql.Int, numInterrupts)
             .input('QualitySleep', sql.NVarChar, qualitySleep)
+            .input('Comments', sql.Int, comments)
+            .input('UserID', sql.Int, userid)
             .execute('CreateReport');
 
         return result;
