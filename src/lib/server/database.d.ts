@@ -47,4 +47,8 @@ declare module '$lib/server/database.js' {
 		numInterrupts: number, 
 		qualitySleep: string  
 	): Promise<ResultSetHeader>;
+
+	export function readReportsDashboard(
+		userid: int
+	): Promise<ResultSetHeader>;
 }

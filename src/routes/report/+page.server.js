@@ -38,13 +38,13 @@ function generateReportId() {
   return `report-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 }
 export const actions = {
-  create: async ({ request }) => {
+  create: async ({ request, cookies }) => {
     const data = await request.formData();
 		const numHours = data.get('numberHours');
 		const numInterrupts = data.get('numberInterrupts');
 		const qualitySleep = data.get('qualitySleep');
     const comments = data.get('comments');
-
+    const id = cookies.get("session_id");
     const timeReported = getESTTime();
     console.log("timeReported", timeReported);
     const qualitySleepString = getSleepQualityString(+qualitySleep);
@@ -55,8 +55,8 @@ export const actions = {
     
 
     try {
-      const userid = await getUserID('eab');
-      await createReport(timeReported, +numHours, +numInterrupts, qualitySleepString, comments, userid);
+      //const userid = await getUserID('eab');
+      await createReport(timeReported, +numHours, +numInterrupts, qualitySleepString, comments, id);
       return { success: true, message: 'Report created successfully' };
     } catch (error) {
       console.error('Database error:', error);
