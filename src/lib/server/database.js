@@ -81,6 +81,20 @@ export async function getUserHashedPassword(userid) {
     }
     return null;
 }
+export async function updatePassword(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+			.input('UserID', sql.Int, userid)
+            .input('Password', sql.NVarChar(64), hash)
+            .execute('UpdatePassword');
+        return result;
+    } catch (error) {
+        console.error('Error occurred while updating with user hashed password:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return null;
+}
 
 export async function createAccount(username, hash) {
     const db = await getDatabase();

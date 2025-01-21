@@ -47,6 +47,9 @@
         <button formaction="?/create" type="submit" disabled={creating}>
             {creating ? 'Saving...' : 'Sign Up'}
         </button>
+		<button formaction="?/changePassword" type="submit" disabled={creating}>
+            {creating ? 'Saving...' : 'Change Password'}
+        </button>
 	</form>
 
 	{#if form?.error}
@@ -78,17 +81,6 @@
 		padding: 0.5rem; 
 		margin-top: 0.5rem; 
 	}
-	button {
-        margin-top: 1rem;
-        padding: 0.5rem;
-        background-color: #800000;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-
-    button[disabled] {
-        background-color: #ccc;
-    }
+	
 
 </style>

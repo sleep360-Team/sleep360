@@ -25,6 +25,11 @@ declare module '$lib/server/database.js' {
 		userid: int
 	): Promise<ResultSetHeader>;
 
+	export function updatePassword(
+		userid: int,
+		hash: string
+	): Promise<ResultSetHeader>;
+
 	export function createAccount(
 		username: string,
 		hash: string
