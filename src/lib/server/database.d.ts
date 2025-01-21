@@ -27,8 +27,7 @@ declare module '$lib/server/database.js' {
 
 	export function createAccount(
 		username: string,
-		hash: string,
-		id: int
+		hash: string
 	): Promise<ResultSetHeader>;
 
 	export function updateAccount(
