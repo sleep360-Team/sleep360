@@ -1,5 +1,3 @@
-
-
 <nav class="navbar navbar-dark">
 	<a href="/">Home </a>
 	<a href="/report">Report</a>

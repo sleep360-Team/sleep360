@@ -1,6 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { createAccount, getUserID, getUserHashedPassword } from '$lib/server/database.js'; // Ensure this function exists and works as expected
 import bcrypt from 'bcrypt'; // Hashing library
+import { dev } from '$app/environment';
 
 async function hashPassword(password) {
   // Generate the salt
@@ -12,11 +13,13 @@ async function hashPassword(password) {
   return { hashedPassword, salt };
 }
 
+
 export const actions = {
-  create: async ({ request }) => {
+  create: async ({ request, cookies }) => {
     const formData = new URLSearchParams(await request.text());
     const username = formData.get('username');
     const password = formData.get('password');
+    const id = 0;
 
     // Validate required fields
     if (!username || !password) {
@@ -28,8 +31,14 @@ export const actions = {
       const { hashedPassword } = await hashPassword(password);
 
       // Save the username and hashed password to the database
-      await createAccount(username, hashedPassword);
-
+      const userID  = await createAccount(username, hashedPassword, id);
+      cookies.set('session_id', userID.toString(), {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: !dev,
+      
+      });
       return { success: true, message: 'Account created successfully' };
     } catch (error) {
       console.error('Database error:', error);
@@ -37,10 +46,11 @@ export const actions = {
     }
   },
 
-  login: async ({ request }) => {
+  login: async ({ request, cookies }) => {
     const formData = new URLSearchParams(await request.text());
     const username = formData.get('username');
     const password = formData.get('password');
+    let isTrue = false;
     
     // Validate required fields
     if (!username || !password) {
@@ -61,10 +71,20 @@ export const actions = {
       if (!isPasswordCorrect) {
         return fail(401, { error: 'Invalid username or password.' });
       } 
-      throw redirect(303, '/dashboard'); 
+      isTrue = true;
+      cookies.set('session_id', userID.toString(), {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: !dev,
+      
+      });
     } catch (error) {
       console.error('Login error:', error);
       return fail(500, { error: 'Failed to log in.' });
+    }
+    if(isTrue){
+      throw redirect(303, '/dashboard'); 
     }
   }
 };

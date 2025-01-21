@@ -2,12 +2,15 @@ import { fail, redirect } from '@sveltejs/kit';
 import { createAccount, updateAccount, deleteAccount, getUserID } from '$lib/server/database.js';
 
 export const actions = {
-	update: async ({ request }) => {
-		const username = 'eab'
+
+	update: async ({ request, cookies}) => {
+		//console.log(cookies.get("session_id"));
+		const username = 'userhere';
 		const formData = new URLSearchParams(await request.text());
 		const email = formData.get('email');
 		const name = formData.get('name');
 		const major = formData.get('major');
+		
   
 	  if (!email || !name || !major) {
 		return fail(400, { error: 'All fields are required.' });
@@ -34,4 +37,6 @@ export const actions = {
 		return fail(500, { error: 'Failed to create account.' });
 	  }
 	}
+	
+
   };
