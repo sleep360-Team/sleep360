@@ -1,7 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { createAccount, getUserID, getUserHashedPassword } from '$lib/server/database.js'; // Ensure this function exists and works as expected
+import { createAccount, getUserID, getUserHashedPassword, updatePassword } from '$lib/server/database.js'; // Ensure this function exists and works as expected
 import bcrypt from 'bcrypt'; // Hashing library
-import { dev } from '$app/environment';
 
 async function hashPassword(password) {
   // Generate the salt
@@ -15,11 +14,10 @@ async function hashPassword(password) {
 
 
 export const actions = {
-  create: async ({ request, cookies }) => {
+  create: async ({ request }) => {
     const formData = new URLSearchParams(await request.text());
     const username = formData.get('username');
     const password = formData.get('password');
-    const id = 0;
 
     // Validate required fields
     if (!username || !password) {
@@ -31,26 +29,54 @@ export const actions = {
       const { hashedPassword } = await hashPassword(password);
 
       // Save the username and hashed password to the database
-      const userID  = await createAccount(username, hashedPassword, id);
-      cookies.set('session_id', userID.toString(), {
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: !dev,
-      
-      });
+      await createAccount(username, hashedPassword);
+
       return { success: true, message: 'Account created successfully' };
     } catch (error) {
       console.error('Database error:', error);
       return fail(500, { error: 'Failed to create account.' });
     }
   },
+  changePassword: async ({ request }) => {
+    const formData = new URLSearchParams(await request.text());
+    const username = formData.get('username');
+    const currentPassword = formData.get('oldpassword');
+    const newPassword = formData.get('newpassword');
 
-  login: async ({ request, cookies }) => {
+    if (!username || !currentPassword || !newPassword) {
+      return fail(400, { error: 'Username, current password, and new password are required.' });
+    }
+
+    try {
+      const userID = await getUserID(username);
+      const userHashedPw = await getUserHashedPassword(userID);
+
+      if (!userID || !userHashedPw) {
+        return fail(401, { error: 'Invalid user information.' });
+      }
+
+      const isPasswordCorrect = await bcrypt.compare(currentPassword, String(userHashedPw));
+      if (!isPasswordCorrect) {
+        return fail(401, { error: 'Current password is incorrect.' });
+      }
+
+      // Hash the new password
+      const { hashedPassword } = await hashPassword(newPassword);
+
+      // Update the password in the database
+      await updatePassword(userID, hashedPassword);
+
+      return { success: true, message: 'Password changed successfully' };
+    } catch (error) {
+      console.error('Change password error:', error);
+      return fail(500, { error: 'Failed to change password.' });
+    }
+  },
+  
+  login: async ({ request }) => {
     const formData = new URLSearchParams(await request.text());
     const username = formData.get('username');
     const password = formData.get('password');
-    let isTrue = false;
     
     // Validate required fields
     if (!username || !password) {
@@ -71,20 +97,10 @@ export const actions = {
       if (!isPasswordCorrect) {
         return fail(401, { error: 'Invalid username or password.' });
       } 
-      isTrue = true;
-      cookies.set('session_id', userID.toString(), {
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: !dev,
-      
-      });
+      throw redirect(303, '/dashboard'); 
     } catch (error) {
       console.error('Login error:', error);
       return fail(500, { error: 'Failed to log in.' });
-    }
-    if(isTrue){
-      throw redirect(303, '/dashboard'); 
     }
   }
 };
