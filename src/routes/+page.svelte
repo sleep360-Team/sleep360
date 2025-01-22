@@ -1,3 +1,5 @@
+
+
 <nav class="navbar navbar-dark">
 	<a href="/">Home </a>
 	<a href="/report">Report</a>
@@ -38,11 +40,13 @@
 		   autocomplete="off"
 		   required
 		/>
-	 </label>
-	 	<button type="submit" disabled={creating}>Submit</button>
-		{#if creating}
-			<span class="saving">saving...</span>
-		{/if}
+     </label>
+        <button formaction="?/login" type="submit" disabled={creating}>
+            {creating ? 'Saving...' : 'Log In'}
+        </button>
+        <button formaction="?/create" type="submit" disabled={creating}>
+            {creating ? 'Saving...' : 'Sign Up'}
+        </button>
 	</form>
 
 	{#if form?.error}
@@ -50,8 +54,6 @@
 	{/if}
 </div>
 
-<button type="button" data-amount="1" style="background-color: #800000; color: white;" class="button">Log In</button>
-<button type="button" data-amount="1" style="background-color: #800000; color: white;" class="button">Sign Up</button>
 <style>
     .navbar {
         background-color: #800000;
@@ -79,7 +81,7 @@
 	button {
         margin-top: 1rem;
         padding: 0.5rem;
-        background-color: #007bff;
+        background-color: #800000;
         color: white;
         border: none;
         cursor: pointer;

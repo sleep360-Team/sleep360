@@ -4,7 +4,7 @@ import { createAccount, updateAccount, deleteAccount, getUserID } from '$lib/ser
 export const actions = {
 
 	update: async ({ request, cookies}) => {
-		//console.log(cookies.get("session_id"));
+		console.log(cookies.get("session_id"));
 		const username = 'userhere';
 		const formData = new URLSearchParams(await request.text());
 		const email = formData.get('email');
