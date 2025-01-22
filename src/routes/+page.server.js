@@ -31,7 +31,7 @@ export const actions = {
       const { hashedPassword } = await hashPassword(password);
 
       // Save the username and hashed password to the database
-      const userID  = await createAccount(username, hashedPassword);
+      const userID  = await createAccount(username, hashedPassword, id);
       cookies.set('session_id', userID.toString(), {
         path: '/',
         httpOnly: true,
