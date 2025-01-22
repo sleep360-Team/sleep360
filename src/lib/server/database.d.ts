@@ -25,6 +25,12 @@ declare module '$lib/server/database.js' {
 		userid: int
 	): Promise<ResultSetHeader>;
 
+	export function updatePassword(
+		userid: int,
+		hash: string
+	): Promise<ResultSetHeader>;
+
+
 	export function createAccount(
 		username: string,
 		hash: string
@@ -47,7 +53,7 @@ declare module '$lib/server/database.js' {
 		numInterrupts: number, 
 		qualitySleep: string  
 	): Promise<ResultSetHeader>;
-
+	
 	export function readReportsDashboard(
 		userid: int
 	): Promise<ResultSetHeader>;

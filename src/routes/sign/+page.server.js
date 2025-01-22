@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { createAccount, getUserID, getUserHashedPassword } from '$lib/server/database.js'; // Ensure this function exists and works as expected
+import { createAccount, getUserID, getUserHashedPassword, updatePassword } from '$lib/server/database.js'; // Ensure this function exists and works as expected
 import bcrypt from 'bcrypt'; // Hashing library
 import { dev } from '$app/environment';
 
@@ -29,23 +29,58 @@ export const actions = {
     try {
       // Hash the password
       const { hashedPassword } = await hashPassword(password);
-
-      // Save the username and hashed password to the database
       const userID  = await createAccount(username, hashedPassword, id);
+      
       cookies.set('session_id', userID.toString(), {
         path: '/',
         httpOnly: true,
         sameSite: 'strict',
         secure: !dev,
-      
+
       });
+
       return { success: true, message: 'Account created successfully' };
     } catch (error) {
       console.error('Database error:', error);
       return fail(500, { error: 'Failed to create account.' });
     }
   },
+  changePassword: async ({ request }) => {
+    const formData = new URLSearchParams(await request.text());
+    const username = formData.get('username');
+    const currentPassword = formData.get('oldpassword');
+    const newPassword = formData.get('newpassword');
 
+    if (!username || !currentPassword || !newPassword) {
+      return fail(400, { error: 'Username, current password, and new password are required.' });
+    }
+
+    try {
+      const userID = await getUserID(username);
+      const userHashedPw = await getUserHashedPassword(userID);
+
+      if (!userID || !userHashedPw) {
+        return fail(401, { error: 'Invalid user information.' });
+      }
+
+      const isPasswordCorrect = await bcrypt.compare(currentPassword, String(userHashedPw));
+      if (!isPasswordCorrect) {
+        return fail(401, { error: 'Current password is incorrect.' });
+      }
+
+      // Hash the new password
+      const { hashedPassword } = await hashPassword(newPassword);
+
+      // Update the password in the database
+      await updatePassword(userID, hashedPassword);
+
+      return { success: true, message: 'Password changed successfully' };
+    } catch (error) {
+      console.error('Change password error:', error);
+      return fail(500, { error: 'Failed to change password.' });
+    }
+  },
+  
   login: async ({ request, cookies }) => {
     const formData = new URLSearchParams(await request.text());
     const username = formData.get('username');
@@ -77,7 +112,7 @@ export const actions = {
         httpOnly: true,
         sameSite: 'strict',
         secure: !dev,
-      
+
       });
     } catch (error) {
       console.error('Login error:', error);

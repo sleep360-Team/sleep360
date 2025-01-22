@@ -11,10 +11,14 @@
 	export let form;
 
 	let creating = false;
+	let showChangePasswordForm = false;
+	
 
 	let username = '';
 
 </script>
+<!-- Sign-In Page -->
+
 
 <div class="centered">
 	<h1>Welcome</h1>
@@ -53,6 +57,42 @@
 		<p class="error">{form.error}</p>
 	{/if}
 </div>
+
+<form
+		method="POST" action="?/create"
+	>
+	<label>
+		Username:
+		<input
+		   type="username"
+		   name="username"
+		   autocomplete="off"
+		   required
+		/>
+	 </label>
+	 <label>
+		Old Password:
+		<input
+		   type="oldpassword"
+		   name="oldpassword"
+		   autocomplete="off"
+		   required
+		/>
+	 </label>
+	 
+	 <label>
+		New Password:
+		<input
+		   type="newpassword"
+		   name="newpassword"
+		   autocomplete="off"
+		   required
+		/>
+     </label>
+        <button formaction="?/changePassword" type="submit" disabled={creating}>
+            {creating ? 'Saving...' : 'Submit Password Change'}
+        </button>
+	</form>
 
 <style>
     .navbar {
