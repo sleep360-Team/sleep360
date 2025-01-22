@@ -5,7 +5,7 @@ import http from 'http';
 import https from 'https';
 
 const privateKey = fs.readFileSync('./ssl/sleep360_csse_rose-hulman_edu.key', 'utf8');
-const certificate = fs.readFileSync('./ssl/sleep360_csse_rose-hulman_edu.crt', 'utf8');
+const certificate = fs.readFileSync('./ssl/sleep360_csse_rose-hulman_edu.cer', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
