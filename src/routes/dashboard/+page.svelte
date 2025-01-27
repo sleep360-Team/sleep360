@@ -6,32 +6,65 @@
     <a href="/dashboard">Dashboard</a>
 </nav>
 
+ <div class="chart-container">
+    <canvas bind:this={chartCanvas}></canvas>
+  </div>
+
 <script>
+
     import { onMount } from 'svelte';
     import Chart from 'chart.js/auto';
     import 'chartjs-adapter-date-fns';
+    
+    export let data;
+    let recordset = [];
   
+    data.recordSet.then(function(result){
+      recordset = result.recordset;
+      console.log(result.recordset);
+    })
+  let dateObj = new Date();
+  const dates = [];
+for (let i = 0; i <= 6; i++) {
+    const prevDate = new Date(dateObj);
+    prevDate.setDate(prevDate.getDate() - i);
+    dates[i] = prevDate;
+}
+const dateMap = new Map();
+
+dates.forEach(date => {
+    const dateString = date.toISOString().slice(0,10);
+    dateMap.set(dateString, 0); 
+});
+console.log(recordset);
+for (let i = 0; i <= 6; i++) {
+    const date = recordset[i];
+    dateMap.set(date, dateMap.get(date) + recordset[i]);
+}
+
+    
+
     // Sample time series data
     const timeSeriesData = {
       labels: [
-        '2024-01-01',
-        '2024-01-02',
-        '2024-01-03',
-        '2024-01-04',
-        '2024-01-05',
-        '2024-01-06',
-        '2024-01-07'
+        dates[0].toISOString().slice(0,10),
+        dates[1].toISOString().slice(0,10),
+        dates[2].toISOString().slice(0,10),
+        dates[3].toISOString().slice(0,10),
+        dates[4].toISOString().slice(0,10),
+        dates[5].toISOString().slice(0,10),
+        dates[6].toISOString().slice(0,10)
       ],
       datasets: [{
         label: 'Hours',
         data: [
-          { x: '2024-01-01', y: 6 },
-          { x: '2024-01-02', y: 3 },
-          { x: '2024-01-03', y: 4.5 },
-          { x: '2024-01-04', y: 8 },
-          { x: '2024-01-05', y: 2 },
-          { x: '2024-01-06', y: 6 },
-          { x: '2024-01-07', y: 7 }
+          { x: dates[0].toISOString().slice(0,10), y: dateMap.get(dates[0]) },
+          { x: dates[1].toISOString().slice(0,10), y: dateMap.get(dates[1])  },
+          { x: dates[2].toISOString().slice(0,10), y: dateMap.get(dates[2])  },
+          { x: dates[3].toISOString().slice(0,10), y: dateMap.get(dates[3]) },
+          { x: dates[4].toISOString().slice(0,10), y: dateMap.get(dates[4])  },
+          { x: dates[5].toISOString().slice(0,10), y: dateMap.get(dates[5])  },
+          { x: dates[6].toISOString().slice(0,10), y: dateMap.get(dates[6])  }
         ],
         borderColor: '#800000',
         tension: 0.1
@@ -86,11 +119,22 @@
         }
       };
     });
-  </script>
+   
   
-  <div class="chart-container">
-    <canvas bind:this={chartCanvas}></canvas>
-  </div>
+  </script>
+{#if recordset.length > 0}
+    <ul>
+        {#each recordset as record}
+            <li>{JSON.stringify(record['Number Hours'])}</li>
+        {/each}
+    </ul>
+{:else}
+    <p>Loading data...</p>
+{/if}
+
+
+  
+
 
 
 

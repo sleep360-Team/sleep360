@@ -40,8 +40,9 @@ export async function readReportsDashboard(userId) {
     try {
       const result = await db.request()
         .input('UserID', sql.Int, userId) 
-        .execute('ReadReportsDashboard');  
-      return result.recordset; 
+        .execute('ReadReportsDashboard'); 
+        const res2 = await result;
+      return res2; 
     } catch (error) {
       console.error('Database error:', error);
       throw new Error('Failed to fetch reports.');
