@@ -40,8 +40,9 @@ export async function readReportsDashboard(userId) {
     try {
       const result = await db.request()
         .input('UserID', sql.Int, userId) 
-        .execute('ReadReportsDashboard');  
-      return result.recordset; 
+        .execute('ReadReportsDashboard'); 
+        const res2 = await result;
+      return res2; 
     } catch (error) {
       console.error('Database error:', error);
       throw new Error('Failed to fetch reports.');
@@ -95,14 +96,15 @@ export async function getUserHashedPassword(userid) {
     return null;
 }
 
-export async function createAccount(username, hash) {
+export async function createAccount(username, hash, id) {
     const db = await getDatabase();
     try {
         const result = await db.request()
 			.input('incomingUsername', sql.NVarChar(50), username)
             .input('incomingHash', sql.NVarChar(64), hash)
+            .output('id', sql.Int, id)
             .execute('Register');
-        const newID = result.recordset[0].UserID;
+        const newID = result.output.id;
         return newID;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
