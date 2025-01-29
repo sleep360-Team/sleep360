@@ -53,17 +53,22 @@
 		   required
 		/>
 	 </label>
-	 
 
-		<button type="submit" disabled={creating}>Submit</button>
+		<button type="submit" disabled={creating}>Update Account</button>
 		{#if creating}
 			<span class="saving">saving...</span>
 		{/if}
+		
 	</form>
 
 	{#if form?.error}
 		<p class="error">{form.error}</p>
 	{/if}
+	<form method="POST" action="?/delete">
+	<button disabled={creating}>Delete Account</button> </form>
+		{#if creating}
+			<span class="deleting">deleting...</span>
+		{/if}
 </div>
 
 <style>
@@ -82,14 +87,7 @@
 		padding: 0.5rem; 
 		margin-top: 0.5rem; 
 	}
-	button {
-        margin-top: 1rem;
-        padding: 0.5rem;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
+	
 
     button[disabled] {
         background-color: #ccc;

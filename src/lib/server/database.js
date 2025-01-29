@@ -6,7 +6,7 @@ let pool;
 export async function getDatabase() {
     if (!pool) {
         pool = await sql.connect({
-            user: 'brookse1',
+            user: 'boykinjt',
             password: 'Waterbender2002',
             server: 'sleep360.csse.rose-hulman.edu',
             database: 'sleep360',
@@ -21,13 +21,89 @@ export async function getDatabase() {
     }
     return pool;
 }
-export async function createAccount(username) {
+
+export async function readReports(userId) {
+    const db = await getDatabase();
+    try {
+      const result = await db.request()
+        .input('UserID', sql.Int, userId) 
+        .execute('ReadReports');  
+      return result.recordset; 
+    } catch (error) {
+      console.error('Database error:', error);
+      throw new Error('Failed to fetch reports.');
+    }
+}
+
+export async function readReportsDashboard(userId) {
+    const db = await getDatabase();
+    try {
+      const result = await db.request()
+        .input('UserID', sql.Int, userId) 
+        .execute('ReadReportsDashboard');  
+      return result.recordset; 
+    } catch (error) {
+      console.error('Database error:', error);
+      throw new Error('Failed to fetch reports.');
+    }
+}
+
+export async function getUserID(username) {
     const db = await getDatabase();
     try {
         const result = await db.request()
-			.input('Username', sql.NVarChar, username)
-            .query('INSERT INTO Reports (Username) VALUES (@Username)');
-        return result;
+			.input('Username', sql.NVarChar(50), String (username).trim())
+            .execute('GetUserIDByUsername');
+        const userID = result.recordset[0]?.UserID;
+        return userID;
+    } catch (error) {
+        console.error('Error occurred while retrieving user ID:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    
+    return result.recordset[0]?.UserID;
+}
+
+export async function checkIfReportExistsToday(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+            .input('UserID', sql.Int, userid)           
+            .output('ReportExists', sql.Bit)           
+            .execute('CheckIfReportExistsToday'); 
+        const reportExists = result.output.ReportExists;
+        return reportExists;
+    } catch (error) {
+        console.error('Error occurred while retrieving user ID:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return -1;
+}
+
+export async function getUserHashedPassword(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+			.input('UserID', sql.Int, userid)
+            .execute('GetUserHashedPassword');
+        const hashedpassword =  result.recordset[0]?.HashedPassword;
+        return hashedpassword;
+    } catch (error) {
+        console.error('Error occurred while retrieving user hashed password:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return null;
+}
+
+export async function createAccount(username, hash) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+			.input('incomingUsername', sql.NVarChar(50), username)
+            .input('incomingHash', sql.NVarChar(64), hash)
+            .execute('Register');
+        const newID = result.recordset[0].UserID;
+        return newID;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
         console.error('Error details:', error.message, error.stack);
@@ -43,16 +119,29 @@ export async function updateAccount(email, name, major, username) {
             .input('Name', sql.NVarChar, name)
             .input('Major', sql.NVarChar, major)
 			.input('Username', sql.NVarChar, username)
-            .query('UPDATE Accounts SET Name = @Name, Major = @Major, Email = @Email WHERE Username = @Username');
+            .execute('UpdateAccount');
         return result;
     } catch (error) {
-        console.error('Error occurred while creating the account:', error);
+        console.error('Error occurred while updating the account:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+}
+
+export async function deleteAccount(userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+            .input('UserID', sql.Int, userid)
+            .execute('DeleteAccountByUserID');
+        return result;
+    } catch (error) {
+        console.error('Error occurred while deleting the account:', error);
         console.error('Error details:', error.message, error.stack);
     }
 }
 
 // Function to create a new report
-export async function createReport(timeReported, numHours, numInterrupts, qualitySleep) {
+export async function createReport(timeReported, numHours, numInterrupts, qualitySleep, comments, userid) {
     console.log('This is a message to the console');
     const db = await getDatabase();
     try {
@@ -61,7 +150,9 @@ export async function createReport(timeReported, numHours, numInterrupts, qualit
             .input('NumberHours', sql.Int, numHours)
             .input('NumberInterrupts', sql.Int, numInterrupts)
             .input('QualitySleep', sql.NVarChar, qualitySleep)
-            .query('INSERT INTO Reports ([Time Reported], [Number Hours], [Number Interruptions], [Quality of Sleep]) VALUES (@TimeReported, @NumberHours, @NumberInterrupts, @QualitySleep)');
+            .input('Comments', sql.Int, comments)
+            .input('UserID', sql.Int, userid)
+            .execute('CreateReport');
 
         return result;
     } catch (error) {

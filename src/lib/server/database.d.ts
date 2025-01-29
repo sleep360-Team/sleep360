@@ -17,8 +17,17 @@ export interface Report {
 declare module '$lib/server/database.js' {
 	export function getDatabase(): Promise<Pool>;
 
-	export function createAccount(
+	export function getUserID(
 		username: string
+	): Promise<ResultSetHeader>;
+
+	export function getUserHashedPassword(
+		userid: int
+	): Promise<ResultSetHeader>;
+
+	export function createAccount(
+		username: string,
+		hash: string
 	): Promise<ResultSetHeader>;
 
 	export function updateAccount(
@@ -28,10 +37,18 @@ declare module '$lib/server/database.js' {
 		username: string
 	): Promise<ResultSetHeader>;
 
+	export function deleteAccount(
+		userid: int
+	): Promise<ResultSetHeader>;
+
 	export function createReport(
 		timeReported: string,   
 		numHours: number,      
 		numInterrupts: number, 
 		qualitySleep: string  
+	): Promise<ResultSetHeader>;
+
+	export function readReportsDashboard(
+		userid: int
 	): Promise<ResultSetHeader>;
 }
