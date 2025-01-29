@@ -16,4 +16,4 @@ npm install
 npm run build
 
 # Run the build
-forever build
+forever server.js
