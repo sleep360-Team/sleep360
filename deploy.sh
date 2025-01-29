@@ -16,4 +16,4 @@ npm install
 npm run build
 
 # Run the build
-forever server.js
+sudo forever server.js
