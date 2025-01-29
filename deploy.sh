@@ -4,7 +4,7 @@
 sudo forever stop server.js
 
 # Switch to the main branch
-#git checkout main
+git checkout main
 
 # Pull the latest changes
 git pull
