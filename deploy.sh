@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Kill any existing instances of this script
-sudo pkill -f node
+sudo forever stop server.js
 
 # Switch to the main branch
 #git checkout main
@@ -16,4 +16,4 @@ npm install
 npm run build
 
 # Run the build
-sudo forever node server.js
+sudo forever start server.js
