@@ -93,6 +93,7 @@
           <textarea
             id="commentBox"
             class="textarea"
+            name="comments"
             bind:value={comments}
             placeholder="Write any details you'd like to record here..."
             rows="4"

@@ -46,10 +46,16 @@ declare module '$lib/server/database.js' {
 		timeReported: string,   
 		numHours: number,      
 		numInterrupts: number, 
-		qualitySleep: string  
+		qualitySleep: string,
+		comments: string,
+		userid: int  
 	): Promise<ResultSetHeader>;
 
 	export function readReportsDashboard(
+		userid: int
+	): Promise<ResultSetHeader>;
+
+	export function readReports(
 		userid: int
 	): Promise<ResultSetHeader>;
 }
