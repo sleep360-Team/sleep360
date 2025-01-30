@@ -1,5 +1,4 @@
 <nav class="navbar navbar-dark fixed-top">
-	<a href="/">Home</a>
 	<a href="/report">Report</a>
 	<a href="/account">Account</a>
 	<a href="/Reports">Reports</a>
@@ -94,6 +93,7 @@
           <textarea
             id="commentBox"
             class="textarea"
+            name="comments"
             bind:value={comments}
             placeholder="Write any details you'd like to record here..."
             rows="4"

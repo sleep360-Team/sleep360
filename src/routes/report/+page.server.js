@@ -47,6 +47,7 @@ export const actions = {
     const id = cookies.get("session_id");
     const timeReported = getESTTime();
     console.log("timeReported", timeReported);
+    console.log("comments", comments);
     const qualitySleepString = getSleepQualityString(+qualitySleep);
 
     if (!timeReported || !numHours || !numInterrupts || !qualitySleep) {
