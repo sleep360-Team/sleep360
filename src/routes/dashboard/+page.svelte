@@ -1,5 +1,4 @@
 <nav class="navbar navbar-dark fixed-top">
-  <a href="/">Home</a>
   <a href="/report">Report</a>
   <a href="/account">Account</a>
   <a href="/Reports">Reports</a>
@@ -116,7 +115,7 @@
     <p>Loading...</p>
 {:then result}
     <!-- Your chart code here using result.recordset -->
-     <p>{initializeChart(result.recordset)}</p>
+     <div>{initializeChart(result.recordset)}</div>
 {:catch error}
     <p>Error: {error.message}</p>
 {/await}

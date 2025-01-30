@@ -1,9 +1,8 @@
 <nav class="navbar navbar-dark fixed-top">
-	<a href="/">Home</a>
 	<a href="/report">Report</a>
 	<a href="/account">Account</a>
 	<a href="/Reports">Reports</a>
-    <a href="/dashboard">Dashboard</a>
+  <a href="/dashboard">Dashboard</a>
 </nav>
 <script>
   
