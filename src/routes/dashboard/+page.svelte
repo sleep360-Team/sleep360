@@ -1,8 +1,12 @@
-<nav class="navbar navbar-dark fixed-top">
-  <a href="/report">Report</a>
+<nav class="navbar">
+    <div class="logo">
+        Sleep360
+      </div>
+      <a href="/dashboard">Dashboard</a>
+  <a href="/report">Add Report</a>
   <a href="/account">Account</a>
   <a href="/Reports">Reports</a>
-  <a href="/dashboard">Dashboard</a>
+  
 </nav>
 
 <div class="chart-container">
@@ -100,7 +104,11 @@
   }
 
   onMount(() => {
-      initializeChart();
+    data.recordSet.then(result => {
+        initializeChart(result.recordset);
+    }).catch(error => {
+        console.error("Error fetching data:", error);
+    });
       
       // Cleanup function
       return () => {
@@ -114,8 +122,7 @@
 {#await data.recordSet}
     <p>Loading...</p>
 {:then result}
-    <!-- Your chart code here using result.recordset -->
-     <div>{initializeChart(result.recordset)}</div>
+   
 {:catch error}
     <p>Error: {error.message}</p>
 {/await}

@@ -1,7 +1,10 @@
-<nav class="navbar navbar-dark fixed-top">
-	<a href="/report">Report</a>
-	<a href="/account">Account</a>
+<nav class="navbar">
+  <div class="logo">
+    Sleep360
+  </div>
 	<a href="/Reports">Reports</a>
+  <a href="/report">Add Report</a>
+	<a href="/account">Account</a>
   <a href="/dashboard">Dashboard</a>
 </nav>
 <script>

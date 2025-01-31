@@ -1,5 +1,8 @@
-<nav class="navbar navbar-dark fixed-top">
-	<a href="/report">Report</a>
+<nav class="navbar">
+    <div class="logo">
+        Sleep360
+      </div>
+	<a href="/report">Add Report</a>
 	<a href="/account">Account</a>
 	<a href="/Reports">Reports</a>
     <a href="/dashboard">Dashboard</a>
