@@ -11,7 +11,21 @@
   export let data;
   let recordset = [];
   
-    
+      // Function to format the time
+  function formatTime(timeString) {
+      const date = new Date(timeString);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "short",
+        day: "numeric"
+      });
+      const formattedTime = date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      });
+      return `${formattedDate} at ${formattedTime}`;
+  }
   </script>
   
   <main>
@@ -23,7 +37,7 @@
     <!-- Your chart code here using result.recordset -->
     {#each result.recordset as r}
 		<div class = "reportDiv">
-      <p>Time Reported: {r["Time Reported"]}</p>
+      <p>Time Reported: {formatTime(r["Time Reported"])}</p>
       <p>Number of Hours: {r["Number Hours"]}</p>
       <p>Number of Interruptions: {r["Number Interruptions"]}</p>
       <p>Quality of Sleep: {r["Quality of Sleep"]}</p>
