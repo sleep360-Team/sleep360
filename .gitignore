@@ -6,6 +6,7 @@ node_modules
 /.svelte-kit
 /build
 /ssl
+/test-results
 
 # OS
 .DS_Store

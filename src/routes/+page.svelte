@@ -1,4 +1,6 @@
-
+<svelte:head>
+    <title>Sleep360</title> 
+</svelte:head>
 
 <nav class="navbar navbar-dark">
 	

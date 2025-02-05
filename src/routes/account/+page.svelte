@@ -1,10 +1,14 @@
+<svelte:head>
+    <title>Account</title> 
+</svelte:head>
+
 <nav class="navbar">
 	<div class="logo">
         Sleep360
       </div>
 	<a href="/account">Account</a>
 	<a href="/report">Add Report</a>
-	<a href="/Reports">Reports</a>
+	<a href="/reports">Reports</a>
     <a href="/dashboard">Dashboard</a>
 </nav>
 
