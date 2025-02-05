@@ -25,20 +25,20 @@ npm run build || handle_error "Build failed"
 # Check if the server is already running under PM2
 echo "Checking if the server is already running under PM2..."
 PM2_PROCESS_NAME="sleep360"  # Change this to the name you've used for your PM2 process
-SERVER_PID=$(pm2 list | grep "$PM2_PROCESS_NAME" | awk '{print $4}')
+SERVER_PID=$(sudo pm2 list | grep "$PM2_PROCESS_NAME" | awk '{print $4}')
 
 if [ -z "$SERVER_PID" ]; then
     # If no instance is running, start the server with load balancing
     echo "No running server found. Starting the server with load balancing..."
-    pm2 start server.js -i max --name "$PM2_PROCESS_NAME" || handle_error "Failed to start the server with PM2"
+    sudo pm2 start server.js -i max --name "$PM2_PROCESS_NAME" || handle_error "Failed to start the server with PM2"
 else
     # If a server is running, perform zero-downtime restart
     echo "Server is already running. Performing a zero-downtime restart..."
-    pm2 restart "$PM2_PROCESS_NAME" || handle_error "Failed to restart the server"
+    sudo pm2 restart "$PM2_PROCESS_NAME" || handle_error "Failed to restart the server"
 fi
 
 # Optionally, you can save the PM2 process list to ensure it's restarted after a reboot
 echo "Saving the PM2 process list to ensure it restarts on system reboot..."
-pm2 save || handle_error "Failed to save PM2 process list"
+sudo pm2 save || handle_error "Failed to save PM2 process list"
 
 echo "Deployment complete!"
