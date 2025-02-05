@@ -2,7 +2,7 @@
 import { fail } from '@sveltejs/kit';
 import { createReport, getUserID } from '$lib/server/database.js';
 import { showModal } from './store.js'; 
-function getESTTime() {
+/*function getESTTime() {
   const now = new Date();
 
   const formatter = new Intl.DateTimeFormat('en-US', {
@@ -23,7 +23,7 @@ function getESTTime() {
 
   const formattedTime = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]} ${timeParts.join(':')}`;
   return formattedTime;
-}
+}*/
 const getSleepQualityString = (/** @type {number} */ value) => {
   switch (value) {
       case 1: return 'Worst';
@@ -45,7 +45,8 @@ export const actions = {
 		const qualitySleep = data.get('qualitySleep');
     const comments = data.get('comments');
     const id = cookies.get("session_id");
-    const timeReported = getESTTime();
+    //const timeReported = getESTTime();
+    const timeReported = new Date();
     console.log("timeReported", timeReported);
     console.log("comments", comments);
     const qualitySleepString = getSleepQualityString(+qualitySleep);

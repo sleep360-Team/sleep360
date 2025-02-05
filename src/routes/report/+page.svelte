@@ -1,12 +1,17 @@
+<svelte:head>
+    <title>Report</title> 
+</svelte:head>
+
 <nav class="navbar">
     <div class="logo">
         Sleep360
       </div>
-	<a href="/report">Add Report</a>
-	<a href="/account">Account</a>
-	<a href="/Reports">Reports</a>
-    <a href="/dashboard">Dashboard</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/report">Add Report</a>
+      <a href="/reports">Reports</a>
+      <a href="/account">Account</a>
 </nav>
+
 <div class="centered">
     <h2>Report Information</h2>
 	<form method="POST" action="?/create" use:enhance>

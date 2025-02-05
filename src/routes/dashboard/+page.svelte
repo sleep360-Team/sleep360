@@ -1,15 +1,19 @@
+<svelte:head>
+    <title>Dashboard</title> 
+</svelte:head>
+
 <nav class="navbar">
     <div class="logo">
         Sleep360
       </div>
-      <a href="/dashboard">Dashboard</a>
+  <a href="/dashboard">Dashboard</a>
   <a href="/report">Add Report</a>
+  <a href="/reports">Reports</a>
   <a href="/account">Account</a>
-  <a href="/Reports">Reports</a>
   
 </nav>
 
-<div class="chart-container">
+<div title="chart-container" class="chart-container">
   <canvas bind:this={chartCanvas}></canvas>
 </div>
 
