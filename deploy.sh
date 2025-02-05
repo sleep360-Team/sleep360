@@ -23,24 +23,18 @@ echo "Building the project..."
 npm run build || handle_error "Build failed"
 
 # Check if the server is already running under PM2
-echo "Checking if the server is running under PM2..."
+echo "Checking if the server is already running under PM2..."
 PM2_PROCESS_NAME="sleep360"  # Change this to the name you've used for your PM2 process
 SERVER_PID=$(pm2 list | grep "$PM2_PROCESS_NAME" | awk '{print $4}')
 
 if [ -z "$SERVER_PID" ]; then
-    echo "No running server found. Starting the server..."
+    # If no instance is running, start the server with load balancing
+    echo "No running server found. Starting the server with load balancing..."
+    pm2 start server.js -i max --name "$PM2_PROCESS_NAME" || handle_error "Failed to start the server with PM2"
 else
-    # Start a new instance first (to avoid downtime)
-    echo "Starting a new instance of the server..."
-    pm2 start server.js -i max --name "$PM2_PROCESS_NAME" || handle_error "Failed to start the new server instance"
-
-    # Wait for the new instance to be fully up and running (you can adjust the wait time as needed)
-    echo "Waiting for the new server instance to start..."
-    sleep 5  # Adjust this if necessary for your server startup time
-
-    # Gracefully restart the old instance to achieve zero downtime
-    echo "Gracefully restarting the old server instance..."
-    pm2 restart "$PM2_PROCESS_NAME" || handle_error "Failed to restart the server instance"
+    # If a server is running, perform zero-downtime restart
+    echo "Server is already running. Performing a zero-downtime restart..."
+    pm2 restart "$PM2_PROCESS_NAME" || handle_error "Failed to restart the server"
 fi
 
 # Optionally, you can save the PM2 process list to ensure it's restarted after a reboot
