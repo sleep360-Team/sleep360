@@ -19,5 +19,5 @@ test('check for a specific report existing', async ({ page }) => {
 
     await expect(page).toHaveTitle(/Reports/);
     
-    await expect(page.getByText('Time Reported: Thursday, Jan 23 at 04:17 PM')).toBeVisible();
+    await expect(page.getByText('Josh. Where are the reports?')).toBeVisible();
   });

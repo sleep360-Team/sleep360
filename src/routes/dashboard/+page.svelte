@@ -6,10 +6,10 @@
     <div class="logo">
         Sleep360
       </div>
-      <a href="/dashboard">Dashboard</a>
+  <a href="/dashboard">Dashboard</a>
   <a href="/report">Add Report</a>
-  <a href="/account">Account</a>
   <a href="/reports">Reports</a>
+  <a href="/account">Account</a>
   
 </nav>
 
