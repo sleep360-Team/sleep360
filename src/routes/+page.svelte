@@ -18,6 +18,7 @@
 
 <div class="centered">
 	<h1>Welcome</h1>
+	<br>
 
 	<form
 		method="POST" action="?/create"
