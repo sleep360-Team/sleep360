@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { fail } from '@sveltejs/kit';
 import { createReport, getUserID } from '$lib/server/database.js';
-
+import { showModal } from './store.js'; 
 function getESTTime() {
   const now = new Date();
 
@@ -58,7 +58,8 @@ export const actions = {
     try {
       //const userid = await getUserID('eab');
       await createReport(timeReported, +numHours, +numInterrupts, qualitySleepString, comments, id);
-      return { success: true, message: 'Report created successfully' };
+      showModal.set(true);
+      return { success: true };
     } catch (error) {
       console.error('Database error:', error);
       return fail(500, { error: 'Failed to create report.' });
