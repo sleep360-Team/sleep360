@@ -2,28 +2,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { createReport, getUserID } from '$lib/server/database.js';
 import { showModal } from './store.js'; 
-/*function getESTTime() {
-  const now = new Date();
-
-  const formatter = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/New_York',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  });
-
-  const timeReportedEST = formatter.format(now).replace(',', ''); 
-  const parts = timeReportedEST.split(' '); // Split date and time
-  const dateParts = parts[0].split('/'); // [MM, DD, YYYY]
-  const timeParts = parts[1].split(':'); // [HH, MM, SS]
-
-  const formattedTime = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]} ${timeParts.join(':')}`;
-  return formattedTime;
-}*/
 
 /** @type {import('./$types').PageServerLoad} */
 export function load({ cookies }) {
@@ -54,7 +32,6 @@ export const actions = {
 		const qualitySleep = data.get('qualitySleep');
     const comments = data.get('comments');
     const id = cookies.get("session_id");
-    //const timeReported = getESTTime();
     const timeReported = new Date();
     console.log("timeReported", timeReported);
     console.log("comments", comments);
@@ -66,7 +43,6 @@ export const actions = {
     
 
     try {
-      //const userid = await getUserID('eab');
       await createReport(timeReported, +numHours, +numInterrupts, qualitySleepString, comments, id);
       showModal.set(true);
       return { success: true };

@@ -16,7 +16,7 @@ git pull || handle_error "Failed to pull changes"
 
 # Install dependencies
 echo "Installing npm dependencies..."
-npm install || handle_error "Failed to install dependencies"
+npm ci || handle_error "Failed to install dependencies"
 
 # Build the project
 echo "Building the project..."

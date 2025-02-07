@@ -27,7 +27,7 @@ export const actions = {
 	  try {
 		console.log(email, name, major);
 		await updateAccount(email, name, major, username);
-		return { success: true, message: 'Account created successfully' };
+		return { success: true };
 	  } catch (error) {
 		console.error('Database error:', error);
 		return fail(500, { error: 'Failed to create account.' });
@@ -39,7 +39,7 @@ export const actions = {
 	  try {
 		const userid = await getUserID(username);
 		await deleteAccount(userid);
-		return { success: true, message: 'Account deleted successfully' };
+		return { success: true };
 	  } catch (error) {
 		console.error('Database error:', error);
 		return fail(500, { error: 'Failed to create account.' });

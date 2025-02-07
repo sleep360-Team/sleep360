@@ -8,6 +8,13 @@
 
 <script>
 	import { enhance } from '$app/forms';
+	import { showModal } from './account/store.js'; // Import the store
+	import { goto } from '$app/navigation';
+	$: isModalVisible = $showModal;
+    function closeModalAndRedirect() {
+        showModal.set(false);  // Close the modal
+        goto('./');    // Redirect to the home page
+    }
 	export let form;
 
 	let creating = false;
@@ -49,6 +56,15 @@
             {creating ? 'Saving...' : 'Sign Up'}
         </button>
 	</form>
+	<!-- Success Modal -->
+	{#if form?.success}
+	<div class="modal">
+	<div class="modal-content">
+	<h3>Account Successfully Created!</h3>
+	<button on:click={closeModalAndRedirect} id="returnBtn">Close</button>
+	</div>
+	</div>
+	{/if}
 
 	{#if form?.error}
 		<p class="error">{form.error}</p>
