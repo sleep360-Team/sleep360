@@ -2,6 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { createAccount, getUserID, getUserHashedPassword } from '$lib/server/database.js'; // Ensure this function exists and works as expected
 import bcrypt from 'bcrypt'; // Hashing library
 import { dev } from '$app/environment';
+import { showModal } from './account/store.js'; 
 
 async function hashPassword(password) {
   // Generate the salt
@@ -39,6 +40,7 @@ export const actions = {
         secure: !dev,
       
       });
+      showModal.set(true);
       return { success: true, message: 'Account created successfully' };
     } catch (error) {
       console.error('Database error:', error);
