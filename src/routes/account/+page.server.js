@@ -1,6 +1,14 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { createAccount, updateAccount, deleteAccount, getUserID } from '$lib/server/database.js';
 
+/** @type {import('./$types').PageServerLoad} */
+export function load({ cookies }) {
+	const id = cookies.get("session_id");
+	if(id == '') {
+		throw redirect(303, "/");
+	};
+}
+
 export const actions = {
 
 	update: async ({ request, cookies}) => {

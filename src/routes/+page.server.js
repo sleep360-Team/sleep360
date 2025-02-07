@@ -3,6 +3,20 @@ import { createAccount, getUserID, getUserHashedPassword } from '$lib/server/dat
 import bcrypt from 'bcrypt'; // Hashing library
 import { dev } from '$app/environment';
 
+/** @type {import('./$types').PageServerLoad} */
+export function load({ cookies }) {
+  const id = cookies.get("session_id");
+  if(id == undefined) {
+  cookies.set('session_id', '', {
+    path: '/',
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: !dev,
+  
+  });
+}
+}
+
 async function hashPassword(password) {
   // Generate the salt
   const salt = await bcrypt.genSalt(10); // 10 is the cost factor

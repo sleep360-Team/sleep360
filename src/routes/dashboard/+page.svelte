@@ -10,7 +10,11 @@
   <a href="/report">Add Report</a>
   <a href="/reports">Reports</a>
   <a href="/account">Account</a>
-  
+  <form method="POST">
+  <button formaction="?/logout" type="submit">
+    Log Out
+  </button>
+  </form>
 </nav>
 
 <div title="chart-container" class="chart-container">
@@ -144,11 +148,12 @@
       margin: 0 auto;
   }
   button {
-      margin-top: 1rem;
+      margin-top: 0rem;
       padding: 0.5rem;
       background-color: #800000;
       color: white;
       border: none;
       cursor: pointer;
+      font-size: 1rem
   }
 </style>
