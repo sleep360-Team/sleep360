@@ -1,7 +1,15 @@
 // @ts-nocheck
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { createReport, getUserID } from '$lib/server/database.js';
 import { showModal } from './store.js'; 
+
+/** @type {import('./$types').PageServerLoad} */
+export function load({ cookies }) {
+  const id = cookies.get("session_id");
+  if(id == '') {
+    throw redirect(303, "/");
+  };
+}
 
 const getSleepQualityString = (/** @type {number} */ value) => {
   switch (value) {
