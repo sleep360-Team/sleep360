@@ -6,8 +6,8 @@ let pool;
 export async function getDatabase() {
     if (!pool) {
         pool = await sql.connect({
-            user: 'boykinjt',
-            password: 'Waterbender2002',
+            user: 'brookse1',
+            password: 'PW',
             server: 'sleep360.csse.rose-hulman.edu',
             database: 'sleep360',
             port: 1433, 
@@ -28,22 +28,7 @@ export async function readReports(userId) {
       const result = await db.request()
         .input('UserID', sql.Int, userId) 
         .execute('ReadReports');  
-        const res1 = await result;
-      return res1; 
-    } catch (error) {
-      console.error('Database error:', error);
-      throw new Error('Failed to fetch reports.');
-    }
-}
-
-export async function readReportsDashboard(userId) {
-    const db = await getDatabase();
-    try {
-      const result = await db.request()
-        .input('UserID', sql.Int, userId) 
-        .execute('ReadReportsDashboard'); 
-        const res2 = await result;
-      return res2; 
+      return result.recordset; 
     } catch (error) {
       console.error('Database error:', error);
       throw new Error('Failed to fetch reports.');
@@ -96,17 +81,44 @@ export async function getUserHashedPassword(userid) {
     }
     return null;
 }
+export async function generateResetToken(token, userid) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+            .input('Token', sql.NVarChar(72), token)
+			.input('Userid', sql.Int, userid)
+            .execute('GenerateResetToken');
+        return result;
+    } catch (error) {
+        console.error('Error occurred while generating reset token for user account:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return null;
+}
 
-export async function createAccount(username, hash, id) {
+export async function updatePassword(userid, hash) {
+    const db = await getDatabase();
+    try {
+        const result = await db.request()
+			.input('UserID', sql.Int, userid)
+            .input('Password', sql.NVarChar(64), hash)
+            .execute('UpdatePassword');
+        return result;
+    } catch (error) {
+        console.error('Error occurred while updating with user hashed password:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return null;
+}
+
+export async function createAccount(username, hash) {
     const db = await getDatabase();
     try {
         const result = await db.request()
 			.input('incomingUsername', sql.NVarChar(50), username)
             .input('incomingHash', sql.NVarChar(64), hash)
-            .output('id', sql.Int, id)
             .execute('Register');
-        const newID = result.output.id;
-        return newID;
+        return result;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
         console.error('Error details:', error.message, error.stack);
@@ -153,7 +165,7 @@ export async function createReport(timeReported, numHours, numInterrupts, qualit
             .input('NumberHours', sql.Int, numHours)
             .input('NumberInterrupts', sql.Int, numInterrupts)
             .input('QualitySleep', sql.NVarChar, qualitySleep)
-            .input('Comments', sql.NVarChar, comments)
+            .input('Comments', sql.Int, comments)
             .input('UserID', sql.Int, userid)
             .execute('CreateReport');
 

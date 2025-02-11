@@ -3,6 +3,9 @@ import { createAccount, getUserID, getUserHashedPassword } from '$lib/server/dat
 import bcrypt from 'bcrypt'; // Hashing library
 import { dev } from '$app/environment';
 import { showModal } from './account/store.js'; 
+import { sendResetEmail } from '$lib/server/mailer.js';
+import crypto from 'crypto';
+
 
 /** @type {import('./$types').PageServerLoad} */
 export function load({ cookies }) {
@@ -102,5 +105,18 @@ export const actions = {
     if(isTrue){
       throw redirect(303, '/dashboard'); 
     }
+  },
+
+  update: async ({ request, cookies }) => {
+    const formData = new URLSearchParams(await request.text());
+    const email = formData.get('email');
+
+    // Generate reset token
+    const token = crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(token, 10);
+    const resetLink = `https://yourapp.com/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+
+    // Send email
+    await sendResetEmail(email, resetLink);
   }
 };
