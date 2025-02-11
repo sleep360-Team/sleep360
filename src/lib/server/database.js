@@ -35,7 +35,19 @@ export async function readReports(userId) {
       throw new Error('Failed to fetch reports.');
     }
 }
-
+export async function readReportsDashboard(userId) {
+    const db = await getDatabase();
+    try {
+      const result = await db.request()
+        .input('UserID', sql.Int, userId) 
+        .execute('ReadReportsDashboard'); 
+        const res2 = await result;
+      return res2; 
+    } catch (error) {
+      console.error('Database error:', error);
+      throw new Error('Failed to fetch reports.');
+    }
+}
 export async function getUserID(username) {
     const db = await getDatabase();
     try {
@@ -118,8 +130,10 @@ export async function createAccount(username, hash) {
         const result = await db.request()
 			.input('incomingUsername', sql.NVarChar(50), username)
             .input('incomingHash', sql.NVarChar(64), hash)
+            .output('id', sql.Int, id)
             .execute('Register');
-        return result;
+        const newID = result.output.id;
+        return newID;
     } catch (error) {
         console.error('Error occurred while creating the account:', error);
         console.error('Error details:', error.message, error.stack);
@@ -166,7 +180,7 @@ export async function createReport(timeReported, numHours, numInterrupts, qualit
             .input('NumberHours', sql.Int, numHours)
             .input('NumberInterrupts', sql.Int, numInterrupts)
             .input('QualitySleep', sql.NVarChar, qualitySleep)
-            .input('Comments', sql.Int, comments)
+            .input('Comments', sql.NVarChar, comments)
             .input('UserID', sql.Int, userid)
             .execute('CreateReport');
 
