@@ -7,9 +7,9 @@ export async function getDatabase() {
     if (!pool) {
         pool = await sql.connect({
             user: 'brookse1',
-            password: 'PW',
+            password: 'november%114884',
             server: 'sleep360.csse.rose-hulman.edu',
-            database: 'sleep360',
+            database: 'sleep360_test',
             port: 1433, 
             options: {
                 encrypt: true, 
@@ -124,7 +124,7 @@ export async function updatePassword(userid, hash) {
     return null;
 }
 
-export async function createAccount(username, hash) {
+export async function createAccount(username, hash, id) {
     const db = await getDatabase();
     try {
         const result = await db.request()
@@ -141,14 +141,14 @@ export async function createAccount(username, hash) {
 }
 
 // Function to update a new account
-export async function updateAccount(email, name, major, username) {
+export async function updateAccount(email, name, major, userid) {
     const db = await getDatabase();
     try {
         const result = await db.request()
             .input('Email', sql.NVarChar, email)  
             .input('Name', sql.NVarChar, name)
             .input('Major', sql.NVarChar, major)
-			.input('Username', sql.NVarChar, username)
+			.input('UserID', sql.Int, userid)
             .execute('UpdateAccount');
         return result;
     } catch (error) {

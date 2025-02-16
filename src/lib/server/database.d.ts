@@ -35,10 +35,15 @@ declare module '$lib/server/database.js' {
 		email: string,
 		name: string,
 		major: string,
-		username: string
+		userid: int
 	): Promise<ResultSetHeader>;
 
 	export function deleteAccount(
+		userid: int
+	): Promise<ResultSetHeader>;
+
+	export function generateResetToken(
+		token: string,
 		userid: int
 	): Promise<ResultSetHeader>;
 

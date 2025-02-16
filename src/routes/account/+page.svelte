@@ -15,7 +15,6 @@
 <script>
 	import { showModal } from './store.js'; // Import the store
     import { enhance } from '$app/forms';
-    import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
 	export let form;
 
@@ -29,21 +28,6 @@
         showModal.set(false);  // Close the modal
         goto('/dashboard');    // Redirect to the dashboard
     }
-	onMount(() => {
-        if (form) {
-        enhance(form, async ({ result }) => {
-            creating = true;
-            
-            if (result.type === 'success') {
-            showModal.set(true); // If you want to show a modal
-            } else {
-            alert(result.data?.error || 'Failed to create report.');
-            }
-
-            creating = false;
-        	});
-    	}
-	});
 
 </script>
 
