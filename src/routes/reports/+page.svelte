@@ -41,9 +41,8 @@
     {#await data.recordSet}
     <p>Loading...</p>
 {:then result}
-    <!-- Your chart code here using result.recordset -->
     {#each result.recordset as r}
-		<div class = "reportDiv">
+		<div class = "reportDiv" id = {r["ReportID"]}>
       <p>Time Reported: {formatTime(r["Time Reported"])}</p>
       <p>Number of Hours: {r["Number Hours"]}</p>
       <p>Number of Interruptions: {r["Number Interruptions"]}</p>
@@ -54,6 +53,7 @@
       {:else}
 	<p>N/A</p>
       {/if}
+      <button id = {r["ReportID"]}>Delete Report</button>
     </div>
 	  {/each}
 {:catch error}

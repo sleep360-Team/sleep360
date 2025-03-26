@@ -1,5 +1,5 @@
-import { fail, redirect } from '@sveltejs/kit';
-import { checkIfReportExistsToday, readReports } from '$lib/server/database.js';
+import { fail, redirect, request } from '@sveltejs/kit';
+import { checkIfReportExistsToday, readReports, deleteReport } from '$lib/server/database.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export function load({ cookies }) {
@@ -12,4 +12,10 @@ export function load({ cookies }) {
         recordSet
     }
 	};
+}
+
+export const actions = {
+    handleRemoveReport: async ({request}) => {
+        console.log(request);
+    }
 }
