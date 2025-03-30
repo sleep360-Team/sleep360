@@ -1,7 +1,11 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "127.0.0.1",
+        port: 1025,
+        secure: false,
     auth: {
         user: process.env.EMAIL_USER, // Your email
         pass: process.env.EMAIL_PASS  // Your app password
@@ -10,7 +14,7 @@ const transporter = nodemailer.createTransport({
 
 export async function sendResetEmail(userEmail, resetLink) {
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: 'sleep360.rhit@proton.me',
         to: userEmail,
         subject: "Password Reset Request",
         html: `

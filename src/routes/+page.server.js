@@ -114,7 +114,7 @@ export const actions = {
     if (!username || !email) {
       return fail(400, { error: 'Username and email are required.' });
     }
-    const userID = await getUserID(username);
+    const userid = await getUserID(username);
     // Generate reset token
     const token = crypto.randomBytes(32).toString('hex');
     const hashedToken = await bcrypt.hash(token, 10);
