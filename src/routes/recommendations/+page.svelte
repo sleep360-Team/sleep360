@@ -6,7 +6,7 @@
   
     // Fetch 3 random recommendations from the backend
     async function fetchRecommendations() {
-      const response = await fetch('/api/recommendations/random');
+      const response = await fetch('/recommendations');
       if (response.ok) {
         recommendations = await response.json();
       } else {
