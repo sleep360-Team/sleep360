@@ -43,7 +43,7 @@ export const actions = {
     
 
     try {
-      await createReport(timeReported, +numHours, +numInterrupts, qualitySleepString, comments, id);
+      await createReport(timeReported, parseFloat(numHours), +numInterrupts, qualitySleepString, comments, id);
       showModal.set(true);
       return { success: true };
     } catch (error) {
