@@ -44,7 +44,7 @@ declare module '$lib/server/database.js' {
 
 	export function createReport(
 		timeReported: string,   
-		numHours: number,      
+		numHours: float,      
 		numInterrupts: number, 
 		qualitySleep: string,
 		comments: string,

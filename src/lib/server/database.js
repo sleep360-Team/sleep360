@@ -1,26 +1,28 @@
 import sql from 'mssql';
+import 'dotenv/config';
 
 let pool;
 
 // Initialize the database connection pool
 export async function getDatabase() {
-    if (!pool) {
-        pool = await sql.connect({
-            user: 'boykinjt',
-            password: 'Waterbender2002',
-            server: 'sleep360.csse.rose-hulman.edu',
-            database: 'sleep360',
-            port: 1433, 
-            options: {
-                encrypt: true, 
-                trustServerCertificate: true, 
-            },
-            connectionTimeout: 10000,  
-            requestTimeout: 30000, 
-        });
-    }
-    return pool;
+	if (!pool) {
+		pool = await sql.connect({
+			user: process.env.DB_USER,
+			password: process.env.DB_PASS,
+			server: process.env.DB_URL,
+			database: process.env.DB_NAME,
+			port: 1433,
+			options: {
+				encrypt: true,
+				trustServerCertificate: true
+			},
+			connectionTimeout: 10000,
+			requestTimeout: 30000
+		});
+	}
+	return pool;
 }
+
 
 export async function readReports(userId) {
     const db = await getDatabase();
@@ -150,7 +152,7 @@ export async function createReport(timeReported, numHours, numInterrupts, qualit
     try {
         const result = await db.request()
             .input('TimeReported', sql.DateTime, timeReported) 
-            .input('NumberHours', sql.Int, numHours)
+            .input('NumberHours', sql.Float, numHours)
             .input('NumberInterrupts', sql.Int, numInterrupts)
             .input('QualitySleep', sql.NVarChar, qualitySleep)
             .input('Comments', sql.NVarChar, comments)
