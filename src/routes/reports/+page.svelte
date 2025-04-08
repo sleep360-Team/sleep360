@@ -15,6 +15,8 @@
 
 
 <script>
+  import { invalidateAll } from '$app/navigation';
+
   export let data;
   let recordset = [];
   
@@ -36,27 +38,19 @@
 
   async function deleteReport(reportID) {
     console.log("WOO!");
-    const response = await fetch('/temp', {
+    const response = await fetch('/reports/temp', {
       method: 'DELETE',
       body: JSON.stringify({reportID}),
       headers: {
 						'Content-Type': 'application/json'
 			}
 		});
+    invalidateAll();
   }
-
-  let bebo = 1;
-  function chant() {
-    bebo++;
-    console.log("Bebo!");
-    console.log(bebo);
-  }
-  $: bebo, console.log(bebo);
   </script>
   
   <main>
     <h1>Reports</h1>
-    <button on:click={() => chant()}>WOO!</button>
   
     {#await data.recordSet}
     <p>Loading...</p>

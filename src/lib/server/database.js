@@ -178,7 +178,7 @@ export async function createReport(
 	}
 }
 
-export async function deleteReport(reportid) {
+export async function deleteReports(reportid) {
 	const db = await getDatabase();
 	try {
 		const result = await db
