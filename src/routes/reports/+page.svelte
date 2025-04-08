@@ -33,10 +33,30 @@
       });
       return `${formattedDate} at ${formattedTime}`;
   }
+
+  async function deleteReport(reportID) {
+    console.log("WOO!");
+    const response = await fetch('/temp', {
+      method: 'DELETE',
+      body: JSON.stringify({reportID}),
+      headers: {
+						'Content-Type': 'application/json'
+			}
+		});
+  }
+
+  let bebo = 1;
+  function chant() {
+    bebo++;
+    console.log("Bebo!");
+    console.log(bebo);
+  }
+  $: bebo, console.log(bebo);
   </script>
   
   <main>
     <h1>Reports</h1>
+    <button on:click={() => chant()}>WOO!</button>
   
     {#await data.recordSet}
     <p>Loading...</p>
@@ -53,7 +73,7 @@
       {:else}
 	<p>N/A</p>
       {/if}
-      <button id = {r["ReportID"]}>Delete Report</button>
+      <button id = {r["ReportID"]} on:click={() => deleteReport(r["ReportID"])}>Delete Report</button>
     </div>
 	  {/each}
 {:catch error}

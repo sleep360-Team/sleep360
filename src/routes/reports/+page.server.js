@@ -1,5 +1,5 @@
 import { fail, redirect, request } from '@sveltejs/kit';
-import { checkIfReportExistsToday, readReports, deleteReport } from '$lib/server/database.js';
+import { checkIfReportExistsToday, readReports, deleteReports } from '$lib/server/database.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export function load({ cookies }) {
@@ -14,8 +14,12 @@ export function load({ cookies }) {
 	};
 }
 
-export const actions = {
-    handleRemoveReport: async ({request}) => {
-        console.log(request);
-    }
-}
+// export const actions = {
+//     // handleRemoveReport: async ({request}) => {
+//     //     console.log(request);
+//     // }
+//     async delete(id) {
+//         deleteReports(id);
+//     }
+// }
+
