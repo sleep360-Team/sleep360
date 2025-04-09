@@ -164,7 +164,7 @@ export async function createReport(
 		const result = await db
 			.request()
 			.input('TimeReported', sql.DateTime, timeReported)
-			.input('NumberHours', sql.Int, numHours)
+			.input('NumberHours', sql.Float, numHours)
 			.input('NumberInterrupts', sql.Int, numInterrupts)
 			.input('QualitySleep', sql.NVarChar, qualitySleep)
 			.input('Comments', sql.NVarChar, comments)

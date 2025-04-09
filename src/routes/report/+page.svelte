@@ -25,6 +25,7 @@
                 bind:value={numberHours}
                 min="0"
                 max="11"
+                step="0.1"
                 required
             />
             <input
