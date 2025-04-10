@@ -23,6 +23,17 @@ export async function getDatabase() {
 	return pool;
 }
 
+export async function getRecommendations() {
+	const db = await getDatabase();
+	try {
+		const result = await db.request().execute('GetRandomRecommendations');
+		return result.recordset;
+	} catch (error) {
+		console.error('Database error:', error);
+		throw new Error('Failed to fetch reports.');
+	}
+}
+
 export async function readReports(userId) {
 	const db = await getDatabase();
 	try {
@@ -48,6 +59,23 @@ export async function readReportsDashboard(userId) {
 		console.error('Database error:', error);
 		throw new Error('Failed to fetch reports.');
 	}
+}
+
+export async function checkIfAccountMeetsCriteria(accountId) {
+    const db = await getDatabase();
+    try {
+        const result = await db
+            .request()
+            .input('AccountID', sql.Int, accountId)
+            .output('ReportMeetsCriteria', sql.Bit) // for true/false return
+            .execute('CheckAccountReports'); 
+        const meetsCriteria = result.output.ReportMeetsCriteria;
+        return meetsCriteria; // true (1) or false (0)
+    } catch (error) {
+        console.error('Error occurred while checking account reports:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return false; // Default to false if there's an error
 }
 
 export async function getUserID(username) {

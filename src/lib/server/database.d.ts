@@ -14,8 +14,20 @@ export interface Report {
 	qualitySleep: string;  
 }
 
+type Recommendation = {
+	RecommendationID: number;
+	Description: string;
+  };
+  
+  type RecommendationsResult = {
+	recordset: Recommendation[];
+  };
+
 declare module '$lib/server/database.js' {
 	export function getDatabase(): Promise<Pool>;
+	
+	export function getRecommendations(
+	): Promise<ResultSetHeader>;
 
 	export function getUserID(
 		username: string
