@@ -26,14 +26,14 @@
   });
 </script>
 
-<h1>Random Recommendations</h1>
+<h1>Recommendations</h1>
 
 {#if recommendations.length > 0}
   <ul>
     {#each recommendations as recommendation}
       <li>
         <button on:click={() => selectRecommendation(recommendation)}>
-          {recommendation.Name} <!-- Adjust the fields accordingly -->
+          {recommendation.Description} <!-- Adjust the fields accordingly -->
         </button>
       </li>
     {/each}
@@ -45,7 +45,7 @@
 {#if selectedRecommendation}
   <div class="selected">
     <h2>You selected:</h2>
-    <p>{selectedRecommendation.Name}</p> <!-- Adjust this to display the relevant data -->
+    <p>{selectedRecommendation.Description}</p> <!-- Adjust this to display the relevant data -->
   </div>
 {/if}
 
