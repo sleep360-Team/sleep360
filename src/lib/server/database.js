@@ -23,6 +23,25 @@ export async function getDatabase() {
 	return pool;
 }
 
+
+export async function checkAccountReports(accountId) {
+    const db = await getDatabase();
+    try {
+        const result = await db
+            .request()
+            .input('AccountID', sql.Int, accountId)
+            .output('ReportMeetsCriteria', sql.Bit) // for true/false return
+            .execute('CheckAccountReports'); 
+        const meetsCriteria = result.output.ReportMeetsCriteria;
+        return meetsCriteria; // true (1) or false (0)
+    } catch (error) {
+        console.error('Error occurred while checking account reports:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return false; // Default to false if there's an error
+}
+
+
 export async function getRecommendations() {
 	const db = await getDatabase();
 	try {
@@ -59,23 +78,6 @@ export async function readReportsDashboard(userId) {
 		console.error('Database error:', error);
 		throw new Error('Failed to fetch reports.');
 	}
-}
-
-export async function checkIfAccountMeetsCriteria(accountId) {
-    const db = await getDatabase();
-    try {
-        const result = await db
-            .request()
-            .input('AccountID', sql.Int, accountId)
-            .output('ReportMeetsCriteria', sql.Bit) // for true/false return
-            .execute('CheckAccountReports'); 
-        const meetsCriteria = result.output.ReportMeetsCriteria;
-        return meetsCriteria; // true (1) or false (0)
-    } catch (error) {
-        console.error('Error occurred while checking account reports:', error);
-        console.error('Error details:', error.message, error.stack);
-    }
-    return false; // Default to false if there's an error
 }
 
 export async function getUserID(username) {
@@ -184,6 +186,7 @@ export async function createReport(
 	numInterrupts,
 	qualitySleep,
 	comments,
+	followRec,
 	userid
 ) {
 	console.log('This is a message to the console');
@@ -196,6 +199,7 @@ export async function createReport(
 			.input('NumberInterrupts', sql.Int, numInterrupts)
 			.input('QualitySleep', sql.NVarChar, qualitySleep)
 			.input('Comments', sql.NVarChar, comments)
+			.input('followRec', sql.Bit, followRec)
 			.input('UserID', sql.Int, userid)
 			.execute('CreateReport');
 

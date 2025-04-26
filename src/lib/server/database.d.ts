@@ -12,6 +12,7 @@ export interface Report {
 	numHours: number;      
 	numInterrupts: number; 
 	qualitySleep: string;  
+	followRec: boolean;
 }
 
 type Recommendation = {
@@ -60,6 +61,7 @@ declare module '$lib/server/database.js' {
 		numInterrupts: number, 
 		qualitySleep: string,
 		comments: string,
+		followRec: boolean,
 		userid: int  
 	): Promise<ResultSetHeader>;
 

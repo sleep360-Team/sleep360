@@ -1,14 +1,18 @@
 // @ts-nocheck
 import { fail, redirect } from '@sveltejs/kit';
-import { createReport, getUserID } from '$lib/server/database.js';
+import { createReport, getUserID, checkAccountReports } from '$lib/server/database.js';
 import { showModal } from './store.js'; 
 
-/** @type {import('./$types').PageServerLoad} */
-export function load({ cookies }) {
+
+export async function load({ cookies }) {
   const id = cookies.get("session_id");
-  if(id == '') {
+  if (!id) {
     throw redirect(303, "/");
-  };
+  }
+
+  const result = await checkAccountReports(id); 
+  const showExtraLabel = result?.someCondition === true;
+  return { showExtraLabel };
 }
 
 const getSleepQualityString = (/** @type {number} */ value) => {
@@ -35,6 +39,7 @@ export const actions = {
     const timeReported = new Date();
     console.log("timeReported", timeReported);
     console.log("comments", comments);
+    const followRec = data.get('extraLabel');
     const qualitySleepString = getSleepQualityString(+qualitySleep);
 
     if (!timeReported || !numHours || !numInterrupts || !qualitySleep) {
@@ -43,7 +48,7 @@ export const actions = {
     
 
     try {
-      await createReport(timeReported, parseFloat(numHours), +numInterrupts, qualitySleepString, comments, id);
+      await createReport(timeReported, parseFloat(numHours), +numInterrupts, qualitySleepString, comments, followRec, id);
       showModal.set(true);
       return { success: true };
     } catch (error) {

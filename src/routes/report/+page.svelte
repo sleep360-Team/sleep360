@@ -88,6 +88,16 @@
             cols="50"
           ></textarea>
 
+        {#if showExtraLabel}
+            <label>
+                Did you follow your sleep recommedation?
+                <select name="extraLabel" bind:value={followRec} required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </label>
+        {/if}
+
 
         <button formaction="?/create"  disabled={creating}>
             {creating ? 'Saving...' : 'Submit Report'}
@@ -109,7 +119,11 @@
     import { enhance } from '$app/forms';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    
     export let form;
+    export let data;
+    const showExtraLabel = data.showExtraLabel;
+    console.log("show: " + showExtraLabel);
     $: isModalVisible = $showModal;
     function closeModalAndRedirect() {
         showModal.set(false);  // Close the modal
@@ -121,6 +135,8 @@
     let numberInterrupts = 0;  // Default value for numInterrupts
     let qualitySleep = 3;  // Default value for qualitySleep
     let comments = '';
+    let followRec = '0';
+
     // Map sleep quality number to a string
     const getSleepQualityString = (/** @type {number} */ value) => {
         switch (value) {
