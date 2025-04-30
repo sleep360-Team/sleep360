@@ -139,8 +139,30 @@ export async function createAccount(username, hash, id) {
 			.input('incomingHash', sql.NVarChar(64), hash)
 			.output('id', sql.Int, id)
 			.execute('Register');
-		const newID = result.output.id;
-		return newID;
+			const returnCode = result.returnValue;
+			const userId = result.output.id;
+	
+			let success = returnCode === 0;
+			let message;
+	
+			switch (returnCode) {
+				case 0:
+					message = 'Account created successfully.';
+					break;
+				case -1:
+					message = 'Username cannot be null or empty.';
+					break;
+				case -2:
+					message = 'Password cannot be null or empty.';
+					break;
+				case -3:
+					message = 'This username already exists.';
+					break;
+				default:
+					message = 'An unknown error occurred.';
+			}
+	
+			return { success, message, userId };
 	} catch (error) {
 		console.error('Error occurred while creating the account:', error);
 		console.error('Error details:', error.message, error.stack);

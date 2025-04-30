@@ -23,6 +23,12 @@ type Recommendation = {
   type RecommendationsResult = {
 	recordset: Recommendation[];
   };
+  
+  type CreateAccountResult = {
+	success: boolean;
+	message: string;
+	userId?: number; // optional, only present when success === true
+  };
 
 declare module '$lib/server/database.js' {
 	export function getDatabase(): Promise<Pool>;
@@ -42,7 +48,7 @@ declare module '$lib/server/database.js' {
 		username: string,
 		hash: string,
 		id: int
-	): Promise<ResultSetHeader>;
+	): Promise<CreateAccountResult>;
 
 	export function updateAccount(
 		email: string,

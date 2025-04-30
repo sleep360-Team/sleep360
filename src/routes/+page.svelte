@@ -8,7 +8,7 @@
 
 <script>
 	import { enhance } from '$app/forms';
-	import { showModal } from './account/store.js'; // Import the store
+	import { modalMessage, registrationError, showModal } from './account/store.js'; // Import the store
 	import { goto } from '$app/navigation';
 	$: isModalVisible = $showModal;
     function closeModalAndRedirect() {
@@ -28,7 +28,7 @@
 	<br>
 
 	<form
-		method="POST" action="?/create"
+		method="POST" action="?/create" use:enhance
 	>
 	<label>
 		Username:
@@ -56,18 +56,23 @@
             {creating ? 'Saving...' : 'Sign Up'}
         </button>
 	</form>
-	<!-- Success Modal -->
+	
 	{#if form?.success}
 	<div class="modal">
-	<div class="modal-content">
-	<h3>Account Successfully Created!</h3>
-	<button on:click={closeModalAndRedirect} id="returnBtn">Close</button>
-	</div>
+		<div class="modal-content">
+			<h3>Account Successfully Created!</h3>
+			<button on:click={closeModalAndRedirect} id="returnBtn">Close</button>
+		</div>
 	</div>
 	{/if}
 
 	{#if form?.error}
-		<p class="error">{form.error}</p>
+	<div class="modal">
+		<div class="modal-content">
+			<h3>{form.error}</h3>
+			<button on:click={closeModalAndRedirect} id="returnBtn">Close</button>
+		</div>
+	</div>
 	{/if}
 </div>
 
