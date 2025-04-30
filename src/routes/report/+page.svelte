@@ -169,24 +169,11 @@
 
 
 <style>
-   .close {
-       font-size: 30px;
-       position: absolute;
-       top: 10px;
-       right: 10px;
-       cursor: pointer;
-   }
     .centered {
         max-width: 20em;
         margin: 0 auto;
     }
     
-
-    label {
-        display: block;
-        margin-top: 1rem;
-    }
-
     input {
         width: 100%;
         padding: 0.5rem;

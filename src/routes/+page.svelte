@@ -8,28 +8,21 @@
 
 <script>
 	import { enhance } from '$app/forms';
-	import { modalMessage, registrationError, showModal } from './account/store.js'; // Import the store
+	import { showModal } from './account/store.js'; // showModal is probably not needed here 
 	import { goto } from '$app/navigation';
-	$: isModalVisible = $showModal;
     function closeModalAndRedirect() {
         showModal.set(false);  // Close the modal
         goto('./');    // Redirect to the home page
     }
 	export let form;
-
 	let creating = false;
-
-	let username = '';
-
 </script>
 
 <div class="centered">
 	<h1>Welcome</h1>
 	<br>
 
-	<form
-		method="POST" action="?/create" use:enhance
-	>
+	<form method="POST" action="?/create" use:enhance>
 	<label>
 		Username:
 		<input
@@ -81,10 +74,6 @@
         background-color: #800000;
         color: white;
     }
-    .navbar a {
-            color: white; /* Change link color to white */
-            text-decoration: none; /* Remove underline */
-    }
 	.modal {
        position: fixed;
        top:36%;
@@ -131,7 +120,6 @@
         border: none;
         cursor: pointer;
     }
-
     button[disabled] {
         background-color: #ccc;
     }

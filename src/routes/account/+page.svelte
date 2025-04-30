@@ -110,23 +110,6 @@
 {/if}
 
 <style>
-	.centered {
-		max-width: 20em;
-		margin: 0 auto;
-	}
-
-	label {
-		display: block;
-		margin-top: 1rem; 
-	}
-
-	input {
-		width: 100%; 
-		padding: 0.5rem; 
-		margin-top: 0.5rem; 
-	}
-	
-
     button[disabled] {
         background-color: #ccc;
     }
