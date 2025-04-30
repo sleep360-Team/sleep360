@@ -1,9 +1,25 @@
+<svelte:head>
+    <title>Recommendations</title> 
+</svelte:head>
+
+
+<nav class="navbar">
+  <div class="logo">
+    Sleep360
+  </div>
+	<a href="/dashboard">Dashboard</a>
+  <a href="/report">Add Report</a>
+  <a href="/reports">Reports</a>
+  <a href="/account">Account</a>
+</nav>
+
 <script>
   import { onMount } from 'svelte';
+  import { showModal } from './store.js'; 
 
   let recommendations = [];
   let selectedRecommendation = null;
-
+  
   // Fetch 3 random recommendations from the backend
   async function fetchRecommendations() {
     const response = await fetch('/recommendations');
@@ -19,6 +35,10 @@
     selectedRecommendation = recommendation;
     console.log('Selected recommendation:', selectedRecommendation);
   }
+  function closeModalAndRedirect() {
+        showModal.set(false);  // Close the modal
+        goto('/dashboard');    // Redirect to the dashboard
+    }
 
   // Load recommendations when the component mounts
   onMount(() => {
@@ -50,6 +70,10 @@
 {/if}
 
 <style>
+  .navbar {
+        background-color: #008CBA;
+        color: white;
+    }
   h1 {
     font-size: 24px;
     margin-bottom: 20px;

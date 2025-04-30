@@ -36,7 +36,7 @@ export const actions = {
 		const qualitySleep = data.get('qualitySleep');
     const comments = data.get('comments');
     const id = cookies.get("session_id");
-    const timeReported = new Date();
+    const timeReported = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
     console.log("timeReported", timeReported);
     console.log("comments", comments);
     const followRec = data.get('extraLabel');
