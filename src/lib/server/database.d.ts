@@ -82,4 +82,10 @@ declare module '$lib/server/database.js' {
 	export function deleteReports(
 		reportid: int
 	): Promise<ResultSetHeader>;
+
+	
+	export function addRecToAcc(
+		recid: int,
+		id: int
+	): Promise<ResultSetHead>;
 }

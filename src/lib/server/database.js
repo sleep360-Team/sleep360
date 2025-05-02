@@ -245,3 +245,18 @@ export async function deleteReports(reportid) {
 		console.error('Error details:', error.message, error.stack);
 	}
 }
+
+export async function addRecToAcc(userid, recid) {
+	const db = await getDatabase();
+	try {
+		const result = await db
+			.request()
+			.input('UserRecommendationID', sql.Int, recid)
+			.input('AccountID', sql.Int, userid)
+			.execute('AddUserRecommendationToAccount');
+		return result;
+	} catch (error) {
+		console.error('Error occurred while adding recommendation:', error);
+		console.error('Error details:', error.message, error.stack);
+	}
+}

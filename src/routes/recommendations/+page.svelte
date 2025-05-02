@@ -31,14 +31,22 @@
   }
 
   // Handle recommendation selection
-  function selectRecommendation(recommendation) {
+  async function selectRecommendation(recommendation) {
     selectedRecommendation = recommendation;
     console.log('Selected recommendation:', selectedRecommendation);
+    // console.log(JSON.stringify({selectedRecommendation}));
+    const response = await fetch('/recommendations', {
+       method: 'POST',
+       body: JSON.stringify({selectedRecommendation}),
+       headers: {
+       'Content-Type': 'application/json'}
+    });
+    console.log(response);
   }
-  function closeModalAndRedirect() {
-        showModal.set(false);  // Close the modal
-        goto('/dashboard');    // Redirect to the dashboard
-    }
+  // function closeModalAndRedirect() {
+  //       showModal.set(false);  // Close the modal
+  //       goto('/dashboard');    // Redirect to the dashboard
+  //   }
 
   // Load recommendations when the component mounts
   onMount(() => {
@@ -71,7 +79,7 @@
 
 <style>
   .navbar {
-        background-color: #008CBA;
+        background-color: #800000;
         color: white;
     }
   h1 {
@@ -90,7 +98,7 @@
 
   button {
     padding: 10px;
-    background-color: #008CBA;
+    background-color: #800000;
     color: white;
     border: none;
     cursor: pointer;
@@ -98,7 +106,7 @@
   }
 
   button:hover {
-    background-color: #007B9E;
+    background-color: #700000;
   }
 
   .selected {

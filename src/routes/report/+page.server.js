@@ -3,7 +3,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { createReport, getUserID, checkAccountReports } from '$lib/server/database.js';
 import { showModal } from './store.js'; 
 
-
+/** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
   const id = cookies.get("session_id");
   if (!id) {
