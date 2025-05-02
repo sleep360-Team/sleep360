@@ -78,4 +78,8 @@ declare module '$lib/server/database.js' {
 	export function readReports(
 		userid: int
 	): Promise<ResultSetHeader>;
+
+	export function deleteReports(
+		reportid: int
+	): Promise<ResultSetHeader>;
 }
