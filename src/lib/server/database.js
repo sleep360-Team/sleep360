@@ -164,7 +164,7 @@ export async function createReport(
 		const result = await db
 			.request()
 			.input('TimeReported', sql.DateTime, timeReported)
-			.input('NumberHours', sql.Int, numHours)
+			.input('NumberHours', sql.Float, numHours)
 			.input('NumberInterrupts', sql.Int, numInterrupts)
 			.input('QualitySleep', sql.NVarChar, qualitySleep)
 			.input('Comments', sql.NVarChar, comments)
@@ -174,6 +174,20 @@ export async function createReport(
 		return result;
 	} catch (error) {
 		console.error('Error occurred while creating the report:', error);
+		console.error('Error details:', error.message, error.stack);
+	}
+}
+
+export async function deleteReports(reportid) {
+	const db = await getDatabase();
+	try {
+		const result = await db
+			.request()
+			.input('ReportID', sql.Int, reportid)
+			.execute('DeleteReport');
+		return result;
+	} catch (error) {
+		console.error('Error occurred while deleting the report:', error);
 		console.error('Error details:', error.message, error.stack);
 	}
 }

@@ -15,6 +15,8 @@
 
 
 <script>
+  import { invalidateAll } from '$app/navigation';
+
   export let data;
   let recordset = [];
   
@@ -33,6 +35,18 @@
       });
       return `${formattedDate} at ${formattedTime}`;
   }
+
+  async function deleteReport(reportID) {
+    console.log("WOO!");
+    const response = await fetch('/reports/temp', {
+      method: 'DELETE',
+      body: JSON.stringify({reportID}),
+      headers: {
+						'Content-Type': 'application/json'
+			}
+		});
+    invalidateAll();
+  }
   </script>
   
   <main>
@@ -41,9 +55,8 @@
     {#await data.recordSet}
     <p>Loading...</p>
 {:then result}
-    <!-- Your chart code here using result.recordset -->
     {#each result.recordset as r}
-		<div class = "reportDiv">
+		<div class = "reportDiv" id = {r["ReportID"]}>
       <p>Time Reported: {formatTime(r["Time Reported"])}</p>
       <p>Number of Hours: {r["Number Hours"]}</p>
       <p>Number of Interruptions: {r["Number Interruptions"]}</p>
@@ -54,6 +67,7 @@
       {:else}
 	<p>N/A</p>
       {/if}
+      <button id = {r["ReportID"]} on:click={() => deleteReport(r["ReportID"])}>Delete Report</button>
     </div>
 	  {/each}
 {:catch error}

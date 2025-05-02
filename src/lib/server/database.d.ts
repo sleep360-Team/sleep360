@@ -44,7 +44,7 @@ declare module '$lib/server/database.js' {
 
 	export function createReport(
 		timeReported: string,   
-		numHours: number,      
+		numHours: float,      
 		numInterrupts: number, 
 		qualitySleep: string,
 		comments: string,
@@ -57,5 +57,9 @@ declare module '$lib/server/database.js' {
 
 	export function readReports(
 		userid: int
+	): Promise<ResultSetHeader>;
+
+	export function deleteReports(
+		reportid: int
 	): Promise<ResultSetHeader>;
 }
