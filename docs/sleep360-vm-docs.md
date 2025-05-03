@@ -10,6 +10,7 @@
 - Microsoft SQL Server°
 - NodeJS
 - Btop
+- PM2
 
 ° MSSQL server 16.0.\_ is officially incompatible with the Ubuntu Server 24.04 LTS, but it does function fully if two extra packages are installed locally. In the future, upgrade the MSSQL version and remove any untracked dependencies. The .deb files for the untracked dependencies can be found in the csse user home directory and can be removed with:
 
