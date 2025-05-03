@@ -103,3 +103,13 @@ There are three components of transitioning the server and app:
 1. Run the local instance
    a. If errors persist, it is a problem in the app itself
    b. Otherwise, it is a server-side issue
+
+## Sunsetting (app shutdown)
+
+The simplest way to sunset the app is to shut down the VM. This will ensure the website and database are no longer running. If any data should be preserved (e.g. for future restarting of the app) then it must be backed up prior to VM shutdown and saved on a separate storage device. MSSQL server has a built in back-up and restore function which can be accessed from the DBMS. It will generate a file which can be copied anywhere.
+
+Finally, ensure access rights to the repository remain as desired, or that the repository is deleted if there are no plans to reinstate the app.
+
+## Sunrising (app restart)
+
+From a fresh VM instance, install the software found in the `Installed Software` section, and restore the backup of the SQL server. Clone the repository to the /srv directory and run the deploy script.
