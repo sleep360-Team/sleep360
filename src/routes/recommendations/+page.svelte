@@ -77,7 +77,6 @@
   </p>
 {:else}
   {#if recommendations.length > 0}
-    <p>{currentRec}</p>
     <ul>
       {#each recommendations as recommendation}
         <li>
