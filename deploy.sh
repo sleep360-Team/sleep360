@@ -24,7 +24,7 @@ npm run build || handle_error "Build failed"
 
 # Check if the server is already running under PM2
 echo "Checking if the server is already running under PM2..."
-PM2_PROCESS_NAME="sleep360.csse"  # Change this to the name you've used for your PM2 process
+PM2_PROCESS_NAME="sleep360.csse"
 SERVER_PID=$(sudo pm2 list | grep "$PM2_PROCESS_NAME" | awk '{print $4}')
 
 if [ -z "$SERVER_PID" ]; then

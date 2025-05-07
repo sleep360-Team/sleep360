@@ -16,12 +16,9 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
-		"@rollup/plugin-typescript": "^12.1.1",
 		"@sveltejs/adapter-node": "^5.2.8",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
-		"@types/eslint": "^9.6.0",
-		"@types/luxon": "^3.4.2",
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
@@ -43,10 +40,7 @@
 		"date-fns": "^4.1.0",
 		"dotenv": "^16.4.7",
 		"express": "^4.21.2",
-		"jsonwebtoken": "^9.0.2",
-		"luxon": "^3.5.0",
 		"mssql": "^11.0.1",
-		"mysql2": "^3.11.3",
-		"sleep360": "file:"
+		"mysql2": "^3.11.3"
 	}
 }

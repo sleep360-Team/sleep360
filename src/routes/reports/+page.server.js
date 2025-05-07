@@ -3,15 +3,15 @@ import { checkIfReportExistsToday, readReports, deleteReports } from '$lib/serve
 
 /** @type {import('./$types').PageServerLoad} */
 export function load({ cookies }) {
-    const id = cookies.get("session_id");
-    if(id == '') {
-        throw redirect(303, "/");
-    } else {
-    const recordSet = readReports(id);
-	return {
-        recordSet
-    }
-	};
+	const id = cookies.get('session_id');
+	if (id == '') {
+		throw redirect(303, '/');
+	} else {
+		const recordSet = readReports(id);
+		return {
+			recordSet
+		};
+	}
 }
 
 // export const actions = {
@@ -22,4 +22,3 @@ export function load({ cookies }) {
 //         deleteReports(id);
 //     }
 // }
-

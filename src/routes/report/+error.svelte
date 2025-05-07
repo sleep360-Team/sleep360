@@ -3,5 +3,5 @@
 </script>
 
 <h1>
-	{$page.status}: {#if $page.error}{ $page.error.message }{/if}
+	{$page.status}: {#if $page.error}{$page.error.message}{/if}
 </h1>
