@@ -11,7 +11,7 @@ export async function load({ cookies }) {
 	}
 
 	const result = await checkAccountReports(id);
-	const showExtraLabel = result?.someCondition === true;
+	const showExtraLabel = result;
 	return { showExtraLabel };
 }
 
