@@ -23,6 +23,36 @@ export async function getDatabase() {
 	return pool;
 }
 
+
+export async function checkAccountReports(accountId) {
+    const db = await getDatabase();
+    try {
+        const result = await db
+            .request()
+            .input('AccountID', sql.Int, accountId)
+            .output('ReportMeetsCriteria', sql.Bit) // for true/false return
+            .execute('CheckAccountReports'); 
+        const meetsCriteria = result.output.ReportMeetsCriteria;
+        return meetsCriteria; // true (1) or false (0)
+    } catch (error) {
+        console.error('Error occurred while checking account reports:', error);
+        console.error('Error details:', error.message, error.stack);
+    }
+    return false; // Default to false if there's an error
+}
+
+
+export async function getRecommendations() {
+	const db = await getDatabase();
+	try {
+		const result = await db.request().execute('GetRandomRecommendations');
+		return result.recordset;
+	} catch (error) {
+		console.error('Database error:', error);
+		throw new Error('Failed to fetch reports.');
+	}
+}
+
 export async function readReports(userId) {
 	const db = await getDatabase();
 	try {
@@ -109,8 +139,30 @@ export async function createAccount(username, hash, id) {
 			.input('incomingHash', sql.NVarChar(64), hash)
 			.output('id', sql.Int, id)
 			.execute('Register');
-		const newID = result.output.id;
-		return newID;
+			const returnCode = result.returnValue;
+			const userId = result.output.id;
+	
+			let success = returnCode === 0;
+			let message;
+	
+			switch (returnCode) {
+				case 0:
+					message = 'Account created successfully.';
+					break;
+				case -1:
+					message = 'Username cannot be null or empty.';
+					break;
+				case -2:
+					message = 'Password cannot be null or empty.';
+					break;
+				case -3:
+					message = 'This username already exists.';
+					break;
+				default:
+					message = 'An unknown error occurred.';
+			}
+	
+			return { success, message, userId };
 	} catch (error) {
 		console.error('Error occurred while creating the account:', error);
 		console.error('Error details:', error.message, error.stack);
@@ -156,6 +208,7 @@ export async function createReport(
 	numInterrupts,
 	qualitySleep,
 	comments,
+	followRec,
 	userid
 ) {
 	console.log('This is a message to the console');
@@ -168,6 +221,7 @@ export async function createReport(
 			.input('NumberInterrupts', sql.Int, numInterrupts)
 			.input('QualitySleep', sql.NVarChar, qualitySleep)
 			.input('Comments', sql.NVarChar, comments)
+			.input('followRec', sql.Bit, followRec)
 			.input('UserID', sql.Int, userid)
 			.execute('CreateReport');
 
@@ -185,6 +239,35 @@ export async function deleteReports(reportid) {
 		return result;
 	} catch (error) {
 		console.error('Error occurred while deleting the report:', error);
+		console.error('Error details:', error.message, error.stack);
+	}
+}
+
+export async function addRecToAcc(userid, recid) {
+	const db = await getDatabase();
+	try {
+		const result = await db
+			.request()
+			.input('RecommendationID', sql.Int, recid)
+			.input('AccountID', sql.Int, userid)
+			.execute('AddUserRecommendationToAccount');
+		return result;
+	} catch (error) {
+		console.error('Error occurred while adding recommendation:', error);
+		console.error('Error details:', error.message, error.stack);
+	}
+}
+
+export async function getCurrentRec(userid) {
+	const db = await getDatabase();
+	try {
+		const result = await db
+			.request()
+			.input('UserID', sql.Int, userid)
+			.execute('GetCurrentRecommendation');
+		return result;
+	} catch (error) {
+		console.error('Error occurred while getting recommendation:', error);
 		console.error('Error details:', error.message, error.stack);
 	}
 }

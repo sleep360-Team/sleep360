@@ -1,14 +1,18 @@
 // @ts-nocheck
 import { fail, redirect } from '@sveltejs/kit';
-import { createReport, getUserID } from '$lib/server/database.js';
-import { showModal } from './store.js';
+import { createReport, getUserID, checkAccountReports } from '$lib/server/database.js';
+import { showModal } from './store.js'; 
 
 /** @type {import('./$types').PageServerLoad} */
-export function load({ cookies }) {
-	const id = cookies.get('session_id');
-	if (id == '') {
-		throw redirect(303, '/');
-	}
+export async function load({ cookies }) {
+  const id = cookies.get("session_id");
+  if (!id) {
+    throw redirect(303, "/");
+  }
+
+  const result = await checkAccountReports(id); 
+  const showExtraLabel = result?.someCondition === true;
+  return { showExtraLabel };
 }
 
 const getSleepQualityString = (/** @type {number} */ value) => {
@@ -35,31 +39,26 @@ export const actions = {
 		const numHours = data.get('numberHours');
 		const numInterrupts = data.get('numberInterrupts');
 		const qualitySleep = data.get('qualitySleep');
-		const comments = data.get('comments');
-		const id = cookies.get('session_id');
-		const timeReported = new Date();
-		console.log('timeReported', timeReported);
-		console.log('comments', comments);
-		const qualitySleepString = getSleepQualityString(+qualitySleep);
+    const comments = data.get('comments');
+    const id = cookies.get("session_id");
+    const timeReported = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+    console.log("timeReported", timeReported);
+    console.log("comments", comments);
+    const followRec = data.get('extraLabel');
+    const qualitySleepString = getSleepQualityString(+qualitySleep);
 
-		if (!timeReported || !numHours || !numInterrupts || !qualitySleep) {
-			return fail(400, { error: 'First 3 fields are required.' });
-		}
+    if (!timeReported || !numHours || !numInterrupts || !qualitySleep) {
+      return fail(400, { error: 'First 3 fields are required.' });
+    }
+    
 
-		try {
-			await createReport(
-				timeReported,
-				parseFloat(numHours),
-				+numInterrupts,
-				qualitySleepString,
-				comments,
-				id
-			);
-			showModal.set(true);
-			return { success: true };
-		} catch (error) {
-			console.error('Database error:', error);
-			return fail(500, { error: 'Failed to create report.' });
-		}
-	}
+    try {
+      await createReport(timeReported, parseFloat(numHours), +numInterrupts, qualitySleepString, comments, followRec, id);
+      showModal.set(true);
+      return { success: true };
+    } catch (error) {
+      console.error('Database error:', error);
+      return fail(500, { error: 'Failed to create report.' });
+    }
+  }
 };

@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { createAccount, getUserID, getUserHashedPassword } from '$lib/server/database.js'; // Ensure this function exists and works as expected
 import bcrypt from 'bcrypt'; // Hashing library
 import { dev } from '$app/environment';
-import { showModal } from './account/store.js';
+import { showModal, modalMessage, registrationError } from './account/store.js'; 
 
 /** @type {import('./$types').PageServerLoad} */
 export function load({ cookies }) {
@@ -34,30 +34,37 @@ export const actions = {
 		const password = formData.get('password');
 		const id = 0;
 
-		// Validate required fields
-		if (!username || !password) {
-			return fail(400, { error: 'Username and password are required.' });
-		}
-
-		try {
-			// Hash the password
-			const { hashedPassword } = await hashPassword(password);
-
-			// Save the username and hashed password to the database
-			const userID = await createAccount(username, hashedPassword, id);
-			cookies.set('session_id', userID.toString(), {
-				path: '/',
-				httpOnly: true,
-				sameSite: 'strict',
-				secure: !dev
-			});
-			showModal.set(true);
-			return { success: true, message: 'Account created successfully' };
-		} catch (error) {
-			console.error('Database error:', error);
-			return fail(500, { error: 'Failed to create account.' });
-		}
-	},
+    // Validate required fields
+    if (!username || !password) {
+      return fail(400, { error: 'Username and password are required.' });
+    }
+    let form = null; 
+    try {
+      // Hash the password
+      const { hashedPassword } = await hashPassword(password);
+      
+      // Save the username and hashed password to the database
+      const result  = await createAccount(username, hashedPassword, id);
+      if (result.success) {
+        const userID = result.userId;
+        cookies.set('session_id', userID.toString(), {
+          path: '/',
+          httpOnly: true,
+          sameSite: 'strict',
+          secure: !dev,
+        
+        });
+        return { success: true };
+      }
+      else {
+        return fail(400, { error: result.message });
+      }
+      
+    } catch (error) {
+      console.error('Database error:', error);
+      return fail(500, { error: 'Failed to create account.' });
+    }
+  },
 
 	login: async ({ request, cookies }) => {
 		const formData = new URLSearchParams(await request.text());

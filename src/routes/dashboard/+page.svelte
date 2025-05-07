@@ -1,3 +1,27 @@
+<svelte:head>
+    <title>Dashboard</title> 
+</svelte:head>
+
+<nav class="navbar">
+    <div class="logo">
+        Sleep360
+      </div>
+  <a href="/dashboard">Dashboard</a>
+  <a href="/report">Add Report</a>
+  <a href="/reports">Reports</a>
+  <a href="/account">Account</a>
+  <a href="/recommendations">Recommendations</a>
+  <form method="POST">
+  <button formaction="?/logout" type="submit">
+    Log Out
+  </button>
+  </form>
+</nav>
+
+<div title="chart-container" class="chart-container">
+  <canvas bind:this={chartCanvas}></canvas>
+</div>
+
 <script>
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';

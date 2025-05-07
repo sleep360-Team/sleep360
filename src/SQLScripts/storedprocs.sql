@@ -23,8 +23,9 @@ BEGIN
     END CATCH
 END
 
-CREATE PROCEDURE CheckAccountReports
-    @AccountID INT
+ALTER PROCEDURE [CheckAccountReports]
+    @AccountID INT,
+	@ReportMeetsCriteria BIT OUTPUT
 AS
 BEGIN
     -- Declare variables to hold the counts
@@ -45,13 +46,14 @@ BEGIN
     -- Check if there are at least 7 reports and at least 1 report with Time Reported >= 7 days ago
     IF @ReportCount >= 7 AND @OldReportCount >= 1
     BEGIN
-        PRINT 'Account has at least 7 reports and at least 1 report with Time Reported >= 7 days ago.';
+        SET @ReportMeetsCriteria = 1; 
     END
     ELSE
     BEGIN
-        PRINT 'Account does not meet the criteria.';
+        SET @ReportMeetsCriteria = 0; 
     END
 END;
+
 
 CREATE PROCEDURE AddUserRecommendationToAccount
     @UserRecommendationID INT,
