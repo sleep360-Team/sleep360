@@ -248,10 +248,12 @@ export async function deleteReports(reportid) {
 
 export async function addRecToAcc(userid, recid) {
 	const db = await getDatabase();
+	console.log(userid);
+	console.log(recid);
 	try {
 		const result = await db
 			.request()
-			.input('UserRecommendationID', sql.Int, recid)
+			.input('RecommendationID', sql.Int, recid)
 			.input('AccountID', sql.Int, userid)
 			.execute('AddUserRecommendationToAccount');
 		return result;

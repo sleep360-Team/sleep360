@@ -17,7 +17,11 @@ export async function POST({ cookies, request }) {
     const temp = await request.json();
     const recid = temp['selectedRecommendation']['RecommendationID'];
     console.log(recid);
-    const result = await addRecToAcc(recid, id);
+    if(id == null) {
+      process.abort();
+    }
+    const realid = parseInt(id);
+    const result = await addRecToAcc(realid, recid);
     return json(result);
   } catch (error) {
     return json({ error: 'Failed to add recommendation to account' }, { status: 500 });
