@@ -23,24 +23,22 @@ export async function getDatabase() {
 	return pool;
 }
 
-
 export async function checkAccountReports(accountId) {
-    const db = await getDatabase();
-    try {
-        const result = await db
-            .request()
-            .input('AccountID', sql.Int, accountId)
-            .output('ReportMeetsCriteria', sql.Bit) // for true/false return
-            .execute('CheckAccountReports'); 
-        const meetsCriteria = result.output.ReportMeetsCriteria;
-        return meetsCriteria; // true (1) or false (0)
-    } catch (error) {
-        console.error('Error occurred while checking account reports:', error);
-        console.error('Error details:', error.message, error.stack);
-    }
-    return false; // Default to false if there's an error
+	const db = await getDatabase();
+	try {
+		const result = await db
+			.request()
+			.input('AccountID', sql.Int, accountId)
+			.output('ReportMeetsCriteria', sql.Bit) // for true/false return
+			.execute('CheckAccountReports');
+		const meetsCriteria = result.output.ReportMeetsCriteria;
+		return meetsCriteria; // true (1) or false (0)
+	} catch (error) {
+		console.error('Error occurred while checking account reports:', error);
+		console.error('Error details:', error.message, error.stack);
+	}
+	return false; // Default to false if there's an error
 }
-
 
 export async function getRecommendations() {
 	const db = await getDatabase();
@@ -139,30 +137,30 @@ export async function createAccount(username, hash, id) {
 			.input('incomingHash', sql.NVarChar(64), hash)
 			.output('id', sql.Int, id)
 			.execute('Register');
-			const returnCode = result.returnValue;
-			const userId = result.output.id;
-	
-			let success = returnCode === 0;
-			let message;
-	
-			switch (returnCode) {
-				case 0:
-					message = 'Account created successfully.';
-					break;
-				case -1:
-					message = 'Username cannot be null or empty.';
-					break;
-				case -2:
-					message = 'Password cannot be null or empty.';
-					break;
-				case -3:
-					message = 'This username already exists.';
-					break;
-				default:
-					message = 'An unknown error occurred.';
-			}
-	
-			return { success, message, userId };
+		const returnCode = result.returnValue;
+		const userId = result.output.id;
+
+		let success = returnCode === 0;
+		let message;
+
+		switch (returnCode) {
+			case 0:
+				message = 'Account created successfully.';
+				break;
+			case -1:
+				message = 'Username cannot be null or empty.';
+				break;
+			case -2:
+				message = 'Password cannot be null or empty.';
+				break;
+			case -3:
+				message = 'This username already exists.';
+				break;
+			default:
+				message = 'An unknown error occurred.';
+		}
+
+		return { success, message, userId };
 	} catch (error) {
 		console.error('Error occurred while creating the account:', error);
 		console.error('Error details:', error.message, error.stack);
@@ -235,10 +233,7 @@ export async function createReport(
 export async function deleteReports(reportid) {
 	const db = await getDatabase();
 	try {
-		const result = await db
-			.request()
-			.input('ReportID', sql.Int, reportid)
-			.execute('DeleteReport');
+		const result = await db.request().input('ReportID', sql.Int, reportid).execute('DeleteReport');
 		return result;
 	} catch (error) {
 		console.error('Error occurred while deleting the report:', error);
