@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
 
 test('redirect after sign in', async ({ page }) => {
-    await page.goto('/');
-  
-    // Ensure redirect on sign in
+	await page.goto('/');
 
-    await page.getByLabel('Username:').fill('dummy');
+	// Ensure redirect on sign in
 
-    await page.getByLabel('Password:').fill('password');
+	await page.getByLabel('Username:').fill('dummy');
 
-    await page.getByRole('button', {name: 'Log In'}).click();
+	await page.getByLabel('Password:').fill('password');
 
-    await expect(page).toHaveTitle(/Dashboard/);
-  });
+	await page.getByRole('button', { name: 'Log In' }).click();
+
+	await expect(page).toHaveTitle(/Dashboard/);
+});

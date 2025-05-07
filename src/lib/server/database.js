@@ -181,10 +181,7 @@ export async function createReport(
 export async function deleteReports(reportid) {
 	const db = await getDatabase();
 	try {
-		const result = await db
-			.request()
-			.input('ReportID', sql.Int, reportid)
-			.execute('DeleteReport');
+		const result = await db.request().input('ReportID', sql.Int, reportid).execute('DeleteReport');
 		return result;
 	} catch (error) {
 		console.error('Error occurred while deleting the report:', error);
