@@ -18,6 +18,7 @@
   import { showModal } from './store.js'; 
 
   let recommendations = [];
+  let currentRec;
   let selectedRecommendation = null;
   
   // Fetch 3 random recommendations from the backend
@@ -30,18 +31,33 @@
     }
   }
 
+  async function fetchCurrentRecommendation() {
+    const response = await fetch('/recommendations/subroutes');
+    if (response.ok) {
+      console.log("Yay!");
+      currentRec = await response.json();
+      console.log(currentRec);
+      console.log(currentRec['recordset'][0]["Description"]);
+      currentRec = currentRec['recordset'][0]["Description"];
+    } else {
+      console.error('Failed to fetch recommendation');
+    }
+  }
+
   // Handle recommendation selection
   async function selectRecommendation(recommendation) {
-    selectedRecommendation = recommendation;
-    console.log('Selected recommendation:', selectedRecommendation);
-    // console.log(JSON.stringify({selectedRecommendation}));
-    const response = await fetch('/recommendations', {
-       method: 'POST',
-       body: JSON.stringify({selectedRecommendation}),
-       headers: {
-       'Content-Type': 'application/json'}
-    });
-    console.log(response);
+    if (selectedRecommendation == null) {
+      selectedRecommendation = recommendation;
+      console.log('Selected recommendation:', selectedRecommendation);
+      // console.log(JSON.stringify({selectedRecommendation}));
+      const response = await fetch('/recommendations', {
+        method: 'POST',
+        body: JSON.stringify({selectedRecommendation}),
+        headers: {
+        'Content-Type': 'application/json'}
+      });
+      console.log(response);
+  }
   }
   // function closeModalAndRedirect() {
   //       showModal.set(false);  // Close the modal
@@ -50,24 +66,36 @@
 
   // Load recommendations when the component mounts
   onMount(() => {
+    fetchCurrentRecommendation();
+    console.log("YIPPEE!");
+    console.log(currentRec);
     fetchRecommendations();
   });
 </script>
 
 <h1>Recommendations</h1>
 
-{#if recommendations.length > 0}
-  <ul>
-    {#each recommendations as recommendation}
-      <li>
-        <button on:click={() => selectRecommendation(recommendation)}>
-          {recommendation.Description} <!-- Adjust the fields accordingly -->
-        </button>
-      </li>
-    {/each}
-  </ul>
+{#if currentRec != null}
+  <p>
+    Your current recommendation is:
+    <br>
+    {currentRec}
+  </p>
 {:else}
-  <p>Loading recommendations...</p>
+  {#if recommendations.length > 0}
+    <p>{currentRec}</p>
+    <ul>
+      {#each recommendations as recommendation}
+        <li>
+          <button on:click={() => selectRecommendation(recommendation)}>
+            {recommendation.Description} <!-- Adjust the fields accordingly -->
+          </button>
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <p>Loading recommendations...</p>
+  {/if}
 {/if}
 
 {#if selectedRecommendation}

@@ -4,6 +4,7 @@ import { getRecommendations, addRecToAcc } from '$lib/server/database';
 export async function GET() {
   try {
     const result = await getRecommendations();
+
     return json(result); // Adjust to match the actual result structure
   } catch (error) {
     console.error('Error fetching recommendations:', error);
