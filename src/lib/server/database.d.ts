@@ -88,4 +88,8 @@ declare module '$lib/server/database.js' {
 		recid: int,
 		id: int
 	): Promise<ResultSetHead>;
+
+	export function getCurrentRec(
+		id: int
+	): Promise<ResultSetHead>;
 }

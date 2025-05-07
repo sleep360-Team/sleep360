@@ -248,8 +248,6 @@ export async function deleteReports(reportid) {
 
 export async function addRecToAcc(userid, recid) {
 	const db = await getDatabase();
-	console.log(userid);
-	console.log(recid);
 	try {
 		const result = await db
 			.request()
@@ -259,6 +257,20 @@ export async function addRecToAcc(userid, recid) {
 		return result;
 	} catch (error) {
 		console.error('Error occurred while adding recommendation:', error);
+		console.error('Error details:', error.message, error.stack);
+	}
+}
+
+export async function getCurrentRec(usedid) {
+	const db = await getDatabase();
+	try {
+		const result = await db
+			.request()
+			.input('UserID', sql.Int, userid)
+			.execute('GetCurrentRecommendation');
+		return result;
+	} catch (error) {
+		console.error('Error occurred while getting recommendation:', error);
 		console.error('Error details:', error.message, error.stack);
 	}
 }
