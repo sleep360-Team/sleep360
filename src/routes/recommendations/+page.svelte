@@ -31,16 +31,18 @@
 
 	// Handle recommendation selection
 	async function selectRecommendation(recommendation) {
-		selectedRecommendation = recommendation;
-		console.log('Selected recommendation:', selectedRecommendation);
-		// console.log(JSON.stringify({selectedRecommendation}));
-		const response = await fetch('/recommendations', {
-			method: 'POST',
-			body: JSON.stringify({ selectedRecommendation }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+    if (selectedRecommendation == null) {
+      selectedRecommendation = recommendation;
+      console.log('Selected recommendation:', selectedRecommendation);
+      // console.log(JSON.stringify({selectedRecommendation}));
+      const response = await fetch('/recommendations', {
+        method: 'POST',
+        body: JSON.stringify({ selectedRecommendation }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  }
 		console.log(response);
 	}
 	// function closeModalAndRedirect() {
@@ -65,11 +67,12 @@
 	<a href="/report">Add Report</a>
 	<a href="/reports">Reports</a>
 	<a href="/account">Account</a>
+	<a href="/recommendations">Recommendations</a>
 </nav>
 
 <h1>Recommendations</h1>
 
-{#if currentRec != null}
+{#if currentRec != "[object Object]"}
   <p>
     Your current recommendation is:
     <br>

@@ -65,6 +65,7 @@
 	<a href="/report">Add Report</a>
 	<a href="/reports">Reports</a>
 	<a href="/account">Account</a>
+	<a href="/recommendations">Recommendations</a>
 </nav>
 
 <div class="centered">
