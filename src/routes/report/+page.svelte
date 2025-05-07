@@ -24,7 +24,7 @@
 				name="numberHours"
                 bind:value={numberHours}
                 min="0"
-                max="11"
+                max="18"
                 step="0.1"
                 required
             />
@@ -33,7 +33,7 @@
 				name="numberHours"
                 bind:value={numberHours}
                 min="0"
-                max="11"
+                max="18"
             />
         </label>
 
@@ -88,6 +88,16 @@
             cols="50"
           ></textarea>
 
+        {#if showExtraLabel}
+            <label>
+                Did you follow your sleep recommedation?
+                <select name="extraLabel" bind:value={followRec} required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </label>
+        {/if}
+
 
         <button formaction="?/create"  disabled={creating}>
             {creating ? 'Saving...' : 'Submit Report'}
@@ -105,22 +115,28 @@
 </div>
 {/if}
 <script>
-    import { showModal } from './store.js'; // Import the store
+    import { showModal } from './store.js'; 
     import { enhance } from '$app/forms';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    
     export let form;
+    export let data;
+    const showExtraLabel = data.showExtraLabel;
+    console.log("show: " + showExtraLabel);
     $: isModalVisible = $showModal;
     function closeModalAndRedirect() {
-        showModal.set(false);  // Close the modal
-        goto('/dashboard');    // Redirect to the dashboard
+        showModal.set(false);  
+        goto('/dashboard');  
     }
 
     let creating = false;
-    let numberHours = 0;  // Default value for numHours
-    let numberInterrupts = 0;  // Default value for numInterrupts
-    let qualitySleep = 3;  // Default value for qualitySleep
+    let numberHours = 0;  
+    let numberInterrupts = 0;  
+    let qualitySleep = 3;  
     let comments = '';
+    let followRec = '0';
+
     // Map sleep quality number to a string
     const getSleepQualityString = (/** @type {number} */ value) => {
         switch (value) {
@@ -153,47 +169,11 @@
 
 
 <style>
-     .modal {
-       position: fixed;
-       top:36%;
-        left:36%;
-        width:100%;
-        height:100%;
-        background-color:rgba(0, 0, 0, 0);
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       display: block;
-       z-index: 9999;
-   }
-   .modal-content {
-    background: white;
-    padding: 20px;
-    width: 400px; /* Set a fixed width */
-    max-width: 90%; /* Prevent it from being too large */
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    position: relative;
-}
-   .close {
-       font-size: 30px;
-       position: absolute;
-       top: 10px;
-       right: 10px;
-       cursor: pointer;
-   }
     .centered {
         max-width: 20em;
         margin: 0 auto;
     }
     
-
-    label {
-        display: block;
-        margin-top: 1rem;
-    }
-
     input {
         width: 100%;
         padding: 0.5rem;

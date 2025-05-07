@@ -8,28 +8,21 @@
 
 <script>
 	import { enhance } from '$app/forms';
-	import { showModal } from './account/store.js'; // Import the store
+	import { showModal } from './account/store.js'; // showModal is probably not needed here 
 	import { goto } from '$app/navigation';
-	$: isModalVisible = $showModal;
     function closeModalAndRedirect() {
         showModal.set(false);  // Close the modal
         goto('./');    // Redirect to the home page
     }
 	export let form;
-
 	let creating = false;
-
-	let username = '';
-
 </script>
 
 <div class="centered">
 	<h1>Welcome</h1>
 	<br>
 
-	<form
-		method="POST" action="?/create"
-	>
+	<form method="POST" action="?/create" use:enhance>
 	<label>
 		Username:
 		<input
@@ -56,18 +49,23 @@
             {creating ? 'Saving...' : 'Sign Up'}
         </button>
 	</form>
-	<!-- Success Modal -->
+	
 	{#if form?.success}
 	<div class="modal">
-	<div class="modal-content">
-	<h3>Account Successfully Created!</h3>
-	<button on:click={closeModalAndRedirect} id="returnBtn">Close</button>
-	</div>
+		<div class="modal-content">
+			<h3>Account Successfully Created!</h3>
+			<button on:click={closeModalAndRedirect} id="returnBtn">Close</button>
+		</div>
 	</div>
 	{/if}
 
 	{#if form?.error}
-		<p class="error">{form.error}</p>
+	<div class="modal">
+		<div class="modal-content">
+			<h3>{form.error}</h3>
+			<button on:click={closeModalAndRedirect} id="returnBtn">Close</button>
+		</div>
+	</div>
 	{/if}
 </div>
 
@@ -76,10 +74,29 @@
         background-color: #800000;
         color: white;
     }
-    .navbar a {
-            color: white; /* Change link color to white */
-            text-decoration: none; /* Remove underline */
-    }
+	.modal {
+       position: fixed;
+       top:36%;
+        left:36%;
+        width:100%;
+        height:100%;
+        background-color:rgba(0, 0, 0, 0);
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       display: block;
+       z-index: 9999;
+   	}
+	.modal-content {
+		background: white;
+		padding: 20px;
+		width: 400px; /* Set a fixed width */
+		max-width: 90%; /* Prevent it from being too large */
+		border-radius: 10px;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+		text-align: center;
+		position: relative;
+	}
     .centered {
 		max-width: 20em;
 		margin: 0 auto;
@@ -103,7 +120,6 @@
         border: none;
         cursor: pointer;
     }
-
     button[disabled] {
         background-color: #ccc;
     }

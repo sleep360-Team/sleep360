@@ -10,6 +10,7 @@
   <a href="/report">Add Report</a>
   <a href="/reports">Reports</a>
   <a href="/account">Account</a>
+  <a href="/recommendations">Recommendations</a>
   <form method="POST">
   <button formaction="?/logout" type="submit">
     Log Out
