@@ -261,7 +261,7 @@ export async function addRecToAcc(userid, recid) {
 	}
 }
 
-export async function getCurrentRec(usedid) {
+export async function getCurrentRec(userid) {
 	const db = await getDatabase();
 	try {
 		const result = await db
