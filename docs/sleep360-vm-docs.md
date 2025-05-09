@@ -1,10 +1,9 @@
 # Sleep360 Virtual Machine Docs
 
-#### Original OS: Ubuntu 22.04
+**Original OS: Ubuntu 22.04**
+**Host Name: sleep360.csse.rose-hulman.edu**
 
-#### Host Name: sleep360.csse.rose-hulman.edu
-
-## Installed Software:
+## Installed Software
 
 - Ubuntu Server 24.04
 - Microsoft SQL Server°
@@ -16,25 +15,25 @@
 
 `sudo apt remove <file.deb>`
 
-## User Accounts:
+## User Accounts
 
 sudo group users are marked with \*
 
-#### PERSISTENT
+### PERSISTENT
 
 - root
 - csse\*
 - mssql\*
 
-#### AS NEEDED
+### AS NEEDED
 
 - (other team member’s users here)
 
-##### Account Management Guidelines
+### Account Management Guidelines
 
 “PERSISTENT” accounts are permanent and should live through any ownership of the system. csse should be managed by the student responsible for the transition of the system to a new team each year. “AS NEEDED” accounts are the other student members of the team. After each academic year, they should be reviewed. If they are not remaining on the project for the next academic year, they should be removed for security.
 
-## Microsoft SQL Server:
+## Microsoft SQL Server
 
 - Running MSSQL Express (Free License) on port 3306
 - Database Accounts:
@@ -46,7 +45,7 @@ sudo group users are marked with \*
     - boykinjt
     - brookse1
 
-## Web App Serving:
+## Web App Serving
 
 All served files are located under /srv and are owned by root. Nothing is containerized so
 **THOROUGHLY VET ANY CODE RUN UNDER THIS DIRECTORY BY NODE OR OTHERWISE**
@@ -57,7 +56,7 @@ All served files are located under /srv and are owned by root. Nothing is contai
 - PM2 automatically manages startup behavior, so no custom scripts are otherwise required
 - A resources dashboard can be found at app.pm2.io, each new user needs to create an account and re-link to the dashboard from the server side. The free license allows a few users to be linked at a time.
 
-## Transition Guidelines:
+## Transition Guidelines
 
 There are three components of transitioning the server and app:
 
@@ -81,7 +80,7 @@ There are three components of transitioning the server and app:
 
 ## Troubleshooting
 
-#### If the website is not up:
+### If the website is not up
 
 1. Check if the server responds (try to ping/login)
    a. If not, contact the VM system administrator (currently Darryl Mouck)
@@ -90,7 +89,7 @@ There are three components of transitioning the server and app:
 3. Check that sleep360 is running under pm2
    a. If not, run the deploy.sh script in the repo
 
-#### If the website cannot communicate with the database (errors when trying to log in or view reports):
+### If the website cannot communicate with the database (errors when trying to log in or view reports)
 
 1. Check if the server responds (try to ping/login)
    a. If not, contact the VM system administrator (currently Darryl Mouck)
@@ -99,7 +98,7 @@ There are three components of transitioning the server and app:
 3. Ensure SQL server can run properly, check that no port conflicts have occurred
    a. If not, stop whatever process is running on the SQL port
 
-#### Other errors:
+### Other errors
 
 1. Run the local instance
    a. If errors persist, it is a problem in the app itself
