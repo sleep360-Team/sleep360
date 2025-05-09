@@ -1,7 +1,8 @@
 # Sleep360 Virtual Machine Docs
 
-**Original OS: Ubuntu 22.04**
-**Host Name: sleep360.csse.rose-hulman.edu**
+**Original OS:** Ubuntu 22.04
+
+**Host Name:** sleep360.csse.rose-hulman.edu
 
 ## Installed Software
 
