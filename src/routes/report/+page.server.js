@@ -10,7 +10,7 @@ export async function load({ cookies }) {
 		throw redirect(303, '/');
 	}
 
-	const result = await checkAccountReports(id);
+	const result = await checkAccountReports(id); //technically this should be checking if a user is following a rec which requires a new sproc
 	const showExtraLabel = result;
 	return { showExtraLabel };
 }
