@@ -1,7 +1,6 @@
 import { json } from '@sveltejs/kit';
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { getCurrentRec } from '$lib/server/database'; 
-import { dev } from '$app/environment';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function GET({ cookies }) {
@@ -19,20 +18,4 @@ export async function GET({ cookies }) {
       return json({ error: 'Failed to fetch recommendations' }, { status: 500 });
     }
   }
-  export const actions = {
-    logout: async ({ cookies }) => {
-      try {
-        cookies.set('session_id', '', {
-          path: '/',
-          httpOnly: true,
-          sameSite: 'strict',
-          secure: !dev,
-        
-        });
-      } catch (error) {
-        console.error('Login error:', error);
-        return fail(500, { error: 'Failed to log in.' });
-      }
-        throw redirect(303, '/'); 
-    }
-  };
+  
