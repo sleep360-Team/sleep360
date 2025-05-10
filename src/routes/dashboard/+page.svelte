@@ -1,31 +1,62 @@
 <script>
-	import { onMount } from 'svelte';
-	import Chart from 'chart.js/auto';
-	import 'chartjs-adapter-date-fns';
+  import { onMount } from 'svelte';
+  import Chart from 'chart.js/auto';
+  import 'chartjs-adapter-date-fns';
+  
+  export let data;
+  let recordset = [];
+  let recommendationid;
+  let chartCanvas;
+  let chartInstance;
 
-	export let data;
-	let recordset = [];
-	let chartCanvas;
-	let chartInstance;
-
-	// Move all data processing and chart creation inside this async function
-	function initializeChart(data) {
-		// Wait for recordset data
-
-		// Process dates
-		let dateObj = new Date();
-		const dates = [];
-		for (let i = 0; i <= 6; i++) {
-			const prevDate = new Date(dateObj);
-			prevDate.setDate(prevDate.getDate() - i);
-			dates[i] = prevDate;
-		}
-
-		const dateMap = new Map();
-		dates.forEach((date) => {
-			const dateString = date.toISOString().slice(0, 10);
-			dateMap.set(dateString, 0);
-		});
+  async function fetchRecommendationid() {
+    const response = await fetch('/dashboard');
+    if (response.ok) {
+        recommendationid = await response.json();
+		recommendationid = recommendationid.result["recordset"][0]["RecommendationID"];
+    } else {
+      console.error('Failed to fetch recommendationID');
+    }
+  }
+   // Define color thresholds
+   const colorThresholds = [
+    { threshold: 1, color: '#0077be' },   // Blue (below freezing)
+    { threshold: 2, color: '#68c3d4' },  // Light blue (cool)
+    { threshold: 3, color: '#ffcc00' },  // Yellow (warm)
+  ];
+  
+  // Function to get color based on value
+  function getColorForValue(value) {
+    // Sort thresholds from highest to lowest
+    const sortedThresholds = [...colorThresholds].sort((a, b) => b.threshold - a.threshold);
+    
+    // Find the first threshold that the value exceeds
+    for (const threshold of sortedThresholds) {
+      if (value >= threshold.threshold) {
+        return threshold.color;
+      }
+    }
+    return '#800000';
+  }
+  
+  // Move all data processing and chart creation inside this async function
+  function initializeChart(data) {
+      // Wait for recordset data
+      
+      // Process dates
+      let dateObj = new Date();
+      const dates = [];
+      for (let i = 0; i <= 6; i++) {
+          const prevDate = new Date(dateObj);
+          prevDate.setDate(prevDate.getDate() - i);
+          dates[i] = prevDate;
+      }
+      
+      const dateMap = new Map();
+      dates.forEach(date => {
+          const dateString = date.toISOString().slice(0,10);
+          dateMap.set(dateString, 0);
+      });
 
 		// Now process recordset after it's loaded
 		for (let i = 0; i < data.length; i++) {
@@ -37,20 +68,18 @@
 			}
 		}
 
-		const timeSeriesData = {
-			labels: dates.map((date) => date.toISOString().slice(0, 10)),
-			datasets: [
-				{
-					label: 'Hours',
-					data: dates.map((date) => ({
-						x: date.toISOString().slice(0, 10),
-						y: dateMap.get(date.toISOString().slice(0, 10))
-					})),
-					borderColor: '#800000',
-					tension: 0.1
-				}
-			]
-		};
+      const timeSeriesData = {
+          labels: dates.map(date => date.toISOString().slice(0,10)),
+          datasets: [{
+              label: 'Hours',
+              data: dates.map(date => ({
+                  x: date.toISOString().slice(0,10),
+                  y: dateMap.get(date.toISOString().slice(0,10))
+              })),
+              borderColor: getColorForValue(recommendationid),
+              tension: 0.1
+          }]
+      };
 
 		// Create Chart.js instance
 		chartInstance = new Chart(chartCanvas, {
@@ -90,22 +119,26 @@
 		});
 	}
 
-	onMount(() => {
-		data.recordSet
-			.then((result) => {
-				initializeChart(result.recordset);
-			})
-			.catch((error) => {
-				console.error('Error fetching data:', error);
-			});
+onMount(async () => {
+    try {
+        // Wait for recordSet to resolve
+        const result = await data.recordSet;
+        
+        // These will execute in sequence after recordSet resolves
+        await fetchRecommendationid();
+        await initializeChart(result.recordset);
+        
+    } catch (error) {
+        console.error('Error in component initialization:', error);
+    }
 
-		// Cleanup function
-		return () => {
-			if (chartInstance) {
-				chartInstance.destroy();
-			}
-		};
-	});
+    // Cleanup function
+    return () => {
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+    };
+});
 </script>
 
 <svelte:head>
