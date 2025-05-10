@@ -1,11 +1,32 @@
 import sql from 'mssql';
 import 'dotenv/config';
+import { error } from '@sveltejs/kit';
 
 let pool;
 
 // Initialize the database connection pool
 export async function getDatabase() {
 	if (!pool) {
+		if (!process.env.DB_USER) {
+			throw new Error(
+				'environment variable for DB_USER is not initialized, check the .env file (does it exist?)'
+			);
+		}
+		if (!process.env.DB_PASS) {
+			throw new Error(
+				'environment variable for DB_PASS is not initialized, check the .env file (does it exist?)'
+			);
+		}
+		if (!process.env.DB_URL) {
+			throw new Error(
+				'environment variable for DB_URL is not initialized, check the .env file (does it exist?)'
+			);
+		}
+		if (!process.env.DB_NAME) {
+			throw new Error(
+				'environment variable for DB_NAME is not initialized, check the .env file (does it exist?)'
+			);
+		}
 		pool = await sql.connect({
 			user: process.env.DB_USER,
 			password: process.env.DB_PASS,
