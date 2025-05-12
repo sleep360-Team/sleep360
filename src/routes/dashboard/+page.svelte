@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
   import 'chartjs-adapter-date-fns';
+	import { da } from 'date-fns/locale';
   
   export let data;
   let recordset = [];
@@ -13,27 +14,24 @@
     const response = await fetch('/dashboard');
     if (response.ok) {
         recommendationid = await response.json();
-		recommendationid = recommendationid.result["recordset"][0]["RecommendationID"];
+        if(!recommendationid.result["recordset"][0]){
+          recommendationid = 0;
+        }
+        else{
+		      recommendationid = recommendationid.result["recordset"][0]["RecommendationID"];
+        }
     } else {
       console.error('Failed to fetch recommendationID');
     }
   }
-   // Define color thresholds
-   const colorThresholds = [
-    { threshold: 1, color: '#0077be' },   // Blue (below freezing)
-    { threshold: 2, color: '#68c3d4' },  // Light blue (cool)
-    { threshold: 3, color: '#ffcc00' },  // Yellow (warm)
-  ];
   
   // Function to get color based on value
-  function getColorForValue(value) {
-    // Sort thresholds from highest to lowest
-    const sortedThresholds = [...colorThresholds].sort((a, b) => b.threshold - a.threshold);
+  function getColorForValue(arr) {
     
-    // Find the first threshold that the value exceeds
-    for (const threshold of sortedThresholds) {
-      if (value >= threshold.threshold) {
-        return threshold.color;
+    for (let i = 0; i < arr.length; i++) {
+     
+      if (arr[i] == true) {
+        return '#0077be';
       }
     }
     return '#800000';
@@ -61,6 +59,7 @@
 		// Now process recordset after it's loaded
 		for (let i = 0; i < data.length; i++) {
 			let d = new Date(data[i]['Time Reported'].toString());
+      
 			const date = d.toISOString().slice(0, 10); // Assuming there's a Date field
 			const hours = data[i]['Number Hours'];
 			if (dateMap.has(date)) {
@@ -76,7 +75,30 @@
                   x: date.toISOString().slice(0,10),
                   y: dateMap.get(date.toISOString().slice(0,10))
               })),
-              borderColor: getColorForValue(recommendationid),
+        pointBorderColor: dates.map(date => {
+            const dateStr = date.toISOString().slice(0,10);
+            let arr = [];
+            for (let i = 0; i < data.length; i++) {
+                if(data[i]['Time Reported'].toISOString().slice(0,10) == dateStr){
+                    arr.push(data[i]['FollowingRec']);
+                }
+            }
+            return getColorForValue(arr);
+        }),
+        segment: {
+            borderColor: function(context) {
+                const index = context.p0DataIndex;
+                const dateStr = dates[index].toISOString().slice(0,10);
+                let arr = [];
+                for (let i = 0; i < data.length; i++) {
+                    if(data[i]['Time Reported'].toISOString().slice(0,10) == dateStr){
+                        arr.push(data[i]['FollowingRec']);
+                    }
+                }
+                return getColorForValue(arr);
+            }
+        },
+        borderWidth: 2,
               tension: 0.1
           }]
       };
