@@ -5,43 +5,6 @@ AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
-
-        IF EXISTS (
-            SELECT 1 
-            FROM UserRecommendation 
-            WHERE RecommendationID = @RecommendationID 
-              AND AccountID = @AccountID 
-              AND StartDate < GETDATE() 
-              AND GETDATE() < EndDate
-        )
-        BEGIN
-            -- already selected, return 1
-            COMMIT TRANSACTION;
-            RETURN 1;
-        END
-
-        IF EXISTS (
-            SELECT 1 
-            FROM UserRecommendation 
-            WHERE AccountID = @AccountID 
-              AND StartDate < GETDATE() 
-              AND GETDATE() < EndDate
-        )
-        BEGIN
-            -- update
-            UPDATE UserRecommendation
-            SET 
-                RecommendationID = @RecommendationID,
-                StartDate = GETDATE(),
-                EndDate = DATEADD(DAY, 7, GETDATE())
-            WHERE AccountID = @AccountID
-              AND StartDate < GETDATE() 
-              AND GETDATE() < EndDate;
-
-            COMMIT TRANSACTION;
-            RETURN 0;
-        END
-        ELSE
         BEGIN
             -- new recommendation
             INSERT INTO UserRecommendation (RecommendationID, AccountID, StartDate, EndDate)
