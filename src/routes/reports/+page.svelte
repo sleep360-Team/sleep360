@@ -5,6 +5,9 @@
 	let recordset = [];
 
 	// Function to format the time
+	/**
+	 * @param {string} timeString
+	 */
 	function formatTime(timeString) {
 		const date = new Date(timeString);
 		const formattedDate = date.toLocaleDateString('en-US', {
@@ -20,6 +23,9 @@
 		return `${formattedDate} at ${formattedTime}`;
 	}
 
+	/**
+	 * @param {number} reportID
+	 */
 	async function deleteReport(reportID) {
 		console.log('WOO!');
 		const response = await fetch('/reports/temp', {

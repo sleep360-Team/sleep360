@@ -17,6 +17,9 @@ export function load({ cookies }) {
 	}
 }
 
+/**
+ * @param {string} password
+ */
 async function hashPassword(password) {
 	// Generate the salt
 	const salt = await bcrypt.genSalt(10); // 10 is the cost factor
