@@ -22,6 +22,10 @@
       console.log("Yay!");
       currentRec = await response.json();
       console.log(currentRec);
+	  console.log(currentRec['recordset'][0]);
+	  if(currentRec != null) {
+	  	selectedRecommendation = currentRec['recordset'][0];
+	  }
       console.log(currentRec['recordset'][0]["Description"]);
       currentRec = currentRec['recordset'][0]["Description"];
     } else {
@@ -31,9 +35,9 @@
 
 	// Handle recommendation selection
 	async function selectRecommendation(recommendation) {
-    if (selectedRecommendation == null) {
       selectedRecommendation = recommendation;
       console.log('Selected recommendation:', selectedRecommendation);
+	  currentRec = selectedRecommendation["Description"];
       // console.log(JSON.stringify({selectedRecommendation}));
       const response = await fetch('/recommendations', {
         method: 'POST',
@@ -42,7 +46,6 @@
           'Content-Type': 'application/json'
         }
       });
-  }
 		console.log(response);
 	}
 	// function closeModalAndRedirect() {
@@ -72,13 +75,6 @@
 
 <h1>Recommendations</h1>
 
-{#if currentRec != "[object Object]"}
-  <p>
-    Your current recommendation is:
-    <br>
-    {currentRec}
-  </p>
-{:else}
   {#if recommendations.length > 0}
     <ul>
       {#each recommendations as recommendation}
@@ -92,7 +88,6 @@
   {:else}
     <p>Loading recommendations...</p>
   {/if}
-{/if}
 
 {#if selectedRecommendation}
 	<div class="selected">

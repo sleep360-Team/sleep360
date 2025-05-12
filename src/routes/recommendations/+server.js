@@ -16,6 +16,7 @@ export async function POST({ cookies, request }) {
 	try {
 		const id = cookies.get('session_id');
 		const temp = await request.json();
+		console.log(temp);
 		const recid = temp['selectedRecommendation']['RecommendationID'];
 		console.log(recid);
 		if (id == null) {

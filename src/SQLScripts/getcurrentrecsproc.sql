@@ -3,6 +3,7 @@ CREATE PROCEDURE [dbo].[GetCurrentRecommendation]
 AS
 BEGIN
 	SELECT * FROM dbo.Recommendation WHERE RecommendationID = (
-		SELECT RecommendationID from dbo.UserRecommendation WHERE AccountID = @UserID
+		SELECT TOP 1 RecommendationID from dbo.UserRecommendation WHERE AccountID = @UserID AND
+		StartDate < GETDATE() AND GETDATE() < EndDate
 	)
 END
