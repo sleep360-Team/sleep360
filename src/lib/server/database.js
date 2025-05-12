@@ -232,6 +232,7 @@ export async function createReport(
 ) {
 	console.log('This is a message to the console');
 	const db = await getDatabase();
+	const realFollowRec = followRec == 1;
 	try {
 		const result = await db
 			.request()
@@ -240,7 +241,7 @@ export async function createReport(
 			.input('NumberInterrupts', sql.Int, numInterrupts)
 			.input('QualitySleep', sql.NVarChar, qualitySleep)
 			.input('Comments', sql.NVarChar, comments)
-			.input('followRec', sql.Bit, followRec)
+			.input('followRec', sql.Bit, realFollowRec)
 			.input('UserID', sql.Int, userid)
 			.execute('CreateReport');
 
