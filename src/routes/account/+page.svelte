@@ -94,4 +94,27 @@
 	button[disabled] {
 		background-color: #ccc;
 	}
+	.modal {
+		position: fixed;
+		top: 36%;
+		left: 36%;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		display: block;
+		z-index: 9999;
+	}
+	.modal-content {
+		background: white;
+		padding: 20px;
+		width: 400px; /* Set a fixed width */
+		max-width: 90%; /* Prevent it from being too large */
+		border-radius: 10px;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+		text-align: center;
+		position: relative;
+	}
 </style>
